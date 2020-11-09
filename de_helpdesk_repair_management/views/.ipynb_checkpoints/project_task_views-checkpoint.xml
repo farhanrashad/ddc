@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 
                 <xpath expr="//header" position="inside">
-                    <button string="New Quotation" name="action_create_sale_order" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_diagnosys', '=', False),('is_repair_sale', '=', True)]}"/>
+                    <button string="New Quotation" name="action_create_sale_order" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_diagnosys', '=', True),('is_repair_sale', '=', True)]}"/>
                     
                     <button name="%(action_assign_task_technician)d" string="Assign Technician"
                             type="action" class="oe_highlight" context="{'default_task_id': active_id}" attrs="{'invisible': [('is_diagnosys', '=', False)]}"/>
@@ -37,6 +37,7 @@
                 
                 <xpath expr="//field[@name='date_last_stage_update']" position="after">
                     <field name="ticket_id" readonly="1" attrs="{'invisible': [('ticket_id', '=', False)]}"/>
+                    <field name="closed" readonly="1" />
                     <field name="is_diagnosys" readonly="1" />
                     <field name="is_workorder" readonly="1" />
                     <field name="is_repair_sale" invisible="1" />
@@ -50,7 +51,7 @@
                         <div class="oe_clear"/>
                     </page>
                     
-                    <page string="Repair Estimation" id="repair_estimation_tab" attrs="{'invisible': [('is_diagnosys', '=', False)]}">
+                    <page string="Repair Estimation" id="repair_estimation_tab" attrs="{'invisible': [('is_diagnosys', '=', True)]}">
                         <field name="repair_planning_lines" widget="one2many_list">
                                 <tree string="Order lines" editable="bottom">
                                     <field name="product_id"/>

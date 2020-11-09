@@ -11,8 +11,9 @@ class ProjectTask(models.Model):
     is_diagnosys = fields.Boolean('Is Diagnosys')
     is_workorder = fields.Boolean('Is Workorder')
     is_repair_sale = fields.Boolean('Repair Sale',default=False)
+    closed = fields.Boolean(related='ticket_id.closed',string='Closed')
     
-    repair_planning_lines = fields.One2many('project.task.planning.line', 'task_id', string='Task Repair Planning Lines', readonly=False, copy=True, auto_join=True)
+    repair_planning_lines = fields.One2many("project.task.planning.line", "task_id", string="Task Repair Planning Lines", readonly=True, attr="{'readonly':[('closed','=',True)]}", copy=True, auto_join=True)
     
     sale_amount_total = fields.Float(compute='_compute_sale_data', string="Sum of Orders", help="Untaxed Total of Confirmed Orders", )
     quotation_count = fields.Integer(compute='_compute_sale_data', string="Number of Quotations")
@@ -20,6 +21,7 @@ class ProjectTask(models.Model):
     order_ids = fields.One2many('sale.order', 'repair_task_id', string='Orders')
     
     remarks = fields.Html(string='Technician Remarks')
+    
     
     @api.depends('order_ids.state', 'order_ids.currency_id', 'order_ids.amount_untaxed', 'order_ids.date_order', 'order_ids.company_id')
     def _compute_sale_data(self):

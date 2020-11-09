@@ -11,9 +11,7 @@ class HelpdeskTicket(models.Model):
     _inherit = 'helpdesk.ticket'
     
     project_id = fields.Many2one("project.project", string="Project", domain="[('allow_timesheets', '=', True), ('company_id', '=', company_id)]")
-    
-    analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=False, help="The analytic account related to a Ticket", copy=False,)
-    
+        
     sale_id = fields.Many2one('sale.order',string='Sale Order', domain="[('company_id', '=', company_id)]")
     product_id = fields.Many2one('product.product', string='Product', domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]", change_default=True, ondelete='restrict', check_company=True)  # Unrequired company
     
@@ -23,6 +21,13 @@ class HelpdeskTicket(models.Model):
     workorder_count = fields.Integer('workorder Count', compute='_compute_workorder_count', compute_sudo=True)
     workorder_ids = fields.One2many('project.task', 'ticket_id', string='Work Orders', domain="[('is_workorder','=',True),('active','=',True),('project_id','=',project_id)]")
 
+    @api.onchange('team_id')
+    def onchange_team(self):
+        for line in self:
+            line.update({
+                'project_id': line.team_id.project_id.id
+            })
+        
     @api.depends('diagnosys_ids')
     def _compute_diagnosys_count(self):
         for ticket in self:

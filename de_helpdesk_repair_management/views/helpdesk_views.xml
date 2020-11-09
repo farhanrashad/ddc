@@ -24,11 +24,11 @@
             <xpath expr="//header" position="inside">
                 <button name="%(action_diagnosys_form)d" type="action" class="oe_highlight"
                     groups="de_helpdesk.group_helpdesk_user"
-                    string="Create Product Diagnosys" context="{'default_name':name + '(' + number + '-' + 'Diagnosys)','default_partner_id': partner_id, 'default_ticket_id': id, 'default_project_id':project_id, 'default_company_id': company_id,'default_is_diagnosys':True}"/>
+                    string="Create Product Diagnosys" context="{'default_name':name + '(' + number + '-' + 'Diagnosys)','default_partner_id': partner_id, 'default_ticket_id': id, 'default_project_id':project_id, 'default_company_id': company_id,'default_is_diagnosys':True}" attrs="{'invisible': [('closed', '=', True)]}"/>
                 
                 <button name="%(action_workorder_form)d" type="action" class="oe_highlight"
                     groups="de_helpdesk.group_helpdesk_user"
-                    string="Create Work Order" context="{'default_name':name + '(' + number + '-' + 'Work Order)','default_partner_id': partner_id, 'default_ticket_id': id, 'default_project_id':project_id,'default_company_id': company_id,'default_is_workorder':True}"/>
+                    string="Create Work Order" context="{'default_name':name + '(' + number + '-' + 'Work Order)','default_partner_id': partner_id, 'default_ticket_id': id, 'default_project_id':project_id,'default_company_id': company_id,'default_is_workorder':True}" attrs="{'invisible': [('closed', '=', True)]}"/>
                 
             </xpath>
             
@@ -44,7 +44,6 @@
             </div>
             <xpath expr="//group/group[1]" position="inside">
                 <field name='project_id'/>
-                <field name='analytic_account_id'/>
             </xpath>
             <xpath expr="//field[@name='partner_email']" position="after">
                 <separator colspan="2" class="mt16"/>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_helpdesk_team_form_inherit" model="ir.ui.view">
+        <field name="name">view.helpdesk.team.form.inherit</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="inherit_id" ref="de_helpdesk.view_helpdesk_team_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='main']" position="inside">
+                <field name="project_id" />
+            </xpath>
+            
+        </field>
+    </record>
+    
+     
+</odoo>

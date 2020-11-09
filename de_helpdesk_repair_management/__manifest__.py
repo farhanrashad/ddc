@@ -26,6 +26,7 @@
     'data': [
         'security/ir.model.access.csv',
         'wizard/assign_task_technician_views.xml',
+        'views/helpdesk_team_views.xml',
         'views/helpdesk_views.xml',
         'views/project_task_views.xml',
         'views/sale_order_views.xml',
