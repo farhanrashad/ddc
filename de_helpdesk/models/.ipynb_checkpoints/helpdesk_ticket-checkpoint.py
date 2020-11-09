@@ -57,8 +57,7 @@ class HelpdeskTicket(models.Model):
         help='Channel indicates where the source of a ticket'
              'comes from (it could be a phone call, an email...)',
     )
-    category_id = fields.Many2one('helpdesk.ticket.category',
-                                  string='Category')
+    ticket_type_id = fields.Many2one('helpdesk.ticket.type', string='Ticket Type')
     team_id = fields.Many2one('helpdesk.ticket.team')
     priority = fields.Selection(selection=[
         ('0', _('Low')),

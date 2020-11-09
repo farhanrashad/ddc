@@ -1,10 +1,10 @@
 from odoo import fields, models
 
 
-class HelpdeskCategory(models.Model):
+class HelpdeskTicketType(models.Model):
 
-    _name = 'helpdesk.ticket.category'
-    _description = 'Helpdesk Ticket Category'
+    _name = 'helpdesk.ticket.type'
+    _description = 'Helpdesk Ticket Type'
 
     active = fields.Boolean(string='Active', default=True)
     name = fields.Char(string='Name', required=True)
