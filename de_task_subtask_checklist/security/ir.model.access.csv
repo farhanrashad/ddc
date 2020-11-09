@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_task_checklist,task.checklist,model_task_checklist,,1,1,1,1
+access_task_checklist_line,task.checklist.line,model_task_checklist_line,,1,1,1,1
+access_checklist_activity,checklist.activity,model_checklist_activity,,1,1,1,1

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Report-->
+    <template id="warranty_card_report_template">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="doc.with_context({'lang': 'en_US'})"/>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <br/><br/>
+                    <h2><t t-if="doc.state not in ['draft']">Warranty Card # <span t-field="doc.name"/></t></h2>
+                    <br/>
+                    <h4><strong>Product: </strong><span t-field="o.product_id.name"/></h4>
+                    
+                    <div class="row col mt32 mb32" id="informations">
+                        <div t-if="o.purchase_date" class="mr32">
+                            <strong>Date of Purchase:</strong>
+                            <p t-field="o.purchase_date"/>
+                        </div>
+                        <div t-if="o.warranty_start_date" class="mr32">
+                            <strong>Start Date:</strong>
+                            <p t-field="o.warranty_start_date"/>
+                        </div>
+                        <div t-if="o.warranty_end_date" class="mr32">
+                            <strong>End Date:</strong>
+                            <p t-field="o.warranty_end_date"/>
+                        </div>
+                        <div t-if="o.state" class="mr32">
+                            <strong>Status:</strong>
+                            <p t-field="o.state"/>
+                        </div>
+                    </div>
+                    
+                    <div class="row col mt32 mb32" id="informations">
+                        <div t-if="o.sale_id" class="mr32">
+                            <strong>Order Ref.:</strong>
+                            <p t-field="o.sale_id.name"/>
+                        </div>
+                        <div t-if="o.picking_id" class="mr32">
+                            <strong>Delivery Ref.:</strong>
+                            <p t-field="o.picking_id"/>
+                        </div>
+                        <div t-if="o.invoice_id" class="mr32">
+                            <strong>Invoice Ref.:</strong>
+                            <p t-field="o.invoice_id"/>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </t>
+        </t>
+    </template>
+    <!--TEMPLATE [Warranty Card Report]-->
+    <template id="warranty_card_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="de_sale_warranty.warranty_card_report_template"/>
+            </t>
+        </t>
+    </template>
+
+    <report id="action_print_warranty_card_report"
+            model="sales.warranty"
+            string="Warranty Card"
+            report_type="qweb-pdf"
+            name="de_sale_warranty.warranty_card_report"
+            file="de_sale_warranty.warranty_card_report"
+            attachment_use="True"
+    />
+
+</odoo>

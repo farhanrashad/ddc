@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="view_project_task_form_inherit" model="ir.ui.view">
+            <field name="name">view.project.task.form.inherit.heldpesk.repair</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//header" position="inside">
+                    <button string="New Quotation" name="action_create_sale_order" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_diagnosys', '=', False),('is_repair_sale', '=', True)]}"/>
+                    
+                    <button name="%(action_assign_task_technician)d" string="Assign Technician"
+                            type="action" class="oe_highlight" context="{'default_task_id': active_id}" attrs="{'invisible': [('is_diagnosys', '=', False)]}"/>
+                    <button name="%(action_assign_task_technician)d" string="Assign Technician"
+                            type="action" class="oe_highlight" context="{'default_task_id': active_id}" attrs="{'invisible': [('is_workorder', '=', False)]}"/>
+                        
+                    
+                    
+                </xpath>
+                <xpath expr="//header/button[@name='action_assign_to_me']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('is_diagnosys', '=', True),('is_workorder', '=', True)]}</attribute>
+                </xpath>
+                
+                <xpath expr="//form[1]/sheet[1]/div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="object" name="action_view_sale_quotation" icon="fa-pencil-square-o" attrs="{'invisible': [('quotation_count', '=', 0)]}" >
+                        <field name="quotation_count" widget="statinfo" string="Quotations"/>
+                    </button>
+                        
+                    <button class="oe_stat_button" type="object" attrs="{'invisible': [('sale_order_count', '=', 0)]}" name="action_view_sale_order" icon="fa-usd">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text"> Orders</span>
+                            <field name="sale_order_count" invisible="1"/>
+                        </div>
+                    </button>
+                </xpath>
+                
+                <xpath expr="//field[@name='date_last_stage_update']" position="after">
+                    <field name="ticket_id" readonly="1" attrs="{'invisible': [('ticket_id', '=', False)]}"/>
+                    <field name="is_diagnosys" readonly="1" />
+                    <field name="is_workorder" readonly="1" />
+                    <field name="is_repair_sale" invisible="1" />
+                </xpath>
+                
+                
+                
+                <xpath expr="//notebook/page[@name='description_page']" position="after">
+                    <page name="description_page" string="Fault,Causes" attrs="{'invisible': [('is_diagnosys', '=', False)]}">
+                        <field name="description" type="html"/>
+                        <div class="oe_clear"/>
+                    </page>
+                    
+                    <page string="Repair Estimation" id="repair_estimation_tab" attrs="{'invisible': [('is_diagnosys', '=', False)]}">
+                        <field name="repair_planning_lines" widget="one2many_list">
+                                <tree string="Order lines" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name" />
+                                    <field name="product_uom_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="price_unit" />
+                                </tree>
+                            </field>
+                    </page>
+                </xpath>
+                
+                <xpath expr="//notebook/page[@name='description_page']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_diagnosys', '!=', False)]}</attribute>
+                </xpath>
+                
+                <xpath expr="//notebook/page[@name='extra_info']" position="before">
+                    <page name="remarks_page" string="Technician Remarks" attrs="{'invisible': [('is_diagnosys', '=', False)]}">
+                        <field name="remarks" type="html"/>
+                        <div class="oe_clear"/>
+                    </page>
+                </xpath>
+                
+            </field>
+        </record>
+        
+        
+        
+        <record id="view_project_task_tree_inherit" model="ir.ui.view">
+            <field name="name">project.task.tree.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="ticket_id" readonly="1" />
+                    <field name="is_diagnosys" readonly="1" />
+                    <field name="is_workorder" readonly="1" />
+                </field>
+            </field>
+        </record>
+        
+         <record id="action_project_task_multi_assignment" model="ir.actions.server">
+            <field name="name">Assign Technician</field>
+            <field name="model_id" ref="model_project_task"/>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+if record:
+    action_values = env.ref('de_helpdesk_repair_management.action_assign_task_technician').read()[0]
+    action_values.update({'context': env.context})
+    action = action_values
+            </field>
+        </record>
+        
+        
+    </data>
+</odoo>

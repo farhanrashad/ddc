@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+<!--    checklist activity form view-->
+    <record id="de_task_subtask_checklist.checklist_activity_view_form" model="ir.ui.view">
+        <field name="name">checklist activity form view</field>
+        <field name="model">checklist.activity</field>
+        <field name="arch" type="xml">
+            <form string="Checklist Activity">
+                <header>
+                    <button name="approve_button" type="object" icon="fa-check" style="foreground-color:green;" string="Approve" class="oe_highlight"/>
+                    <button name="mark_complete_button" type="object" icon="fa-check-square" style="foreground-color:green;" string="Mark Completed" class="oe_highlight"/>
+                    <button name="mark_cancel_button" type="object" icon="fa-ban" string="Mark Cancelled" class="oe_highlight"/>
+                    <field name="stage_id" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group string="Checklist Activity">
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="approve_user_id"/>
+                            <field name="task_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    checklist activity tree view-->
+    <record id="de_task_subtask_checklist.checklist_activity_view_tree" model="ir.ui.view">
+        <field name="name">checklist activity tree view</field>
+        <field name="model">checklist.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Checklist Activities">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="approve_user_id"/>
+                <field name="task_id"/>
+                <field name="stage_id"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    checklist activity action-->
+    <record id="de_task_subtask_checklist.checklist_activity_action" model="ir.actions.act_window">
+        <field name="name">Activity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">checklist.activity</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- checklist activity menu -->
+<!--    <menuitem id="de_task_subtask_checklist.checklist_activity_menu" name="Checklist Activities" parent="project.menu_project_config" action="de_task_subtask_checklist.checklist_activity_action" sequence="11"/>-->
+
+<!--    project task ext form view-->
+    <record id="de_task_subtask_checklist.project_task_ext_view_form" model="ir.ui.view">
+        <field name="name">project task ext form view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="checklist_id" />
+            </xpath>
+            <notebook position="inside">
+                <page string="Checklists" name="checklist_page">
+                    <group>
+                        <field name="activity_progress" widget="percentpie"/>
+                    </group>
+                    <field name="task_checklist_ids">
+                        <tree editable="bottom" decoration-danger="(name_stage in ('In Progress', 'To Do'))" decoration-success="name_stage == 'Done'" decoration-muted="name_stage == 'Cancelled'">
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="approve_user_id"/>
+                            <button name="approve_button" type="object" icon="fa-check" style="foreground-color:green;"/>
+                            <button name="mark_complete_button" type="object" icon="fa-check-square" style="foreground-color:green;"/>
+                            <button name="mark_cancel_button" type="object" icon="fa-ban"/>
+<!--                            <field name="stage_id"/>-->
+                            <field name="name_stage"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+<!--    project task ext tree view-->
+    <record id="de_task_subtask_checklist.project_task_ext_view_tree" model="ir.ui.view">
+        <field name="name">project task ext tree view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="stage_id" position="before">
+                <field name="activity_progress" widget="progressbar"/>
+            </field>
+        </field>
+    </record>
+
+<!--    project task ext kanban view-->
+    <record model="ir.ui.view" id="de_task_subtask_checklist.view_task_kanban_inherit">
+        <field name="name">view task kanban inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//templates" position="before">
+                <field name="activity_progress"/>
+                <field name="max_rate"/>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="after">
+                <li>
+                    <field name="activity_progress" widget="gauge"
+                           options="{'max_field': 'max_rate',  'style': 'width:120px; height: 90px;'}">
+                    </field>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

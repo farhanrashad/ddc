@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+<!--    task checklist form view-->
+    <record id="de_task_subtask_checklist.task_checklist_view_form" model="ir.ui.view">
+        <field name="name">task checklist form view</field>
+        <field name="model">task.checklist</field>
+        <field name="arch" type="xml">
+            <form string="Task Checklist">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="project_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Checklist Items" name="item_page">
+                            <field name="checklist_ids">
+                                <tree editable="bottom">
+                                    <field name="activity_id"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    task checklist tree view-->
+    <record id="de_task_subtask_checklist.task_checklist_view_tree" model="ir.ui.view">
+        <field name="name">task checklist tree view</field>
+        <field name="model">task.checklist</field>
+        <field name="arch" type="xml">
+            <tree string="Task Checklist">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="project_id"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    task checklist action-->
+    <record id="de_task_subtask_checklist.task_checklist_action" model="ir.actions.act_window">
+        <field name="name">Task Checklist</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">task.checklist</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- task checklist menu -->
+    <menuitem id="de_task_subtask_checklist.task_checklist_menu" name="Task Checklist" parent="project.menu_project_config" action="de_task_subtask_checklist.task_checklist_action" sequence="12"/>
+</odoo>

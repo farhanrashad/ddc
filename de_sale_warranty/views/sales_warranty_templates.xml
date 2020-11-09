@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_layout_warranty" name="Portal layout: sales warrany menu entry" inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'warranty' or warranty" t-attf-class="breadcrumb-item #{'active ' if not warranty else ''}">
+                <a t-if="warrany" t-attf-href="/my/warrany?{{ keep_query() }}">Sales Warranty(s)</a>
+                <t t-else="">Warranties</t>
+            </li>
+            <li t-if="warrany" class="breadcrumb-item active">
+                <t t-esc="warranty.name"/>
+            </li>
+        </xpath>
+    </template>
+    
+    <template id="portal_my_warranty" name="Portal My Home : sales warranty entries" inherit_id="portal.portal_my_home" priority="40">
+          <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+              <t t-if="warranty_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Warranty</t>
+                <t t-set="url" t-value="'/my/warranty'"/>
+                <t t-set="count" t-value="warranty_count"/>
+              </t>
+              
+          </xpath>
+      </template>
+    
+    <template id="portal_my_warranty_list" name="My warranty">
+      <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+        <form method="POST" t-attf-action="/new/warranty">
+          <h3>Sale Warranty
+            <t t-call="portal.portal_searchbar"/>
+            <button name="create_new_ticket" type="action" class="btn btn-primary" groups="base.group_portal" style="float: right; margin-right: 5px;">New Ticket</button>
+          </h3>
+          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+        </form>
+        <t t-if="not warranty">
+            <p>There are no warranty in your account.</p>
+        </t>
+        <div t-if="warranty" class="panel panel-default">
+            <div class="table-responsive">
+                <table class="table table-hover o_portal_my_doc_table">
+                    <thead>
+                        <tr class="active">
+                            <th>Warranty #</th>
+                            <th>Stage</th>
+                            <th>Create Date</th>
+                            <th>Last Stage Update</th>
+                            <th>Close Date</th>
+                        </tr>
+                    </thead>
+                <t t-foreach="warranty" t-as="warranty">
+                  <tr>
+                    
+                  </tr>
+                </t>
+            </table></div>
+            <div t-if="pager" class="o_portal_pager text-center">
+                <t t-call="portal.pager"/>
+            </div>
+        </div>
+      </t>
+    </template>
+    
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_helpdesk_sla_form" model="ir.ui.view">
+        <field name="name">view.helpdesk.sla.form</field>
+        <field name="model">helpdesk.ticket.sla</field>
+        <field name="arch" type="xml">
+            <form string="Helpdesk SLA">
+                <header>
+                </header>
+                <sheet>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" required="1"/></h1>
+                    </div>
+                    <group name="main">
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <separator colspan="2" string="Apply on"/>
+                            <field name="team_id" domain="[('use_sla', '=', True)]"/>
+                            <field name="ticket_type_id"/>
+                            <separator colspan="2" string="Target" class="mt32"/>
+                            <field name="stage_id" string="Reach Stage" />
+                            <label for="time_days" string="Reach In"/>
+                            <div class="o_row">
+                                <field name="time_days"/> days<br/>
+                                <field name="time_hours"/> hours<br/>
+                            </div>
+                        </group>
+                       <!-- <field name="company_id" groups="base.group_multi_company"/>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_sla_tree" model="ir.ui.view">
+        <field name="name">view.helpdesk_sla.tree</field>
+        <field name="model">helpdesk.ticket.sla</field>
+        <field name="arch" type="xml">
+            <tree string="Team">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="helpdesk_ticket_sla_action" model="ir.actions.act_window">
+        <field name="name">Service Level Agreement</field>
+        <field name="res_model">helpdesk.ticket.sla</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+               Create a new Service Level Agreement
+            </p>
+            <p>
+                SLA policies.
+            </p>
+        </field>
+    </record>
+    
+    <menuitem id="helpdesk_ticket_sla_menu" name="SLA Policies"
+            parent="de_helpdesk.helpdesk_ticket_config_main_menu" action="helpdesk_ticket_sla_action" sequence="50"/>
+
+</odoo>

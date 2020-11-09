@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    
+       <record id="view_helpdes_inherit" model="ir.ui.view">
+            <field name="name">helpdesk.tickets2</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="de_helpdesk.ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group/notebook" position="inside">
+                 
+                     <page string="Fault Diagnosys">
+                                <tree string="Fault Diagnosys" editable="bottom" >
+                                    <field name="fault" widget="html"/>                 
+                                   
+                                </tree>
+                            
+                            
+                        </page>
+                     <page string="Feedback">
+                                <tree string="Feedback" editable="bottom" >
+                                    <field name="remarks" widget="html"/>                 
+                                   
+                                </tree>
+                            
+                            
+                        </page>
+                        
+                </xpath>
+                                
+            </field>
+        </record> 
+        </data>        
+           
+        </odoo>
+   
+

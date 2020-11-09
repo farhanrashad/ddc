@@ -1,0 +1,82 @@
+<odoo>
+    
+    <record id="helpdesk_sla_action" model="ir.actions.act_window">
+        <field name="name">SLA Policies</field>
+        <field name="res_model">helpdesk.ticket.sla</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'default_team_id': active_id, 'search_default_team_id': active_id}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Service Level Agreement (SLA) policy
+          </p><p>
+            A service level agreement is a contract between you and your
+            customers that specifies performance measures for support
+            by ticket priority.
+          </p><p>
+            For example, we respond to urgent tickets related to bugs
+            in two hours and resolve them within 36 hours.
+          </p>
+        </field>
+    </record>
+    
+    <record id="view_helpdesk_team_form_inherit" model="ir.ui.view">
+        <field name="name">view.helpdesk.team.form.inherit</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="inherit_id" ref="de_helpdesk.view_helpdesk_team_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[1]/h1[1]/field[1]" position="attributes">
+                <attribute name='placeholder'>Helpdesk Team...</attribute>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="replace">
+                <field name="active" invisible="1" />
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <field name="company_id" groups="base.group_multi_company" required="1"/>
+                <h2>Productivity</h2>
+                <div class="row mt16 o_settings_container" id="productivity">
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="user_ids"/>
+                                <div class="text-muted">
+                                    Individuals to whom the tickets will be automatically assigned. Keep empty for everyone to be part of the team.
+                                </div>
+                                <div>
+                                    <field name="user_ids" widget="many2many_tags" options="{'color_field': 'color'}" class="mt16"/>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                
+                <h2>Performance</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-lg-6 o_setting_box" id="sla">
+                        <div class="o_setting_left_pane">
+                            <field name="use_sla"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_sla"/>
+                            <div class="text-muted">
+                                Set up your Service Level Agreements to track performance
+                            </div>
+                            <div attrs="{'invisible': [('use_sla','=',False)]}" class="mt16">
+                                <button name="%(helpdesk_sla_action)d" type="action" string="Configure SLA Policies" icon="fa-arrow-right" class="btn-link"/>                            </div>
+                            <div attrs="{'invisible': [('use_sla', '=', False)]}" class="mt16">
+                                <label for="resource_calendar_id"/>
+                                <div class="text-muted">
+                                    Set the calendar used to compute SLA target
+                                </div>
+                                <div class="mt16">
+                                    <field name="resource_calendar_id" attrs="{'required': [('use_sla', '=', True)]}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    
+    
+    
+</odoo>
