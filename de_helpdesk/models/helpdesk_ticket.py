@@ -32,9 +32,9 @@ class HelpdeskTicket(models.Model):
         default=_get_default_stage_id,
         track_visibility='onchange',
     )
-    partner_id = fields.Many2one('res.partner')
-    partner_name = fields.Char()
-    partner_email = fields.Char()
+    partner_id = fields.Many2one('res.partner',string='Customer')
+    partner_name = fields.Char(string='Customer Name')
+    partner_email = fields.Char(string='Customer Email')
 
     last_stage_update = fields.Datetime(
         string='Last Stage Update',
@@ -54,9 +54,7 @@ class HelpdeskTicket(models.Model):
     channel_id = fields.Many2one(
         'helpdesk.ticket.channel',
         string='Channel',
-        help='Channel indicates where the source of a ticket'
-             'comes from (it could be a phone call, an email...)',
-    )
+        help='Channel indicates where the source of a ticket comes from (it could be a phone call, an email...)',)
     category_id = fields.Many2one('helpdesk.ticket.category',
                                   string='Category')
     team_id = fields.Many2one('helpdesk.ticket.team')
