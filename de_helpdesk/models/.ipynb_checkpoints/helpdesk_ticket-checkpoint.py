@@ -74,6 +74,7 @@ class HelpdeskTicket(models.Model):
         ('done', 'Ready for next stage'),
         ('blocked', 'Blocked')], string='Kanban State')
     active = fields.Boolean('Active', default=True)
+    closed = fields.Boolean(related='stage_id.closed',string='Closed')
 
     def send_user_mail(self):
         self.env.ref('de_helpdesk.assignment_email_template'). \
