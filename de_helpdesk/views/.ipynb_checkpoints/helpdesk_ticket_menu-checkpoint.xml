@@ -57,16 +57,16 @@
         </field>
     </record>
     
-    <record id="helpdesk_ticket_type_action" model="ir.actions.act_window">
-        <field name="name">Ticket Type</field>
-        <field name="res_model">helpdesk.ticket.type</field>
+    <record id="helpdesk_ticket_category_action" model="ir.actions.act_window">
+        <field name="name">Category</field>
+        <field name="res_model">helpdesk.ticket.category</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-               Create a new ticket Type
+               Create a new ticket Category
             </p>
             <p>
-                Type allows to organize tickets.
+                Category allows to organize tickets.
             </p>
         </field>
     </record>
