@@ -16,10 +16,10 @@
                             <field name="contact_name"/>
                             <field name="contact_no"/>
                             <field name="site_address"/>
-                            <field name="region"/>
                             <field name="city"/>
                         </group>
                         <group string="Material">
+                            <field name="sap_no"/>
                             <field name="material"/>
                             <field name="barcode"/>
                             <field name="model"/>

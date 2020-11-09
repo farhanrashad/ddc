@@ -22,6 +22,7 @@ class HelpdeskSite(models.Model):
     customer_model_desc = fields.Char('Customer Model Desc')
     reason = fields.Text('Reason')
     crmid = fields.Char('CRM ID')
+    sap_no = fields.Char('SAP No.')
     
     @api.constrains('name', 'stage_id')
     def _check_unique_sequence_number(self):

@@ -19,6 +19,7 @@
                             <field name="city"/>
                         </group>
                         <group string="Material">
+                            <field name="sap_no"/>
                             <field name="material"/>
                             <field name="barcode"/>
                             <field name="model"/>
