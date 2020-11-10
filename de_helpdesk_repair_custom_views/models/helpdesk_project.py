@@ -31,6 +31,23 @@ class HelpdeskProjectTask(models.Model):
     ticket_tag_ids = fields.Many2many('helpdesk.ticket.tag',related='ticket_id.tag_ids', string='Sub Category')
     ticket_stage_id = fields.Many2one('helpdesk.ticket.stage',related='ticket_id.stage_id', string='Status')
 
+class HelpdeskProjectTask(models.Model):
+    _inherit = 'project.task.planning.line'
+    
+    ticket_id = fields.Many2one('helpdesk.ticket',related='task_id.ticket_id',string='Ticket')
+    sap_no = fields.Char(related='ticket_id.sap_no', string='Order Number')
+    city = fields.Char(related='ticket_id.city', string='City Name')
+    asset_model = fields.Char(related='ticket_id.asset_model', string='Asset Model')
+    ticket_stage_id = fields.Many2one('helpdesk.ticket.stage',related='ticket_id.stage_id', string='Status')
+    material = fields.Char(related='ticket_id.material', string='Equipment')
+    #default_code = fields.Char(related='product_id.default_code', string='Material Code')
+    total_amount = fields.Float('Amount', compute='_calculate_amount')
+    
+    @api.depends('product_uom_qty','price_unit')
+    def _calculate_amount(self):
+        for line in self:
+            line.total_amount = line.product_uom_qty * line.price_unit
+
 
 
 
