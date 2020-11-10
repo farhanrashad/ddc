@@ -97,7 +97,6 @@
                           
                         </group>
                     </group>
-                    <group>
                         <notebook>
                             <page string="Description" name="description">
                                 <field name="description" widget="html"/>
@@ -143,7 +142,6 @@
                                 </group>
                             </page>
                         </notebook>
-                    </group>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
