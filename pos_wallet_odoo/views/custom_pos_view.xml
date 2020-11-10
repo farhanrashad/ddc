@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	
+		<!-- Add custom js for pos_wallet_odoo -->	    
+		<template id="assets_for_pos_wallet_odoo" inherit_id="point_of_sale.assets">
+			<xpath expr="." position="inside">
+				<script type="text/javascript" src="/pos_wallet_odoo/static/src/js/pos.js"/>
+			</xpath>
+		</template>
+	
+		 <!-- pos_order form -->
+		<record id="inherit_view_pos_wallet_odoo_order_form" model="ir.ui.view">
+			<field name="name">inherit_pos_wallet_odoo_order</field>
+			<field name="model">pos.order</field>
+			<field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='amount_total']" position="after">
+					<field name="wallet_used" readonly="1"/>
+					<field name="wallet_transaction_id" attrs="{'invisible': [('wallet_used', '=', 0.0)]}" readonly="1"/>
+				</xpath>
+				<button name="refund" position="replace">
+					<button name="refund" string="Return Products" type="object"
+						context = "{'is_refund' : active_id}"
+						attrs="{'invisible':[('state','=','draft')]}"/>
+				</button>
+			</field>
+		</record>
+
+		<!-- ACCOUNT JOURNAL -->
+		<record id="inherit_view_account_journal_pos_wallet_form1" model="ir.ui.view">
+			<field name="name">pos_wallet_account_journal_form</field>
+			<field name="model">account.journal</field>
+			<field name="inherit_id" ref="account.view_account_journal_form"/>
+			<field name="arch" type="xml">
+				<field name="type" position="after">
+					<field name="wallet"/>
+				</field>
+			</field>
+		</record>
+
+
+		<record id="inherit_view_payment_methos_pos_wallet_form1" model="ir.ui.view">
+			<field name="name">pos_payment_method_account_journal_form</field>
+			<field name="model">pos.payment.method</field>
+			<field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+			<field name="arch" type="xml">
+				<field name="cash_journal_id" position="after">
+					<field name="wallet"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="inherit_view_pos_payment_form" model="ir.ui.view">
+			<field name="name">pos.make.payment.form.inherit</field>
+			<field name="model">pos.make.payment</field>
+			<field name="inherit_id" ref="point_of_sale.view_pos_payment"/>
+			<field name="arch" type="xml">
+				<field name="config_id" position="after">
+					<field name="credit_to_wallet"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="wallet_pos_config_inherit_form_view">
+			<field name="name">pos.config.form.inherit.view</field>
+			<field name="model">pos.config</field>
+			<field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//h2[@name='order']" position="before">
+					<br/>
+					<h2>Wallet Credit in Return Order in POS</h2>
+					<div class="row mt16 o_settings_container" id="session_config">
+						<div class="col-xs-12 col-md-6 o_setting_box">
+							<div class="row mt16 o_settings_container">
+								<div id="crdt" class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane">
+										<field name="wallet_credit_in_return"/>
+									</div>
+									<div class="o_setting_right_pane">
+										<label for="wallet_credit_in_return"/>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+					<br/>
+				</xpath>  	
+			</field>
+	   </record>
+
+	   <record id="inherit_view_account_payment_form_wallet" model="ir.ui.view">
+			<field name="name">inherit.view.account.payment.form</field>
+			<field name="model">account.payment</field>
+			<field name="inherit_id" ref="account.view_account_payment_form"/>
+			<field name="arch" type="xml">
+				<field name="communication" position="after">
+					<field name="description"/>
+				</field>
+			</field>
+		</record>
+
+	</data>
+</odoo>

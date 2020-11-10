@@ -1,0 +1,15 @@
+Version 13.0.0.1
+When create order without select customer , its generate error print reciept
+
+
+version 13.0.0.2
+	- payment_refer field not user , remove it.
+	- if pos order payment not pay by wallet , but its automatically generate debit wallet transaction.
+
+version 13.0.0.3 : (05/10/20)
+		- Credit Return Order Amount in Customer's Wallet.
+		- Add configuration for wallet credit from POS.
+
+version 13.0.0.4 : (26/10/20)
+		- Add text field for description in wallet recharge popup and update it in generated payment.
+		- Made Wallet Transaction create/write False from backend.

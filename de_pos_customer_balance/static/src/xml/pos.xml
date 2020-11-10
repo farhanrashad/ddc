@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<templates id="pos_customer_balance_template" inherit_id="point_of_sale.template" xml:space="preserve">
+
+		<!-- ClientDetails -->
+		<t t-extend="ClientDetails">
+			<t t-jquery=".client-details-right" t-operation="append">
+				<div class="client-detail">
+					<span class='label'>Total Receivable</span>
+					<span id="total_receivable"> <t t-esc='partner.credit'/></span>
+				</div>
+			</t>
+			
+		</t>
+        
+        
+        <!-- ClientLineWidget -->
+		
+        
+        <!-- ClientListScreenWidget -->
+		<t t-extend="ClientListScreenWidget">
+			<t t-jquery="tr" t-operation="append">
+				<th>Total Receivable</th>
+			</t>
+		</t>
+
+	  <!-- ClientLineWidget -->
+		<t t-extend="ClientLine">
+			<t t-jquery="tr.client-line" t-operation="append">
+				<td id="total_receivable"><t t-esc='partner.credit' /></td>
+			</t>
+		</t>
+        
+
+</templates>

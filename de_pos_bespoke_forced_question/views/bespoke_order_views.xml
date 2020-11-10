@@ -1,0 +1,122 @@
+<odoo>
+  <data>
+    <record id="pos_bespoke_order_form_view" model="ir.ui.view">
+			<field name="name">pos.bespoke.order.form.view</field>
+			<field name="model">pos.bespoke.order</field>
+			<field name="arch" type="xml">
+				<form string="Bespoke Order">
+                     <header>
+                <field name="state" widget="statusbar" statusbar_visible="draft,ready,confirmed,wait,done"/>
+                        <button name="button_mark_to_do" states="draft" class="oe_highlight" string="Mark as todo" type="object"/>
+                         <button name="button_confirm" states="ready" class="oe_highlight" string="Confirm" type="object"/>
+                        <button name="button_create_delivery" class="oe_highlight" string="Create Delivery" type="object" attrs="{'invisible': ['|',('picking_count', '!=', 0),('state', 'not in', ['confirm','ready'])]}"/>
+
+                         <button name="button_cancel" states="draft" class="" string="Cancel" type="object"/>
+
+                        </header>
+					<sheet>
+                       <div class="oe_button_box" name="button_box">
+                        
+                        <button class="oe_stat_button" name="action_view_questions" icon="fa-credit-card" type="object" attrs="{'invisible': [('polq_count', '=', 0)]}">
+                            <field name="polq_count" string="Questions" widget="statinfo"/>
+                        </button>
+                           
+                        <button class="oe_stat_button" name="action_view_pickings" icon="fa-truck" type="object" attrs="{'invisible': [('picking_count', '=', 0)]}">
+                            <field name="picking_count" string="Pickings" widget="statinfo"/>
+                        </button>
+                           
+                        <button class="oe_stat_button" name="action_view_production" icon="fa-credit-card" type="object" attrs="{'invisible': [('production_count', '=', 0)]}">
+                            <field name="production_count" string="Production" widget="statinfo"/>
+                        </button>
+                           
+                           
+                        <button class="oe_stat_button" name="action_view_invoices" icon="fa-credit-card" type="object" attrs="{'invisible': [('invoice_count', '=', 0)]}">
+                            <field name="invoice_count" string="Invoices" widget="statinfo"/>
+                        </button>
+                        
+                        <button name="action_show_payments_list" type="object" class="oe_stat_button" icon="fa-dollar">
+                            <field name="total_payments_amount" widget="statinfo" string="Payments"/>
+                        </button>
+                        
+                        
+                        
+                           
+                           
+                           
+                    </div>
+                        
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Reference..."/>
+                            </h1>
+                        </div>
+						<group>
+                            <group>
+                                <field name="company_id" />
+                                <field name="warehouse_id" />
+                                <field name="partner_id"/>
+                                <field name="pos_order_id" />
+                                <field name="date_ordered" />
+                                <field name="bespoke_product_id" />
+                                <field name="bespoke_bom_id" />
+                                
+                                
+                            </group>
+                            <group>
+                                <field name="delivery_date" />
+                                <field name="pos_order_line_id" />
+                                <field name="pos_product_id" />
+                                <field name="product_qty" />
+                                <field name="price_unit" />
+                                <field name="company_currency" />
+                            </group>
+                            
+						</group>
+                        <div class="oe_clear"/>
+                        <div class="oe_clear"/>
+                        <group class="oe_subtotal_footer oe_right">
+                                <field name="total_amount" />
+                                <field name="paid_amount" />
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="due_amount"/>
+                                </div>
+                                <field name="due_amount" nolabel="1" class="oe_subtotal_footer_separator" />
+                            </group>
+                        
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="pos_bespoke_order_tree_view" model="ir.ui.view">
+			<field name="name">pos.bespoke.order.tree.view</field>
+			<field name="model">pos.bespoke.order</field>
+			<field name="arch" type="xml">
+				<tree string="Questions">
+                    <field name="name" />
+                    <field name="pos_order_id" />
+                    <field name="partner_id"/>
+                    <field name="pos_order_line_id" optional="show"/>
+                    <field name="date_ordered" />
+                    <field name="delivery_date" optional="show"/>
+                    <field name="bespoke_product_id" optional="hide"/>
+                    <field name="bespoke_bom_id" optional="hide"/>
+                    <field name="warehouse_id" />
+                    <field name="state" />
+				</tree>
+			</field>
+		</record>
+      
+      <record id="action_bespoke_order" model="ir.actions.act_window">
+			<field name="name">Bespoke</field>
+			<field name="res_model">pos.bespoke.order</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+      
+      <menuitem id="pos_bespoke_order"
+			name="Bespoke Order"
+			parent="point_of_sale.menu_point_of_sale"
+			action="action_bespoke_order"
+			sequence="90" groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"/>
+      
+  </data>
+</odoo>
