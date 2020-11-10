@@ -13,16 +13,25 @@ class HelpdeskSite(models.Model):
     
     city = fields.Char('City')
     
+    address2 = fields.Text('Long Text')
+    
     reference = fields.Char('Reference')
     
     material = fields.Char('Material')
     barcode = fields.Char('Barcode/Serial')
-    model = fields.Char('Model')
+    asset_no = fields.Char('Asset No.')
+    asset_model = fields.Char('Asset Model')
     
     customer_model_desc = fields.Char('Customer Model Desc')
     reason = fields.Text('Reason')
     crmid = fields.Char('CRM ID')
     sap_no = fields.Char('SAP No.')
+    
+    receive_date = fields.Date('Receiving Date')
+    notified_date = fields.Date('Notification Date')
+    
+    additional_info1 = fields.Text('Return Equipment Remarks')
+    additional_info2 = fields.Text('Additional Requirement')
     
     @api.constrains('name', 'stage_id')
     def _check_unique_sequence_number(self):

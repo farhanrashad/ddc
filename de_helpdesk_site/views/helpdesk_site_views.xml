@@ -7,29 +7,46 @@
             <xpath expr="//field[@name='partner_email']" position="after">
                 <field name="reference"/>
             </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="replace">
+                <field name="tag_ids" string="Sub Cateogry" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+            </xpath>
             <xpath expr="//page[@name='description']" position="after">
-                <page name="site_information" string="Site Information">
+                <page name="extra_info" string="Extra Info">
                     <group>
-                        <group string="Site">
+                        <group string="Site Info">
                             <field name="distributor"/>
                             <field name="site_name"/>
                             <field name="contact_name"/>
                             <field name="contact_no"/>
                             <field name="site_address"/>
                             <field name="city"/>
+                            <field name="address2"/>
                         </group>
-                        <group string="Material">
+                        <group string="Equipment Info">
                             <field name="sap_no"/>
                             <field name="material"/>
                             <field name="barcode"/>
-                            <field name="model"/>
+                            <field name="asset_no"/>
+                            <field name="asset_model"/>
                         </group>
                     </group>
+                    <group>
                     <group string="Other Info">
                         <field name="customer_model_desc"/>
-                            <field name="crmid"/>
-                            <field name="reason"/>
+                        <field name="crmid"/>
+                        <field name="reason"/>
                     </group>
+                    <group>
+                        <field name="receive_date"/>
+                        <field name="notified_date"/>
+                    </group>
+                    </group>
+                </page>
+                <page name="additional_info1" string="Return Equipment Remarks">
+                    <field name="additional_info1"/>
+                </page>
+                <page name="additional_info2" string="Additional Requirement">
+                    <field name="additional_info2"/>
                 </page>
             </xpath>
             
