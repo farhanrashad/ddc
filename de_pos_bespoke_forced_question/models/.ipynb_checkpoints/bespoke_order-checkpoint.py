@@ -62,7 +62,8 @@ class BespokeOrder(models.Model):
     invoice_count = fields.Integer(string='Invoice', compute='_compute_invoices_count')
     
     total_payments_amount = fields.Float(compute='_compute_total_payments_amount', string='Total Payments Amount')
-
+    
+    test = fields.Char('test')
     
     @api.depends('pos_order_line_id')
     def _compute_qty_price(self):
@@ -76,7 +77,7 @@ class BespokeOrder(models.Model):
     def _compute_amount(self):
         for line in self:
             line.update({
-                'total_amount': line.product_qty * line.price_unit,
+                'total_amount': line.pos_order_line_id.price_subtotal_incl,
             })
 
     @api.depends('pos_order_id.payment_ids.amount')
@@ -100,6 +101,10 @@ class BespokeOrder(models.Model):
         self.write({'state': 'ready'})
         
     def button_confirm(self):
+        s = []
+        pq_lines = self.env['pos.order.line.questions']
+        question = self.env['pos.forced.question']
+        c = 0
         for line in self:
             vals = {
                 'name':'new product100',
@@ -109,27 +114,37 @@ class BespokeOrder(models.Model):
                 'categ_id':1,
                 
             }
-            product_tmpl_id = self.env['product.template'].create(vals)
-            bom_id = self.env['mrp.bom'].create({
-                'product_tmpl_id': product_tmpl_id.id,
-                'product_qty':1,
-                'code':self.name,
-                'type':'normal',
-            })
-            product_id = self.env['product.product'].search([('product_tmpl_id','=',product_tmpl_id.id)],limit=1)
-            line.update({
-                'bespoke_product_id':product_id.id,
-                'bespoke_bom_id':bom_id.id,
-            })
-        for pline in self.pos_order_id.lines:
-            if not pline.product_id.type == 'service':
-                if not pline.product_id.product_tmpl_id.is_bespoke:
-                    bom_line_id = self.env['bom_line_id'].create({
-                        'bom_id': bom_id.id,
-                        'product_id': pline.product_id.id,
-                        'product_qty': (pline.qty/self.product_qty),
-                        'product_uom_id': pline.product_id.uom_id.id,
-                    })
+            s = line.pos_order_line_id.forced_questions.split('|')
+            pq_lines = self.env['pos.order.line.questions'].search([('pos_order_line_id','=',line.pos_order_line_id.id)])
+            
+            for q in pq_lines:
+                question = self.env['pos.forced.question'].search([('name','=',s[c])],limit=1)
+                q.update({
+                    'question_id':question.id,
+                })
+                c+=1
+            line.test = len(s)
+            #product_tmpl_id = self.env['product.template'].create(vals)
+            #bom_id = self.env['mrp.bom'].create({
+             #   'product_tmpl_id': product_tmpl_id.id,
+              #  'product_qty':1,
+              #  'code':self.name,
+              #  'type':'normal',
+            #})
+            #product_id = self.env['product.product'].search([('product_tmpl_id','=',product_tmpl_id.id)],limit=1)
+            #line.update({
+            #    'bespoke_product_id':product_id.id,
+            #    'bespoke_bom_id':bom_id.id,
+            #})
+        #for pline in self.pos_order_id.lines:
+            #if not pline.product_id.type == 'service':
+                #if not pline.product_id.product_tmpl_id.is_bespoke:
+                    #bom_line_id = self.env['bom_line_id'].create({
+                    #    'bom_id': bom_id.id,
+                    #    'product_id': pline.product_id.id,
+                    #    'product_qty': (pline.qty/self.product_qty),
+                    #    'product_uom_id': pline.product_id.uom_id.id,
+                    #})
         
             
         #self.write({
