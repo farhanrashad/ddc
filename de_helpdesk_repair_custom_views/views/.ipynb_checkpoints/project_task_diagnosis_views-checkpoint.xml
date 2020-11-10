@@ -1,0 +1,63 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="project_task_tickets_feedback_list_view">
+      <field name="name">project.task.tickets.feedback.list.view</field>
+      <field name="model">project.task</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="sap_no" optional="show"/>
+         <field name="crmid" optional="show"/>
+            <field name="material" optional="show"/>
+            <field name="partner_name" optional="show"/>
+            <field name="contact_name" optional="show"/>
+            <field name="contact_no" optional="show"/>
+            <field name="site_address" optional="show"/>
+            <field name="ticket_description" optional="show"/>
+            <field name="additional_info1" optional="show"/>
+            <field name="distributor" optional="show"/>
+            <field name="address2" optional="show"/>
+            <field name="city" optional="show"/>
+            <field name="notified_date" optional="show"/>
+            <field name="receive_date" optional="show"/>
+            <field name="user_id" optional="show"/>
+            <field name="barcode" optional="show"/>
+            <field name="asset_no" optional="show"/>
+            <field name="asset_model" optional="show"/>
+            <field name="description" optional="show"/>
+            <field name="remarks" optional="show"/>
+            <field name="category_id" optional="show"/>
+            <field name="ticket_tag_ids" optional="show"/>
+            <field name="ticket_stage_id" optional="show"/>
+
+
+        </tree>
+      </field>
+    </record>
+
+   <record id="action_project_task_tickets_feedback" model="ir.actions.act_window">
+            <field name="name">Project Task Feedback</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.task</field>
+            <field name="view_id" ref="project_task_tickets_feedback_list_view"/>
+            <field name="view_mode">tree,pivot</field>
+       <field name="domain">[('ticket_id', '!=', False),('is_diagnosys', '!=', False)]</field>
+       <!--
+            <field name="search_view_id" ref="sale_order_view_search_inherit_quotation"/>
+
+            <field name="context">{'search_default_my_quotation': 1}</field>
+-->       
+            
+        </record>
+      
+      
+      <menuitem id="helpdesk_ticket_reporting_menu" name="Tickets Feedback"           parent="de_helpdesk.helpdesk_ticket_reporting_main_menu" action="action_project_task_tickets_feedback" sequence="20"/>
+      <menuitem id="helpdesk_ticket_reporting_menu" name="Material Consumption"           parent="de_helpdesk.helpdesk_ticket_reporting_main_menu" action="action_project_task_tickets_feedback" sequence="30"/>
+      <menuitem id="helpdesk_ticket_reporting_menu" name="Technician Detail"           parent="de_helpdesk.helpdesk_ticket_reporting_main_menu" action="action_project_task_tickets_feedback" sequence="30"/>
+
+
+
+      
+  </data>
+</odoo>
