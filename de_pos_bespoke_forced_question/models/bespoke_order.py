@@ -192,8 +192,19 @@ class BespokeOrder(models.Model):
         if not self.warehouse_id:
             raise exceptions.UserError('Please select warehouse for Production.')
         picking_type_id = self.env['stock.picking.type'].search([('code', '=', 'mrp_operation'),('warehouse_id','=', self.warehouse_id.id)], limit=1)
-        
-
+        vals = {
+            'product_id': self.bespoke_product_id.id,
+            'product_uom_id':self.bespoke_product_id.uom_id.id,
+            'product_qty': self.product_qty,
+            'bom_id': self.bespoke_bom_id.id,
+            'picking_type_id': picking_type_id.id,
+            'location_src_id': picking_type_id.default_location_src_id.id,
+            'location_dest_id': picking_type_id.default_location_dest_id.id,
+            'origin': self.name,
+            'bespoke_order_id': self.id,
+            'state': 'draft',
+        }
+        production_id = self.env['mrp.production'].create(vals)
         
     def button_cancel(self):
         self.write({'state': 'cancel'})
