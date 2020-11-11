@@ -13,7 +13,8 @@
                       <sheet>
                         <group>
                             <field name="name" />
-                          
+                          <field name="is_short" />
+                            <field name="is_long" />
                         </group>
                         
                         <notebook>
@@ -83,10 +84,8 @@
                                <tree string="Product Property " editable="bottom" >
                                <field name="sequence" widget="handle"/>
                                         <field name="product_property_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                                   <field name="long_value" invisible="1"/>
                                    <field name="product_property_line_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                                    <field name="description"/>
-<!--                                    <field name="description" /> -->
                                      <field name="is_short"/> 
             	                    <field name="is_long"/>
                                 </tree>

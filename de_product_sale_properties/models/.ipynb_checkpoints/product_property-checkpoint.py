@@ -17,7 +17,9 @@ class product_properties(models.Model):
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
  
     name=fields.Char('Name')
-    product_property_order_line=fields.One2many('product.properties.line','product_property',string="Product Properties")  
+    product_property_order_line=fields.One2many('product.properties.line','product_property',string="Product Properties")
+    is_short = fields.Boolean(string="Is Short") 
+    is_long = fields.Boolean(string="Is Long")
     
 class product_property_line(models.Model):
     _name='product.properties.line'
@@ -26,7 +28,7 @@ class product_property_line(models.Model):
     name = fields.Char(string="Short Value",required=True)
     description = fields.Char(string="Long Value",required=True)
     
- 
+
     
 class product_tmplt(models.Model):
     _inherit='product.template'
@@ -59,9 +61,8 @@ class product_template_line(models.Model):
     property_ids=fields.Many2one('product.template',string="Product Property Line", required=True)
     product_property_id=fields.Many2one("product.properties",string="Product Property", required=True) 
     sequence = fields.Integer('Sequence', help="Determine the display order", index=True)
-    long_value = fields.Char(string="Long Value")
     product_property_line_id=fields.Many2one("product.properties.line",  string="Short Value", domain="[('product_property', '=', product_property_id)]")
     description = fields.Char(related='product_property_line_id.description', string='Long Value', store=True)
     
-    is_short = fields.Boolean(string="Is Short") 
-    is_long = fields.Boolean(string="Is Long")
+    is_short = fields.Boolean(related="product_property_id.is_short") 
+    is_long = fields.Boolean(related="product_property_id.is_long" )
