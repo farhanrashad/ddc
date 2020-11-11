@@ -52,16 +52,4 @@ class PosOrderLineQuestions(models.Model):
     question_id = fields.Many2one('pos.forced.question', 'Question', required=False )
 
     bespoke_order_id = fields.Many2one('pos.bespoke.order', string='Bespoke Order', index=True, ondelete='cascade')
-    #pos_order_line = One2many('pos.order.line')
-#     _name = 'de_pos_sale_forced_question.de_pos_sale_forced_question'
-#     _description = 'de_pos_sale_forced_question.de_pos_sale_forced_question'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100

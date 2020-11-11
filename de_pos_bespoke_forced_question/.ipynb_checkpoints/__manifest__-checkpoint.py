@@ -20,13 +20,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','pos_forced_question','stock','mrp'],
+    'depends': ['base','pos_forced_question','stock','mrp','de_product_sale_properties'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'data/bespoke_seq.xml',
         'views/product_views.xml',
+        'views/forced_question_views.xml',
         'views/pos_order_views.xml',
         'views/bespoke_order_views.xml',
         'views/pos_order_line_views.xml',

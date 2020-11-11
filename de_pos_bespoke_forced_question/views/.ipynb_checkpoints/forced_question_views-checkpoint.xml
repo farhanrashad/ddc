@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_forced_question_form_view_inherit" model="ir.ui.view">
+        <field name="name">pos.forced.question.form.view.inherit</field>
+        <field name="model">pos.forced.question</field>
+        <field name="inherit_id" ref="pos_forced_question.pos_forced_question_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="after">
+                <group>
+                <group name="product_properties" string="Product Properties">
+               <field name="product_property_line_id" string="Short Value"/>
+                <field name="product_property_description" string="long Value"/>
+                <field name="product_property_is_short" />
+                <field name="product_property_is_long" />
+
+                </group>
+            </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
