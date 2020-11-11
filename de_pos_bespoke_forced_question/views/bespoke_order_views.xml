@@ -59,7 +59,7 @@
                                 <field name="date_ordered" />
                                 <field name="bespoke_product_id" />
                                 <field name="bespoke_bom_id" />
-                                <field name="test" />
+                                <field name="test1" />
                                 
                             </group>
                             <group>

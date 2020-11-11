@@ -63,7 +63,7 @@ class BespokeOrder(models.Model):
     
     total_payments_amount = fields.Float(compute='_compute_total_payments_amount', string='Total Payments Amount')
     
-    test = fields.Char('test')
+    test1 = fields.Char('test')
     
     @api.depends('pos_order_line_id')
     def _compute_qty_price(self):
@@ -105,15 +105,8 @@ class BespokeOrder(models.Model):
         pq_lines = self.env['pos.order.line.questions']
         question = self.env['pos.forced.question']
         c = 0
+        prod_long_name = prod_short_name = ''
         for line in self:
-            vals = {
-                'name':'new product100',
-                'sale_ok':True,
-                'purchase_ok':False,
-                'type':'product',
-                'categ_id':1,
-                
-            }
             s = line.pos_order_line_id.forced_questions.split('|')
             pq_lines = self.env['pos.order.line.questions'].search([('pos_order_line_id','=',line.pos_order_line_id.id)])
             
@@ -123,28 +116,41 @@ class BespokeOrder(models.Model):
                     'question_id':question.id,
                 })
                 c+=1
-            line.test = len(s)
-            #product_tmpl_id = self.env['product.template'].create(vals)
-            #bom_id = self.env['mrp.bom'].create({
-             #   'product_tmpl_id': product_tmpl_id.id,
-              #  'product_qty':1,
-              #  'code':self.name,
-              #  'type':'normal',
-            #})
-            #product_id = self.env['product.product'].search([('product_tmpl_id','=',product_tmpl_id.id)],limit=1)
-            #line.update({
-            #    'bespoke_product_id':product_id.id,
-            #    'bespoke_bom_id':bom_id.id,
-            #})
-        #for pline in self.pos_order_id.lines:
-            #if not pline.product_id.type == 'service':
-                #if not pline.product_id.product_tmpl_id.is_bespoke:
-                    #bom_line_id = self.env['bom_line_id'].create({
-                    #    'bom_id': bom_id.id,
-                    #    'product_id': pline.product_id.id,
-                    #    'product_qty': (pline.qty/self.product_qty),
-                    #    'product_uom_id': pline.product_id.uom_id.id,
-                    #})
+                if question.product_property_is_short:
+                    prod_short_name += question.product_property_line_id.name + '|'
+                if question.product_property_is_long:
+                    prod_long_name += question.product_property_line_id.description + ' '
+                    
+            vals = {
+                'name':prod_long_name,
+                'default_code': prod_short_name,
+                'sale_ok':True,
+                'purchase_ok':False,
+                'type':'product',
+                'categ_id':1,
+            }
+            line.test1 = prod_short_name + ' / ' + prod_long_name
+            product_tmpl_id = self.env['product.template'].create(vals)
+            bom_id = self.env['mrp.bom'].create({
+                'product_tmpl_id': product_tmpl_id.id,
+                'product_qty':1,
+                'code':self.name,
+                'type':'normal',
+            })
+            product_id = self.env['product.product'].search([('product_tmpl_id','=',product_tmpl_id.id)],limit=1)
+            line.update({
+                'bespoke_product_id':product_id.id,
+                'bespoke_bom_id':bom_id.id,
+            })
+        for pline in self.pos_order_id.lines:
+            if not pline.product_id.type == 'service':
+                if not pline.product_id.product_tmpl_id.is_bespoke:
+                    bom_line_id = self.env['bom_line_id'].create({
+                        'bom_id': bom_id.id,
+                        'product_id': pline.product_id.id,
+                        'product_qty': (pline.qty/self.product_qty),
+                        'product_uom_id': pline.product_id.uom_id.id,
+                    })
         
             
         #self.write({
@@ -153,6 +159,9 @@ class BespokeOrder(models.Model):
         #})
     def button_create_delivery(self):
         #Create Delivery
+        if not self.warehouse_id:
+            raise exceptions.UserError('Please select warehouse for delivery.')
+        
         picking_type_id = self.env['stock.picking.type'].search([('code', '=', 'outgoing'),('warehouse_id','=', self.warehouse_id.id)], limit=1)
         customer_location_id = self.env['stock.location'].search([('usage', '=', 'customer')], limit=1)
 
@@ -164,7 +173,6 @@ class BespokeOrder(models.Model):
             'bespoke_order_id': self.id,
             'picking_type_id': picking_type_id.id,
             'state': 'draft',
-            'warehouse_transfer_id': self.id,
         }
         picking = self.env['stock.picking'].create(vals)
         for pline in self:
@@ -178,7 +186,15 @@ class BespokeOrder(models.Model):
                 'product_uom_qty': pline.product_qty,
             }
             stock_move = self.env['stock.move'].create(moves)
-            
+    
+    def button_create_production(self):
+        #Create Production
+        if not self.warehouse_id:
+            raise exceptions.UserError('Please select warehouse for Production.')
+        picking_type_id = self.env['stock.picking.type'].search([('code', '=', 'mrp_operation'),('warehouse_id','=', self.warehouse_id.id)], limit=1)
+        
+
+        
     def button_cancel(self):
         self.write({'state': 'cancel'})
         
