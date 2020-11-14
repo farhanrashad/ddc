@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
 
-    <t t-name="stockinfo">
-        <div class='control-button'>
-            <i class='fa fa-rotate-left'/>
-            Stock Info
+
+
+    <templates id="pos_stock_info_template" inherit_id="point_of_sale.template" xml:space="preserve">
+  <!-- PosBagWidget -->
+      <t t-name="PosStockWidget" name="POS Stock Info Widget">
+            <div class="control-button button confirm" id="pos_bag" style="background-color: #6ec89b; color: #fff;">
+                <i class="fa fa-shopping-bag"></i> Stock Info 
+            </div>
+   	 </t>
+
+
+
+        <!-- ProductStockPopupWidget -->
+    <t t-name="ProductStockPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm" style="height: 350px;">
+                <p class="title" style="background-color: rgb(110,200,155); color: #fff;">Warehouse Stock</p>
+                <div class="body">
+		     				   <div class='div-container' style="height: 100px;">
+		                    <span class='product bag-category' t-foreach="widget.options.orderlines || []" t-as="item" t-att-data-product-id="item.id">
+      									   <div class="product-img">
+      										    <img t-att-src='item.image_url'  alt="Product image"/>
+      										      <span class="price-tag">
+      										        <t t-esc="widget.format_currency(item.lst_price,'Product Price')"/>
+      									         </span>
+									         </div>
+          									<div class="product-name">
+          										<t t-esc="item.display_name"/>
+          									</div>
+							         	</span>
+							
+		                </div>
+		            </div>
+
+                <div class="footer" style="background-color: rgb(110,200,155); color: #fff;">
+                	<div class="button cancel" style="background-color: #0075AC; color: #fff;">
+                        Cancel
+                    </div>
+                </div>
+            </div>
         </div>
     </t>
-</templates>
+
+  	</templates>
+  	
+  	
