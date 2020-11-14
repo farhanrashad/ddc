@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="PaymentScreenWidget">
+        <t t-jquery='.payment-buttons' t-operation='after'>
+           <p>Order Date: <input type="text" id="order_date_picker"/></p>
+        </t>
+    </t>
+</templates>
