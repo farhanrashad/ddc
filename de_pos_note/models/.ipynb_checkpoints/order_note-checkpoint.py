@@ -19,27 +19,15 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-{
-    'name': 'Order Note In POS',
-    'summary': """The module enables to add Note in order line from the pos interface. """,
-    'version': '12.0.1.0.0',
-    'description': """The module enables to add multiple order line from the pos interface and other than
-    selection of the order note text is also enabled""",
-    'author': 'Dynexcel',
-    'company': 'Dynexcel',
-    'maintainer': 'Dynexcel',
-    'website': 'https://www.dynexcel.com',
-    'category': 'Point of Sale',
-    'depends': ['base', 'point_of_sale'],
-    'license': 'AGPL-3',
-    'data': [
-        'views/order_note_templates.xml',
-        #'views/order_note_backend.xml',
-        'security/ir.model.access.csv',
-    ],
-    'qweb': ['static/src/xml/pos_internal_note.xml'],
-    'images': ['static/description/banner.png'],
-    'installable': True,
-    'auto_install': False,
+from odoo import models, fields
 
-}
+
+class PosOrderNote(models.Model):
+    """In this class a new model is created in pos to create multiple
+    order notes in the backend"""
+
+    _name = 'pos.order.note'
+    _rec_name = 'pos_note'
+
+    pos_note = fields.Char(string='Multiple Order Note In POS',
+                           help='Add the description of the order note')
