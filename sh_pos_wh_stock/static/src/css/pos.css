@@ -1,0 +1,14 @@
+.data_td{
+	padding:10px;
+	border-left:1px solid black;
+	border-right:1px solid black; 
+}
+.head_td{
+	border:1px solid black; 
+	background:lightgrey;
+	padding:8px;
+}
+.footer_td{
+	border:1px solid black; 
+	padding:10px;
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+   <t t-name="ProductQtyPopup">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput" style="font-size: 16px;width:600px;height:450px;">
+              <p class="title"><t t-esc='widget.title'></t></p>
+               <div class="main-body touch-scrollable scrollable-y">
+	               <table width="100%" class="wh_qty">
+	               </table>
+                </div>
+                <div class="footer">
+                    <div class="button confirm"> Close</div>
+                </div>
+            </div>
+        </div>
+    </t> 
+     <t t-extend="Product">
+        <t t-jquery=".product-name" t-operation="after">
+            <t t-if="widget.pos.config.sh_display_stock">
+                <span class="product-image-icon" style="position: absolute;
+				    bottom: 0px;
+				    font-size: 20px;
+				    right: 0px;
+				    line-height: 13px;
+				    border-radius: 2px;
+				    z-index: 1000;
+				    color: #7f82ac;
+				    padding: 3px;">
+                    <i class="fa fa-building-o" aria-hidden="true"></i>  
+                </span>
+            </t>
+        </t>         
+    </t>
+    <t t-extend="Orderline">
+    	<t t-jquery="span.product-name" t-operation="before">
+    		<t t-if="widget.pos.config.sh_display_stock">
+                <span class="product-image-icon">
+                    <i class="fa fa-building-o" aria-hidden="true"></i>  
+                </span>
+            </t>
+    	</t>
+	</t>
+</templates>
