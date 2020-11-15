@@ -3,9 +3,9 @@
 from odoo import models, fields
 
 
-class POSOrderLine(models.Model):
+class POSMeasuresGuide(models.Model):
     """In this class a new model is created in pos to create measurement guide"""
-    _inherit = 'pos.order.line'
+    _name = 'pos.order.measures'
 
-    measure_note = fields.Char(string='Measurement Note',
+    name = fields.Char(string='Measurement Item',
                            help='Add measurment guide for POS order line')

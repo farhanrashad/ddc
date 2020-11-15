@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template id="template" xml:space="preserve">
 
-    <t t-name="InternalNoteButton">
-        <div class='control-button in_note'>
+    <t t-name="ButtonMeasuresGuide">
+        <div class='control-button in_measure'>
             <i class="fa fa-scissors">Measurement Guide</i>
         </div>
     </t>
-    <t t-name="NotePopupWidget">
+    <t t-name="MeasuresPopupWidget">
         <div role="dialog" class="modal-dialog">
             <div class="popup popup-textinput" style="background-color: bisque;">
                 <header class="title"><t t-esc=" widget.options.title || '' " /></header>
                 <div>
-                    <textarea id="note_select" style="width:461px;font-size:13px;height:200px;" class="note_temp"></textarea>
+                    <textarea id="measurement" style="width:461px;font-size:13px;height:200px;" class="measure_temp"></textarea>
                 </div>
                 <!--
                 <br/>
