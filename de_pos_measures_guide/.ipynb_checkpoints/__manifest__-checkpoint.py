@@ -17,9 +17,12 @@
         'views/pos_config_views.xml',
         'views/templates.xml',
         'views/measures_guide_views.xml',
-        
+        'views/pos_order_views.xml',
     ],
-    'qweb': ['static/src/xml/pos_measures.xml'],
+    'qweb': [
+        'static/src/xml/pos_measures.xml',
+        'static/src/xml/pos_receipt.xml',
+            ],
     'images': ['static/description/banner.jpg'],
     'installable': True,
     'auto_install': False,
