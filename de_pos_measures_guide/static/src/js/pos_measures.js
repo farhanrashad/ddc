@@ -14,9 +14,9 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         model: 'pos.order.measures',
         fields: ['name'],
         loaded: function (self, ordermeasures) {
-            self.order_measures_by_id = {};
+            self.order_note_by_id = {};
             for (var i = 0; i < ordermeasures.length; i++) {
-                self.order_measures_by_id[ordermeasures[i].id] = ordermeasures[i];
+                self.order_note_by_id[ordermeasures[i].id] = ordermeasures[i];
             }
         }
     });
@@ -33,6 +33,27 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         },
         get_measure_note: function(note){
             return this.measure_note;
+        },
+        can_be_merged_with: function(orderline) {
+            if (orderline.get_measure_note() !== this.get_measure_note()) {
+                return false;
+            } else {
+                return _super_orderline.can_be_merged_with.apply(this,arguments);
+            }
+        },
+        clone: function(){
+            var orderline = _super_orderline.clone.call(this);
+            orderline.measure_note = this.measure_note;
+            return orderline;
+        },
+        export_as_JSON: function(){
+            var json = _super_orderline.export_as_JSON.call(this);
+            json.measure_note = this.measure_note;
+            return json;
+        },
+        init_from_JSON: function(json){
+            _super_orderline.init_from_JSON.apply(this,arguments);
+            this.measure_note = json.measure_note;
         },
     });
 
@@ -51,8 +72,8 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         },
         renderElement: function () {
             this._super();
-            for (var measure in this.pos.order_measures_by_id) {
-                $('#measurement').append(this.pos.order_measures_by_id[measure].name + "= \n")
+            for (var measure in this.pos.order_note_by_id) {
+                $('#measurement').append(this.pos.order_note_by_id[measure].name + "= \n")
                   //  .attr("id", this.pos.order_measures_by_id[note].id)
                   //  .attr("class", "note_option"))
                 
@@ -64,7 +85,8 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         show: function (options) {
             options = options || {};
             this._super(options);
-            $('textarea').text(options.value);
+            
+            //$('textarea').text(options.value);
         },
         click_confirm: function (event) {
             event.preventDefault();
