@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template id="template" xml:space="preserve">
 
-    <t t-name="InternalNoteButton">
-        <div class='control-button in_note'>
-            <i class="fa fa-tags">  Multi Notes </i>
+    <t t-name="ButtonMeasuresGuide">
+        <div class='control-button in_measure'>
+            <i class="fa fa-scissors">Measurement Guide</i>
         </div>
     </t>
-    <t t-name="NotePopupWidget">
+    <t t-name="MeasuresPopupWidget">
         <div role="dialog" class="modal-dialog">
             <div class="popup popup-textinput" style="background-color: bisque;">
                 <header class="title"><t t-esc=" widget.options.title || '' " /></header>
                 <div>
-                    <select id="note_select" style="width:461px;" class="note_temp">
-                        <option id="" value="select"></option>
-                    </select>
+                    <textarea id="measurement" style="width:461px;font-size:13px;height:200px;" class="measure_temp"></textarea>
                 </div>
+                <!--
                 <br/>
                 <textarea id="note_text_area" type='text' t-att-value="widget.options.value || ''"></textarea>
+-->
                 <div class="footer">
                     <div class="button confirm">
                         Ok
@@ -39,7 +39,7 @@
                 <tr t-foreach="orderlines" t-as="orderline">
                     <td>
                         <t t-esc="orderline.get_product().display_name"/><br/>
-                        <i class="fa fa-tags"><t t-esc="orderline.note"/></i><br/>
+                        <i class="fa fa-scissors"><t t-esc="orderline.note"/></i><br/>
                          <t t-if="orderline.get_discount() > 0">
                             <div class="pos-disc-font">
                                 With a <t t-esc="orderline.get_discount()"/>% discount
