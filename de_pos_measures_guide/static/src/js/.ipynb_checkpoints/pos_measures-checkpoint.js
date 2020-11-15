@@ -14,9 +14,9 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         model: 'pos.order.measures',
         fields: ['name'],
         loaded: function (self, ordermeasures) {
-            self.order_measures_by_id = {};
+            self.order_note_by_id = {};
             for (var i = 0; i < ordermeasures.length; i++) {
-                self.order_measures_by_id[ordermeasures[i].id] = ordermeasures[i];
+                self.order_note_by_id[ordermeasures[i].id] = ordermeasures[i];
             }
         }
     });
@@ -30,10 +30,33 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         set_measure_note: function(note){
             this.measure_note = note;
             this.trigger('change',this);
+            this.db.save('note', note || null);
         },
         get_measure_note: function(note){
             return this.measure_note;
         },
+        can_be_merged_with: function(orderline) {
+            if (orderline.get_note() !== this.get_measure_note()) {
+                return false;
+            } else {
+                return _super_orderline.can_be_merged_with.apply(this,arguments);
+            }
+        },
+        clone: function(){
+            var orderline = _super_orderline.clone.call(this);
+            orderline.note = this.measure_note;
+            return orderline;
+        },
+        export_as_JSON: function(){
+            var json = _super_orderline.export_as_JSON.call(this);
+            json.note = this.measure_note;
+            return json;
+        },
+        init_from_JSON: function(json){
+            _super_orderline.init_from_JSON.apply(this,arguments);
+            this.measure_note = json.note;
+        },
+        
     });
 
     var MeasuresPopupWidget = PopupWidget.extend({
@@ -51,20 +74,16 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
         },
         renderElement: function () {
             this._super();
-            for (var measure in this.pos.order_measures_by_id) {
-                $('#measurement').append(this.pos.order_measures_by_id[measure].name + "= \n")
-                  //  .attr("id", this.pos.order_measures_by_id[note].id)
-                  //  .attr("class", "note_option"))
-                
-                //$('#note_select').append($("<input type=text style=width:461;>" + "</input><br/>").attr("value", this.pos.order_measures_by_id[note].name)
-                  //  .attr("id", this.pos.order_measures_by_id[note].id)
-                  //  .attr("class", "note_option"))
+            for (var measure in this.pos.order_note_by_id) {
+                $('#measurement').append(this.pos.order_note_by_id[measure].name + "= ,\n")
             }
         },
         show: function (options) {
             options = options || {};
             this._super(options);
-            $('textarea').text(options.value);
+            //if(options.value){
+             //   $('textarea').text(options.value);
+            //}
         },
         click_confirm: function (event) {
             event.preventDefault();
@@ -77,10 +96,6 @@ odoo.define('de_pos_measures_guide.pos_measures', function (require) {
             event.preventDefault();
             event.stopPropagation();
             var old_text = $('#measurement').val();
-            //var e = document.getElementById("note_select");
-            //var text = e.options[e.selectedIndex].value;
-            //old_text += "\n";
-            //old_text += text;
             $('textarea').text(old_text);
         }
 

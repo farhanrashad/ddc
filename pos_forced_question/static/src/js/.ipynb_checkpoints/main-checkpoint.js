@@ -50,6 +50,9 @@ odoo.define('pos_forced_question.pos_forced_question', function(require) {
 		wk_add_question:function(event){
 			var self = this;
 			var question_id = parseInt($(event.target).data('id'));
+            if(question_id){
+                this.$('#question_id').addClass('current');
+            }
 			var all_checked_question = self.$('.wk_checked_question:checked');
 			var question_list = [];
 			all_checked_question.each(function(idx,element){

@@ -1,0 +1,1 @@
+$(document).ready(function(){ $(".detail.client-phone").click(function(){alert("Name Field required")}) })

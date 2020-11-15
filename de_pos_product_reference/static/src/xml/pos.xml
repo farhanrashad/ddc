@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+<!--
+    <t t-extend="OrderReceipt">
+        <t t-jquery=".orderlines" t-operation="after">
+            <t t-if="orderline.get_product().default_code">
+                 [<t t-esc="orderline.get_product().default_code"/>]
+                </t>
+        </t>
+    </t>
+-->
+    <t t-extend="Product">
+        <t t-jquery=".product-name" t-operation="replace">
+            <div class="product-name" t-attf-id="article_product_#{product.id}">
+                <t t-if="product.default_code">
+                   <t t-esc="product.default_code"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="product.display_name"/>
+                </t>
+            </div>
+
+            
+        </t>
+    </t>
+    <t t-extend="Orderline">
+        <t t-jquery=".product-name"  t-operation="replace">
+            <t t-if="line.get_product().default_code">
+                <t t-esc="line.get_product().default_code"/>
+                <t t-if="line.get_product().tracking!=='none'">
+                    <i class="oe_link_icon fa fa-list oe_icon line-lot-icon oe_green" t-if="line.has_valid_product_lot()"
+                       aria-label="Valid product lot" role="img" title="Valid product lot"/>
+                    <i class="oe_link_icon fa fa-list oe_icon line-lot-icon oe_red" t-if="!line.has_valid_product_lot()"
+                       aria-label="Invalid product lot" role="img" title="Invalid product lot"/>
+                </t>
+            </t>
+            <t t-else="">
+                <t t-esc="line.get_product().display_name"/>
+                <t t-if="line.get_product().tracking!=='none'">
+                    <i class="oe_link_icon fa fa-list oe_icon line-lot-icon oe_green" t-if="line.has_valid_product_lot()"
+                       aria-label="Valid product lot" role="img" title="Valid product lot"/>
+                    <i class="oe_link_icon fa fa-list oe_icon line-lot-icon oe_red" t-if="!line.has_valid_product_lot()"
+                       aria-label="Invalid product lot" role="img" title="Invalid product lot"/>
+                </t>
+            </t>
+        </t>
+    </t>
+</templates>
