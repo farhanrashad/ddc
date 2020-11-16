@@ -3,9 +3,10 @@
     <data>
         <template id="pos_sale_order_template" inherit_id="point_of_sale.assets">
             <xpath expr="." position="inside">
-                <script type="text/javascript" src="/de_pos_note/static/src/js/notes_pos.js"/>
+                <script type="text/javascript" src="/de_pos_note/static/src/js/notes.js"/>
             </xpath>
         </template>
+        <!--
         <record id="view_note" model="ir.ui.view">
             <field name="name">Note</field>
             <field name="model">pos.config</field>
@@ -27,5 +28,6 @@
             </xpath>
             </field>
         </record>
+-->
     </data>
 </odoo>

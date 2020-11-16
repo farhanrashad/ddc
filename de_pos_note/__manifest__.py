@@ -34,10 +34,10 @@
     'license': 'AGPL-3',
     'data': [
         'views/order_note_templates.xml',
-        #'views/order_note_backend.xml',
-        'security/ir.model.access.csv',
+        'views/pos_order_views.xml',
+        #'security/ir.model.access.csv',
     ],
-    'qweb': ['static/src/xml/pos_internal_note.xml'],
+    'qweb': ['static/src/xml/notes.xml'],
     'images': ['static/description/banner.png'],
     'installable': True,
     'auto_install': False,
