@@ -33,12 +33,13 @@
     'depends': ['base', 'point_of_sale'],
     'license': 'AGPL-3',
     'data': [
-        'views/order_note_templates.xml',
+        'views/pos_templates.xml',
         'views/pos_order_views.xml',
+        'views/pos_config_views.xml',
         #'security/ir.model.access.csv',
     ],
     'qweb': ['static/src/xml/notes.xml'],
-    'images': ['static/description/banner.png'],
+    'images': ['static/description/banner.jpg'],
     'installable': True,
     'auto_install': False,
 

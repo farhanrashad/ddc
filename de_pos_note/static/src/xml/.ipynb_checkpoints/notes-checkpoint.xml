@@ -11,7 +11,7 @@
         </t>
     </t>
 
-    <t t-name="OrderlineNoteButton1">
+    <t t-name="OrderlineNoteButton">
         <div class='control-button'>
             <i class='fa fa-tag' /> Note
         </div>

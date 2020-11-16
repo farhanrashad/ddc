@@ -46,8 +46,8 @@ models.Orderline = models.Orderline.extend({
     },
 });
 
-var OrderlineNoteButton1 = screens.ActionButtonWidget.extend({
-    template: 'OrderlineNoteButton1',
+var OrderlineNoteButton = screens.ActionButtonWidget.extend({
+    template: 'OrderlineNoteButton',
     button_click: function(){
         var line = this.pos.get_order().get_selected_orderline();
         if (line) {
@@ -64,12 +64,12 @@ var OrderlineNoteButton1 = screens.ActionButtonWidget.extend({
 
 screens.define_action_button({
     'name': 'orderline_note',
-    'widget': OrderlineNoteButton1,
+    'widget': OrderlineNoteButton,
     'condition': function(){
-        return this.pos.config.iface_orderline_notes;
+        return this.pos.config.iface_orderline_order_notes;
     },
 });
 return {
-    OrderlineNoteButton1: OrderlineNoteButton1,
+    OrderlineNoteButton: OrderlineNoteButton,
 }
 });
