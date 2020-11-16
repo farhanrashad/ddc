@@ -2,11 +2,16 @@ odoo.define('de_pos_note.notes', function (require) {
 "use strict";
 
 var models = require('point_of_sale.models');
-var screens = require('point_of_sale.screens');
 var core = require('web.core');
-
+var gui = require('point_of_sale.gui');
+var core = require('web.core');
+var _t = core._t;
+var screens = require('point_of_sale.screens');
+var popup_widget = require('point_of_sale.popups');
+var SuperOrder = models.Order;
+var SuperOrderline = models.Orderline;
+var SuperOrderWidget = screens.OrderWidget;
 var QWeb = core.qweb;
-var _t   = core._t;
 
 var _super_orderline = models.Orderline.prototype;
 models.load_fields('pos.order.line','order_note');
