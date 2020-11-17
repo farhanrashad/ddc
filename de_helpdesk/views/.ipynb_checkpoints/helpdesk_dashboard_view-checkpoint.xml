@@ -5,7 +5,7 @@
      <field name="name">helpdesk.ticket.team.kanban</field>
      <field name="model">helpdesk.ticket.team</field>
      <field name="arch" type="xml">
-       <kanban class="oe_background_grey o_kanban_dashboard" create="0">
+       <kanban class="oe_background_grey o_kanban_dashboard o_helpdesk_kanban" create="0">
          <field name="name"/>
          <field name="color"/>
          <field name="todo_ticket_ids"/>
@@ -15,19 +15,22 @@
          <field name="todo_ticket_count_high_priority"/>
          <templates>
            <t t-name="kanban-box">
-             <div t-attf-class="#{kanban_color(record.color.raw_value)}">
-             <div t-attf-class="o_kanban_card_header">
-               <div class="o_kanban_card_header_title">
-                 <div class="o_primary">
-                     <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action">
-                         <field name="name"/>
-                     </a></div>
-                 </div>
-                 <div class="o_kanban_manage_button_section">
-                     <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" /></a>
-                 </div>
-                 <div class="container o_kanban_card_content">
-                     <div class="row">
+               <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}">
+                    <span class="oe_kanban_color_help" t-attf-title="In #{kanban_getcolorname(record.color.raw_value)}" role="img" t-attf-aria-label="In #{kanban_getcolorname(record.color.raw_value)}"/>
+                    <div t-attf-class="o_kanban_card_header">
+                        <div class="o_kanban_card_header_title">
+                            <div class="o_primary">
+                                <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action">
+                                    <field name="name"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="o_kanban_manage_button_section">
+                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" /></a>
+                        </div>
+                   </div>
+                   <div class="container o_kanban_card_content">
+                       <div class="row">
                          <div class="col-6 o_kanban_primary_left" style="padding-top:20px;">
                              <button class="btn btn-primary"  name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_open': 1}">
                                  <t t-esc="record.todo_ticket_count.value"/> To Do
@@ -35,33 +38,24 @@
                          </div>
                          <div class="col-6 o_kanban_primary_right">
                              <div class="row">
-                                 <div class="col-9">
-                                     <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_unassigned': 1, 'search_default_open': 1}">
-                                         Unassigned
-                                     </a>
+                                 <div class="mb4">
+                                    <a name="%(action_helpdesk_ticket_dashboard_unassigned)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.todo_ticket_count_unassigned.raw_value"/> Unassigned Tickets</a>
                                  </div>
-                                 <div class="col-3">
-                                     <t t-esc="record.todo_ticket_count_unassigned.value"/>
-                                 </div>
-                                 <div class="col-9">
+                                 <div class="mb4">
                                      <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_unattended': 1, 'search_default_open': 1}">
                                          Unattended
                                      </a>
+                                     <t t-esc="record.todo_ticket_count_unattended.value"/>
                                  </div>
-                                 <div class="col-3">
-                                   <t t-esc="record.todo_ticket_count_unattended.value"/>
-                                 </div>
-                                 <div class="col-9">
+                                 <div class="mb4">
                                    <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_high_priority': 1, 'search_default_open': 1}">
                                      High Priority
                                    </a>
+                                     <t t-esc="record.todo_ticket_count_high_priority.value"/>
                                  </div>
-                                 <div class="col-3">
-                                   <t t-esc="record.todo_ticket_count_high_priority.value"/>
-                                 </div>
+                                 
                              </div>
                          </div>
-                     </div>
                  </div>
                  <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
                    <div class="row">

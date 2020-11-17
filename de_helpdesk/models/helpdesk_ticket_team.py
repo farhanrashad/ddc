@@ -37,7 +37,7 @@ class HelpdeskTeam(models.Model):
 
     todo_ticket_count_unassigned = fields.Integer(
         string="Number of tickets unassigned",
-        compute='_compute_todo_tickets')
+        compute='_compute_unassigned_tickets')
 
     todo_ticket_count_unattended = fields.Integer(
         string="Number of tickets unattended",
@@ -47,18 +47,29 @@ class HelpdeskTeam(models.Model):
         string="Number of tickets in high priority",
         compute='_compute_todo_tickets')
 
+    def _compute_unassigned_tickets(self):
+        ticket_data = self.env['helpdesk.ticket'].read_group([('user_id', '=', False), ('team_id', 'in', self.ids), ('stage_id.closed', '!=', True)], ['team_id'], ['team_id'])
+        mapped_data = dict((data['team_id'][0], data['team_id_count']) for data in ticket_data)
+        for team in self:
+            team.todo_ticket_count_unassigned = mapped_data.get(team.id, 0)
+            
     @api.depends('ticket_ids', 'ticket_ids.stage_id')
     def _compute_todo_tickets(self):
-        for record in self:
-            record.todo_ticket_ids = record.ticket_ids.filtered(
-                lambda ticket: not ticket.closed)
-            record.todo_ticket_count = len(record.todo_ticket_ids)
-            record.todo_ticket_count_unassigned = len(
-                record.todo_ticket_ids.filtered(
-                    lambda ticket: not ticket.user_id))
-            record.todo_ticket_count_unattended = len(
-                record.todo_ticket_ids.filtered(
-                    lambda ticket: ticket.unattended))
-            record.todo_ticket_count_high_priority = len(
-                record.todo_ticket_ids.filtered(
-                    lambda ticket: ticket.priority == '3'))
+        #for ticket in self.ticket_ids:
+        self.todo_ticket_count = 0
+        #self.todo_ticket_count_unassigned = 0
+        self.todo_ticket_count_unattended = 0
+        self.todo_ticket_count_high_priority = 0
+        #for record in self:
+         #   record.todo_ticket_ids = record.ticket_ids.filtered(
+          #      lambda ticket: not ticket.closed)
+           # record.todo_ticket_count = len(record.todo_ticket_ids)
+            #record.todo_ticket_count_unassigned = len(
+             #   record.todo_ticket_ids.filtered(
+              #      lambda ticket: not ticket.user_id))
+            #record.todo_ticket_count_unattended = len(
+             #   record.todo_ticket_ids.filtered(
+              #      lambda ticket: ticket.unattended))
+            #record.todo_ticket_count_high_priority = len(
+             #   record.todo_ticket_ids.filtered(
+              #      lambda ticket: ticket.priority == '3'))
