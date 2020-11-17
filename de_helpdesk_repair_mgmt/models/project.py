@@ -13,7 +13,7 @@ class ProjectTask(models.Model):
     is_repair_sale = fields.Boolean('Repair Sale',default=False)
     closed = fields.Boolean(related='ticket_id.closed',string='Closed')
     
-    repair_planning_lines = fields.One2many("project.task.planning.line", "task_id", string="Task Repair Planning Lines", readonly=True, attr="{'readonly':[('closed','=',True)]}", copy=True, auto_join=True)
+    repair_planning_lines = fields.One2many("project.task.planning.line", "task_id", string="Task Repair Planning Lines", readonly=False, attr="{'readonly':[('closed','=',True)]}", copy=True, auto_join=True)
     
     sale_amount_total = fields.Float(compute='_compute_sale_data', string="Sum of Orders", help="Untaxed Total of Confirmed Orders", )
     quotation_count = fields.Integer(compute='_compute_sale_data', string="Number of Quotations")
