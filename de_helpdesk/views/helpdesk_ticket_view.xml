@@ -1,21 +1,43 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <record id="action_helpdesk_ticket_dashboard_unassigned" model="ir.actions.act_window">
-        <field name="name">Helpdesk Ticket</field>
+    <record id="action_helpdesk_ticket_dashboard_todo" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_mode">kanban,tree,form</field>
-      <!--<field name="context">{'default_helpdesk_ticket_team_id': active_id}</field>-->
+      <field name="context">{'search_default_team_id': active_id, 'default_team_id': active_id}</field>
+    <field name="domain">[('team_id', '=', active_id),('closed', '=', False)]</field>
+  </record>
+    
+    <record id="action_helpdesk_ticket_dashboard_unassigned" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">kanban,tree,form</field>
       <field name="context">{'search_default_team_id': active_id, 'default_team_id': active_id}</field>
     <field name="domain">[('team_id', '=', active_id),('user_id', '=', False),('closed', '=', False)]</field>
   </record>
+
+    <record id="action_helpdesk_ticket_dashboard_unattended" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">kanban,tree,form</field>
+      <field name="context">{'search_default_team_id': active_id, 'default_team_id': active_id}</field>
+    <field name="domain">[('team_id', '=', active_id),('unattended', '=', True)]</field>
+  </record>
+
+    <record id="action_helpdesk_ticket_dashboard_high_priority" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">kanban,tree,form</field>
+      <field name="context">{'search_default_team_id': active_id, 'default_team_id': active_id}</field>
+    <field name="domain">[('team_id', '=', active_id),('priority', '=', 2)]</field>
+  </record>
     
-  <record id="action_helpdesk_ticket_kanban_from_dashboard" model="ir.actions.act_window">
+  <record id="action_helpdesk_ticket_kanban_dashboard" model="ir.actions.act_window">
       <field name="name">Helpdesk Ticket</field>
       <field name="res_model">helpdesk.ticket</field>
       <field name="view_mode">kanban,tree,form</field>
-      <!--<field name="context">{'default_helpdesk_ticket_team_id': active_id}</field>-->
       <field name="context">{'search_default_team_id': active_id, 'default_team_id': active_id}</field>
-          <field name="domain">[('team_id', '=', active_id),('user_id', '=', False),('closed', '=', False)]</field>
+          <field name="domain">[('team_id', '=', active_id)]</field>
   </record>
 
   <record id="helpdesk_ticket_view_search" model="ir.ui.view">

@@ -10,9 +10,9 @@
          <field name="color"/>
          <field name="todo_ticket_ids"/>
          <field name="todo_ticket_count"/>
-         <field name="todo_ticket_count_unassigned"/>
-         <field name="todo_ticket_count_unattended"/>
-         <field name="todo_ticket_count_high_priority"/>
+         <field name="unassigned_tickets"/>
+         <field name="unattended_tickets"/>
+         <field name="high_priority_tickets"/>
          <templates>
            <t t-name="kanban-box">
                <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}">
@@ -20,7 +20,7 @@
                     <div t-attf-class="o_kanban_card_header">
                         <div class="o_kanban_card_header_title">
                             <div class="o_primary">
-                                <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action">
+                                <a name="%(action_helpdesk_ticket_kanban_dashboard)d" type="action">
                                     <field name="name"/>
                                 </a>
                             </div>
@@ -32,26 +32,20 @@
                    <div class="container o_kanban_card_content">
                        <div class="row">
                          <div class="col-6 o_kanban_primary_left" style="padding-top:20px;">
-                             <button class="btn btn-primary"  name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_open': 1}">
-                                 <t t-esc="record.todo_ticket_count.value"/> To Do
+                             <button class="btn btn-primary"  name="%(action_helpdesk_ticket_dashboard_todo)d" type="action" context="{'search_default_open': 1}">
+                                 <t t-esc="record.todo_ticket_count.raw_value"/> To Do
                              </button>
                          </div>
                          <div class="col-6 o_kanban_primary_right">
                              <div class="row">
                                  <div class="mb4">
-                                    <a name="%(action_helpdesk_ticket_dashboard_unassigned)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.todo_ticket_count_unassigned.raw_value"/> Unassigned Tickets</a>
+                                    <a name="%(action_helpdesk_ticket_dashboard_unassigned)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.unassigned_tickets.raw_value"/> Unassigned Tickets</a>
                                  </div>
                                  <div class="mb4">
-                                     <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_unattended': 1, 'search_default_open': 1}">
-                                         Unattended
-                                     </a>
-                                     <t t-esc="record.todo_ticket_count_unattended.value"/>
+                                     <a name="%(action_helpdesk_ticket_dashboard_unattended)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.unattended_tickets.raw_value"/> Unattended Tickets</a> 
                                  </div>
                                  <div class="mb4">
-                                   <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action" context="{'search_default_high_priority': 1, 'search_default_open': 1}">
-                                     High Priority
-                                   </a>
-                                     <t t-esc="record.todo_ticket_count_high_priority.value"/>
+                                   <a name="%(action_helpdesk_ticket_dashboard_high_priority)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.high_priority_tickets.raw_value"/> High Priority</a> 
                                  </div>
                                  
                              </div>
@@ -64,7 +58,7 @@
                                <span>View</span>
                            </div>
                            <div>
-                               <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action">
+                               <a name="%(action_helpdesk_ticket_kanban_dashboard)d" type="action">
                                    All
                                </a>
                            </div>
