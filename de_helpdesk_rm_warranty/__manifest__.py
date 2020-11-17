@@ -25,8 +25,9 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/helpdesk_ticket_views.xml',
-        'views/templates.xml',
+        
+        'views/sale_warranty_views.xml',
+        'views/project_task_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

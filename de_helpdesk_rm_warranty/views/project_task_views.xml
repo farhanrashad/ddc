@@ -9,19 +9,19 @@
     </record>
     
     
-    <record id="view_helpdesk_ticket_form_inherit" model="ir.ui.view">
-        <field name="name">view.helpdesk.ticket.form.inherit</field>
-        <field name="model">helpdesk.ticket</field>
-        <field name="inherit_id" ref="de_helpdesk_repair_mgmt.view_helpdesk_ticket_form_inherit"/>
+    <record id="view_project_task_form_inherit" model="ir.ui.view">
+        <field name="name">view.project.task.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="de_helpdesk_repair_mgmt.view_project_task_form_inherit"/>
         <field name="arch" type="xml">
             <xpath expr="//button[1]" position="after">
                 <button name="%(action_warranty_form)d" type="action" class="oe_highlight"
                     groups="de_helpdesk.group_helpdesk_user"
-                    string="Create Warranty" context="{'default_partner_id': partner_id, 'default_ticket_id': id, 'default_project_id':project_id, 'default_company_id': company_id,'default_is_diagnosys':True}" attrs="{'invisible': [('closed', '=', True)]}"/>
+                    string="Create Warranty" context="{'default_partner_id': partner_id, 'default_ticket_id': ticket_id, 'default_project_id':project_id, 'default_task_id':id, 'default_company_id': company_id,'default_is_diagnosys':True}" attrs="{'invisible': [('is_workorder', '=', False)]}"/>
 
             </xpath>
             
-            <xpath expr="//button[@name='action_view_workorder']" position="after">
+            <xpath expr="//header" position="inside">
                 <button class="oe_stat_button" name="action_view_warranty" icon="fa-pencil-square-o" type="object" attrs="{'invisible': [('warranty_count', '=', 0)]}">
                             <field name="warranty_count" string="Warranty" widget="statinfo"/>
                 </button>

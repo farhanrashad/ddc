@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_warranty_task_form_inherit" model="ir.ui.view">
+        <field name="name">view.sale.warranty.form.inherit</field>
+        <field name="model">sale.warranty</field>
+        <field name="inherit_id" ref="de_sale_warranty.view_sales_warranty_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet[1]/group[1]/group[1]" position="inside">
+                <field name="task_id" invisible="1"/>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    
+</odoo>
