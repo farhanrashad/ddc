@@ -21,11 +21,11 @@ class ProductTemplate(models.Model):
     is_warranty = fields.Boolean('Allow Warranty')
     
     warranty_policy = fields.Selection([
-        ('order', 'Ordered Warranty'),
-        ('delivery', 'Delivered Warranty')], string='Warranty Policy',
+        ('order', 'On Ordered'),
+        ('delivery', 'On Delivered')], string='Warranty Policy',
         help='Ordered Warranty: Warranty starts on order confrimation.\n'
              'Delivered Warranty: Warranty starts on delivered quantity.',
-        default='order', domain="[('type', '=', 'product')" )
+        default='order', )
     
     warranty_period = fields.Selection([
         ('d', 'Day(s)'),
@@ -37,3 +37,9 @@ class ProductTemplate(models.Model):
         default='d')
     
     warranty_period_interval = fields.Integer('Internval', default=_default_period_interval)
+
+    @api.onchange('warranty_policy','type')
+    def _warranty_policy_onchange(self):
+        for line in self:
+            if line.type == 'service':
+                line.warranty_policy = 'order'

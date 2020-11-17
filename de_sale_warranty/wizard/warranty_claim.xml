@@ -1,7 +1,7 @@
 <odoo>
     <record id="view_sale_warranty_wizard" model="ir.ui.view">
             <field name="name">view.sale_warranty_wizard</field>
-            <field name="model">sales.warranty.claim</field>
+            <field name="model">sale.warranty.claim</field>
             <field name="arch" type="xml">
              <form string="Warranty Claim" version="12.0">
                 
@@ -17,16 +17,16 @@
     <record id="action_warranty_claim" model="ir.actions.act_window">
             <field name="name">Warranty Claim</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">sales.warranty.claim</field>
+            <field name="res_model">sale.warranty.claim</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
-            <field name="binding_model_id" ref="de_sale_warranty.model_sales_warranty" />
+            <field name="binding_model_id" ref="de_sale_warranty.model_sale_warranty" />
         </record>
         
          <!-- inherit Warranty view to add reconcile button, called be action type -->
         <record id="sale_warranty_form_view_inherit" model="ir.ui.view">
             <field name="name">sale.warranty.form.view.inherit</field>
-            <field name="model">sales.warranty</field>
+            <field name="model">sale.warranty</field>
             <field name="inherit_id" ref="de_sale_warranty.view_sales_warranty_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='start_warranty']" position="after">

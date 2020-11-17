@@ -9,5 +9,5 @@ from odoo.addons import decimal_precision as dp
 
 
 class WarrantyClaim(models.TransientModel):
-    _name = 'sales.warranty.claim'
+    _name = 'sale.warranty.claim'
     _description = 'Warranty Claim'

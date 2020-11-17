@@ -9,7 +9,7 @@
             <xpath expr="//group[@name='sale']" position="inside">
                 <group string="Warranty">
                     <field name="is_warranty" />
-                    <field name="warranty_policy" widget="radio" attrs="{'invisible': ['|', ('is_warranty', '==', False),('type', '!=', 'product')], 'required': [('is_warranty','==', True)]}"/>
+                    <field name="warranty_policy" widget="radio" attrs="{'invisible': [('is_warranty', '==', False)], 'required': [('is_warranty','==', True)]}"/>
                     <label for="warranty_period_interval" attrs="{'invisible': [('is_warranty', '==', False)]}"/>
                     <div class="content-group">
                             <field name="warranty_period_interval" attrs="{'invisible': [('is_warranty', '==', False)], 'required': [('is_warranty','==', True)]}"/>

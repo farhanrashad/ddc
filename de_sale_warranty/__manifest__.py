@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale','sales_team'],
+    'depends': ['base','product','sale','sales_team','stock'],
 
     # always loaded
     'data': [
@@ -31,7 +31,9 @@
         'views/product_views.xml',
         'views/warranty_card_report.xml',
         'views/sales_warranty_templates.xml',
-        'wizard/warranty_claim.xml'
+        'views/sale_order_views.xml',
+        'views/stock_picking_views.xml',
+        'wizard/warranty_claim.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
