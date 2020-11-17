@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_helpdesk_ticket_form_inherit" model="ir.ui.view">
+        <field name="name">view.helpdesk.ticket.form.inherit</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="de_helpdesk_repair_mgmt.view_helpdesk_ticket_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_workorder']" position="after">
+                <button class="oe_stat_button" name="action_view_warranty" icon="fa-pencil-square-o" type="object" attrs="{'invisible': [('warranty_count', '=', 0)]}">
+                            <field name="warranty_count" string="Warranty" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
