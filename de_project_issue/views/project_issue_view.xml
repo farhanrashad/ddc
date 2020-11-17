@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_issue_type_form" model="ir.ui.view">
+		<field name="name">issue.type.form</field>
+		<field name="model">project.issue.type</field>
+		<field name="arch" type="xml">
+			<form string="Issue Type">
+				<header>
+				</header>
+				<sheet >
+                    <group> <field name="name"/> </group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_all_issues_view"
+		model="ir.actions.act_window">
+		<field name="name">All Issue</field>
+		<field name="res_model">project.task</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('is_issue','=',True)]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="project.view_task_search_form" />
+		<field name="view_id" ref="project.view_task_tree2" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Project Issue
+			</p>
+		</field>
+	</record>
+
+	<record id="project_task_form" model="ir.ui.view">
+            <field name="name">project.task.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+				<button name="action_subtask" position="after">
+					<button name="issue" type="" class="oe_stat_button" icon="fa-bug" help="show the contract for this vehicle" attrs="{'invisible' : [('is_issue', '=', True)]}">
+					  <field name="issue_type_count" widget="statinfo" string="Issues"/>
+					</button>
+				</button>
+
+				<xpath expr="//notebook/page[@name='description_page']" position="after">
+                        <page name="environment_page" string="Environment">
+                               <field name="environment"/>
+                        </page>
+
+						<page name="issues_page" string="Issues" attrs="{'invisible' : [('is_issue', '=', True)]}">
+                               <field name="issue_lines" />
+                        </page>
+                </xpath>
+
+				<xpath expr="//header/button[@name='action_assign_to_me']" position="after">
+                        <button name="%(de_project_issue.action_issue_type_wizard_view)d" type="action" string="Create Issue" class="oe_highlight" attrs="{'invisible' : [('is_issue', '=', True)]}"/>
+                </xpath>
+
+				<xpath expr="//group/field[@name='user_id']" position="after">
+                        <field name="issue_type"/>
+                </xpath>
+
+				<xpath expr="//group/field[@name='user_id']" position="after">
+                        <field name="task_id"/>
+                </xpath>
+
+				<xpath expr="//group/field[@name='tag_ids']" position="after">
+                        <field name="is_issue"/>
+                </xpath>
+            </field>
+    </record>
+
+	<record id="project_project_kanban" model="ir.ui.view">
+            <field name="name">project.project.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//a[@class='o_project_kanban_box']" position="after">
+					 <a class="o_project_kanban_box" name="%(project.act_project_project_2_project_task_all)d" type="action">
+							<div style="font-weight:bold;">
+								<field name="issue_type_count"/>
+								<span class="o_label">Issues</span>
+							</div>
+					 </a>
+                </xpath>
+
+            </field>
+    </record>
+
+	<record id="project_task_kanban" model="ir.ui.view">
+            <field name="name">project.project.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@class='o_kanban_record_bottom']" position="after">
+					 <div>
+						 <a class="o_project_kanban_box" name="%(project.act_project_project_2_project_task_all)d" type="action">
+							<div style="font-weight:bold;">
+								<field name="issue_type_count"/>
+								<span class="o_label">Issues</span>
+							</div>
+					 	</a>
+					 </div>
+                </xpath>
+
+            </field>
+    </record>
+
+
+	<record id="project_project_form" model="ir.ui.view">
+            <field name="name">project.project.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+
+				<xpath expr="//header/button[@class='oe_highlight oe_read_only']" position="after">
+                        <button name="%(de_project_issue.action_issue_type_wizard_view)d" type="action" string="Create Issue" class="oe_highlight" attrs="{'invisible' : [('is_issue', '=', True)]}"/>
+                </xpath>
+
+				<xpath expr="//div/button[@class='oe_stat_button']" position="after">
+					<button name="%(de_project_issue.action_all_issues_view)d" type="action" class="oe_stat_button" icon="fa-bug" help="show the contract for this vehicle" >
+					  <field name="issue_type_count" widget="statinfo" string="Issues"/>
+					</button>
+				</xpath>
+
+				 <xpath expr="//group/field[@name='privacy_visibility']" position="after">
+                        <field name="is_issue"/>
+                </xpath>
+
+            </field>
+    </record>
+
+	<record id="view_issue_type_tree" model="ir.ui.view">
+		<field name="name">issue.type.tree</field>
+		<field name="model">project.issue.type</field>
+		<field name="arch" type="xml">
+			<tree string="Project Issue Type Tree">
+				<field name="name"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_issue_type_search" model="ir.ui.view">
+		<field name="name">issue.type.search</field>
+		<field name="model">project.issue.type</field>
+		<field name="arch" type="xml">
+			<search string="Project Issue Type search">
+				<field name="name" />
+			</search>
+		</field>
+	</record>
+
+	<record id="action_issue_type_view"
+		model="ir.actions.act_window">
+		<field name="name">Issue Type</field>
+		<field name="res_model">project.issue.type</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_issue_type_search" />
+		<field name="view_id" ref="view_issue_type_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Project Issue Type
+			</p>
+		</field>
+	</record>
+
+
+	<menuitem action="de_project_issue.action_all_issues_view"  id="menu_project_all_issues" name="All Issues" parent="project.menu_main_pm" groups="project.group_project_manager" sequence="3"/>
+    <menuitem action="de_project_issue.action_issue_type_view" id="menu_project_issue_type_new" name="Issue Type" parent="project.menu_project_config" groups="base.group_no_one" sequence="100"/>
+
+
+</odoo>

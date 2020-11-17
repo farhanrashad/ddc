@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_issue_type_wizard" model="ir.ui.view">
+            <field name="name">issue.type.wizard</field>
+            <field name="model">wizard.issue.type</field>
+            <field name="arch" type="xml">
+                <form string="Create Issue">
+                        <h1>Create Issue Type</h1>
+                        <group col="4">
+                            <field name="issue_title" string="Issue Title" required="True"/>
+                            <field name="assign_to" string="Assigned To" required="True"/>
+                            <field name="company_id" string="Company" required="True"/>
+                            <field name="project_id" string="Project" required="True"/>
+                            <field name="customer_id" string="Customer"/>
+                            <field name="task_id" string="Task"/>
+                            <field name="issue_type_id" string="Issue Type" required="True"/>
+                        </group>
+                        <notebook>
+                                <page string="Description">
+                                    <field name="desc"/>
+                                </page>
+                                <page string="Environment">
+                                    <field name="environment"/>
+                                </page>
+                        </notebook>
+                        <footer>
+                            <button name="action_create_issue" string="Create" type="object" class="btn-primary"/>
+                            <button  string="Cancel" type="object" class="btn-secondary" special="cancel"/>
+                        </footer>
+                </form>
+            </field>
+    </record>
+
+    <record id="action_issue_type_wizard_view" model="ir.actions.act_window">
+            <field name="name">Create Issue</field>
+            <field name="res_model">wizard.issue.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_issue_type_wizard" />
+            <field name="target">new</field>
+    </record>
+</odoo>

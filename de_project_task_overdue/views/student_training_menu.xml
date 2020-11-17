@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+		
+		<menuitem id="student_root_menu" name="Student"
+            active="True"
+            sequence="13"/>
+
+
+		<menuitem id="student_data_menu" name="Student Form" parent="student_root_menu"
+			action="de_training_batch.action_student_data_view"
+			sequence="1" />
+			
+			
+	</data>
+</odoo>
+

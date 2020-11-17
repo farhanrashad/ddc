@@ -1,0 +1,31 @@
+<odoo>
+    <record id="project_task_new" model="ir.ui.view">
+            <field name="name">project.task.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <button name="action_subtask" position="after">
+                    <button name="open" type="" class="oe_stat_button" icon="fa-bars" help="show the contract for this vehicle" attrs="{'invisible' : [('is_revision', '=', True)]}">
+                      <field name="revision_req_count" widget="statinfo" string="Revisions"/>
+                    </button>
+                </button>
+
+                <xpath expr="//notebook/page[@name='description_page']" position="after">
+                        <page name="revision" string="Revision">
+                                <field name="revision_lines" />
+                        </page>
+                </xpath>
+
+                <xpath expr="//group/field[@name='tag_ids']" position="after">
+                        <field name="is_revision"/>
+                </xpath>
+
+                <xpath expr="//header/button[@name='action_assign_to_me']" position="after">
+                        <button name="revision_action" type="object" string="Revision" class="oe_highlight" attrs="{'invisible' : [('is_revision', '=', True)]}"/>
+                </xpath>
+
+            </field>
+    </record>
+
+</odoo>
