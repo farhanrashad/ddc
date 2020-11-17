@@ -1,0 +1,169 @@
+<odoo>
+  <data>      
+    <record model="ir.ui.view" id="project_phases_tree_view">
+            <field name="name">project.phases.tree</field>
+            <field name="model">project.phases</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="user_id"/>           
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+      
+      
+      <record id="view_project_phases_kanban" model="ir.ui.view">
+            <field name="name">project.phases.kanban</field>
+            <field name="model">project.phases</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="start_date"/>
+                    <field name="user_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row mb4">
+                                    <div class="col-6 o_kanban_record_headings">
+                                        <strong><span><field name="name"/></span></strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <strong><i class="fa fa-clock-o" aria-label="Date" role="img" title="Date"/> <t t-esc="record.start_date.value"/></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span><field name="project_id"/></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span><field name="user_id"/></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right">
+<!--                                             <field name="user_id" widget="label_selection" options="{'classes': {'draft': 'default', 'close': 'success'}}"/> -->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+      
+      <record id="project_phases_search" model="ir.ui.view">
+            <field name="name">project.phases.search</field>
+            <field name="model">project.phases</field>
+            <field name="arch" type="xml">
+                <search string="Search Disciplinary Case">
+                    <field name="name" filter_domain="['|', '|', ('date', 'ilike', self), ('name', 'ilike', self), ('project_id', 'ilike', self)]" string="Reference"/>
+                    <field name="start_date" string='Date'/>
+                    <field name="project_id" string='Project'/>
+                    <group expand="0" string="Group By">
+                        <filter name="project_id" string="Employee" domain="[]" context="{'group_by' : 'project_id'}" />
+                        <filter string="User" name="user_id" domain="[]" context="{'group_by' : 'user_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+      
+      <record model="ir.ui.view" id="project_phases_calendar">
+            <field name="name">project.phases.calendar</field>
+            <field name="model">project.phases</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="start_date" color="project_id" hide_time="true" event_limit="5">
+                    <field name="name"/>
+                    <field name="sequence"/>
+                    <field name="start_date"/>
+                    <field name="project_id"/>
+                </calendar>
+            </field>
+        </record>
+      
+      
+      <record model="ir.ui.view" id="project_phases_form">
+            <field name="name">project.phases.form</field>
+            <field name="model">project.phases</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+<!--                         <button name="action_waiting_case" states="draft" string="Process" type="object"/>
+                        <button name="action_case_send" states="wait-resp" string="Send by Email" type="object"/>
+                        <button name="action_close_case" states="wait-resp" string="Close Case" type="object"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,wait-resp,close"/> -->
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                
+                            <button name="task_action" type="object" string="Tasks" class="oe_stat_button"
+                                    icon="fa-tasks">
+<!--                                 <field name="notes_ad" string="Notes" widget="statinfo"/> -->
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" />
+                               <field name="start_date" />
+                               <field name="user_id" />
+                       
+                            </group>
+                            <group>
+                                <field name="sequence" />
+                                <field name="end_date"/>
+                                <field name="company_id" />
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Reason">
+                                <group>
+                                    <field name="note"/>
+                                </group>
+                            </page>
+<!--                             <page string="Attachments">
+                                <field name="attachment_ids" widget="many2many_binary" class="oe_inline" attrs="{'readonly': ['|',('state','=','wait-resp'),('state','=','close')]}"/>
+                            </page> -->
+                            
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+      
+       <record id="project_phases_menu_action" model="ir.actions.act_window">
+        <field name="name">Project Phases</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.phases</field>
+        <field name="view_mode">kanban,tree,calendar,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a New Project Phase
+            </p>
+        </field>
+    </record>
+      
+      
+      
+    <menuitem name="Project Phases" id="project_phase_main_menu" parent="project.menu_main_pm" action="project_phases_menu_action" sequence="4"/>
+<!--     <menuitem name="Case types" id="desciplinary_sub_menu" parent="desciplinary_main_menu" action="disciplinary_case_type_menu_action" sequence="2"/> -->
+  </data>
+</odoo>

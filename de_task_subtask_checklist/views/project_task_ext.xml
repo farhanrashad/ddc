@@ -11,7 +11,7 @@
                 <header>
                     <button name="approve_button" type="object" icon="fa-check" style="foreground-color:green;" string="Approve" class="oe_highlight"/>
                     <button name="mark_complete_button" type="object" icon="fa-check-square" style="foreground-color:green;" string="Mark Completed" class="oe_highlight"/>
-                    <button name="mark_cancel_button" type="object" icon="fa-ban" string="Mark Cancelled" class="oe_highlight"/>
+                    <button name="mark_cancel_button" type="object" icon="fa-remove" string="Mark Cancelled" class="oe_highlight"/>
                     <field name="stage_id" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -77,7 +77,7 @@
                             <field name="approve_user_id"/>
                             <button name="approve_button" type="object" icon="fa-check" style="foreground-color:green;"/>
                             <button name="mark_complete_button" type="object" icon="fa-check-square" style="foreground-color:green;"/>
-                            <button name="mark_cancel_button" type="object" icon="fa-ban"/>
+                            <button name="mark_cancel_button" type="object" icon="fa-remove"/>
 <!--                            <field name="stage_id"/>-->
                             <field name="name_stage"/>
                         </tree>
