@@ -638,6 +638,7 @@ odoo.define('pos_reserve_order_app.pos_reserve_order', function(require) {
 			var pay_amount =  $('#pay_amount').val();
 			var cash_jrnl_id = false;
 			var session_id = self.pos.get_order().pos_session_id;
+			console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",self.pos.get_order())
 			if(pay_amount)
 			{
 				for (var i = 0; i < self.pos.payment_methods[0].length; i++) {
