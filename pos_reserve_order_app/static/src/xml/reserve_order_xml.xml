@@ -4,7 +4,7 @@
 	<t t-extend="ClientListScreenWidget">
 		<t t-jquery=".button.next" t-operation="after">
 			<t t-if="widget.pos.config.enable_reservation">
-				<span class='button view-orders' id="view_orders" style="background-color: #6EC89B; color: #fff; right: 0px; margin-right:165px;">
+				<span class='button view-orders' id="view_orders" style="background-color: #7f82ac; color: #fff; right: 0px; margin-right:165px;">
 					View Orders
 					<i class='fa fa-angle-double-right'></i>
 				</span>
@@ -31,16 +31,16 @@
 
 	<t t-name="SeeReservedOrdersButtonWidget" name="See Reserved Orders Button Widget">
 		<t t-if="widget.pos.config.enable_reservation">
-			<div class="control-button button confirm" id="reserve_order_button" style="background-color: #6EC89B; color: #fff;font-size: 14px;">
-				<i class="fa fa-calendar-o"></i>Reserved Orders
+			<div class="control-button button confirm" id="reserve_order_button" style="background-color: #7f82ac; color: #fff;font-size: 14px;">
+				<i class="fa fa-shopping-cart"></i>Reserved Orders
 			</div>
 		</t>
 	</t>
 
 	<t t-name="ReservedLinesButtonWidget" name="See Reserved Lines Button Widget">
 		<t t-if="widget.pos.config.enable_reservation">
-			<div class="control-button button confirm" id="reserve_line_button" style="background-color: #6EC89B; color: #fff;font-size: 14px;">
-				<i class="fa fa-list-alt"></i>Reserved Products
+			<div class="control-button button confirm" id="reserve_line_button" style="background-color: #7f82ac; color: #fff;font-size: 14px;">
+				<i class="fa fa-list"></i>Reserved Products
 			</div>
 		</t>
 	</t>
@@ -135,11 +135,11 @@
 								<div class="subwindow-container-fix touch-scrollable scrollable-y">
 									<table class='client-list'>
 										<thead>
-											<tr style="background-color: #6EC89B; font-size:12px; color: #fff;">
+											<tr style="background-color: #7f82ac; color: #fff;">
 												<th>Order Ref</th>
-                                                <th>Order Date</th>
-												<th>Receipt Number</th>
+												<th>Receipt Ref</th>
 												<th>Customer</th>
+												<th>Order Date</th>
 												<th>State</th>
 												<th>Total</th>
 												<th>Amount Due</th>
@@ -164,11 +164,11 @@
 
 	<!-- OrdersLine -->
 	<t t-name="OrdersLine">
-		<tr style="font-size:12px;">
+		<tr>
 			<td class='orders-line-name' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='order.name' /></td>
-            			<td class='orders-line-date' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='current_date' /></td>
 			<td class='orders-line-ref' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='order.pos_reference' /></td>
 			<td class='orders-line-partner' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='order.partner_id[1] or ""' /></td>
+			<td class='orders-line-date' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='current_date' /></td>
 			<td class='orders-line-state' t-att-data-id='order.id' style="cursor: pointer;">
 				<t t-if="order.state == 'draft'">Draft/New</t>
 				<t t-if="order.state == 'invoiced'">Invoiced</t>
@@ -181,13 +181,13 @@
 			<td class='orders-line-amount_due' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='widget.format_currency(order.amount_due)' /></td>
 			<td class='orders-line-amount_paid' t-att-data-id='order.id' style="cursor: pointer;"><t t-esc='widget.format_currency(order.amount_paid)' /></td>
 			<td>
-				<button class="pay-order" t-att-id='order.id' style="cursor: pointer; color: #fff; background-color: #6EC89B;font-size: 15px;"><i class="fa fa-money"></i></button>
+				<button class="pay-order" t-att-id='order.id' style="cursor: pointer; color: #fff; background-color: #7F82AC;font-size: 20px;"><i class="fa fa-money"></i></button>
 			</td>
 			<td>
-				<button class="cancel-order" t-att-id='order.id' style="cursor: pointer; color: #fff; background-color: #6EC89B;font-size: 15px;"><i class="fa fa-times"></i></button>
+				<button class="cancel-order" t-att-id='order.id' style="cursor: pointer; color: #fff; background-color: #7F82AC;font-size: 20px;"><i class="fa fa-times"></i></button>
 			</td>
 			<td>
-				<button class="change-date" t-att-id='order.id' style="cursor: pointer; color: #fff; background-color: #6EC89B;font-size: 15px;margin-left: 15px;"><i class="fa fa-calendar"></i></button>
+				<button class="change-date" t-att-id='order.id' style="cursor: pointer; color: #fff; background-color: #7F82AC;font-size: 20px;margin-left: 20px;"><i class="fa fa-calendar"></i></button>
 			</td>
 		</tr>
 	</t>
@@ -195,7 +195,7 @@
 	<t t-name="ReservedOrderDetailsPopupWidget">
 		<div class="modal-dialog">
 			<div class="popup popup-confirm" style="height: 450px; width:700px">
-				<p class="title" style="background-color: #6EC89B; color: #fff;height: 10px;">Order Details</p>
+				<p class="title" style="background-color: #7f82ac; color: #fff;height: 10px;">Order Details</p>
 				<div class="body" style="height: 300px;">
 					<t t-foreach="widget.options.order || []" t-as="item" t-att-id="item.id">
 						<table style='width:100%'>
@@ -287,7 +287,7 @@
 					
 				</div>
 
-				<div class="footer" style="background-color: #6EC89B; color: #fff;">
+				<div class="footer" style="background-color: #7f82ac; color: #fff;">
 
 					<div class="button cancel" style="background-color: #E0E0E0; color: black;">
 						Cancel
@@ -419,7 +419,7 @@
 								<div class="subwindow-container-fix touch-scrollable scrollable-y">
 									<table class='client-list'>
 										<thead>
-											<tr style="background-color: #6EC89B; color: #fff;">
+											<tr style="background-color: #7f82ac; color: #fff;">
 												<th>Product</th>
 												<th>Quantity</th>>
 												<th>Order</th>
