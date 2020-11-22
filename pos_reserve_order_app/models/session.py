@@ -7,65 +7,18 @@ from odoo.tools import float_is_zero, float_compare, DEFAULT_SERVER_DATETIME_FOR
 from odoo.http import request
 from collections import defaultdict
 
+
 class PosSessionInherit(models.Model):
 	_inherit = 'pos.session'
 
-	payment_ids = fields.Many2one('pos.payment')
+	@api.model
+	def create(self, vals):
+		res = super(PosSessionInherit, self).create(vals)
+		orders = self.env['pos.order'].search([
+			('state', '=', 'reserved'), ('user_id', '=', request.env.uid)])
+		orders.write({'session_id': res.id})
 
-	# @api.model
-	# def create(self, vals):
-	# 	res = super(PosSessionInherit, self).create(vals)
-	# 	orders = self.env['pos.order'].search([
-	# 		('state', '=', 'reserved'), ('user_id', '=', request.env.uid)])
-	# 	orders.write({'session_id': res.id})
-	# 	return res
-
-	@api.depends('order_ids.payment_ids.amount')
-	def _compute_total_payments_amount(self):
-		pos_order = self.env['pos.payment'].search([])
-		for session in self:
-			payment_ids = self.env['pos.payment'].search([('session_id','=', session.id)])
-			session.total_payments_amount = sum([line.amount for line in payment_ids])
-
-	# def action_view_order(self):
-	# 	pos_order = self.env['pos.order'].search([])
-	# 	for order in pos_order:
-	# 		if order.secondary_session == self:
-	# 			return{
-	# 				'name': _('Orders'),
-	# 				'res_model': 'pos.order',
-	# 				'view_mode': 'tree,form',
-	# 				'views': [
-	# 					(self.env.ref('point_of_sale.view_pos_order_tree_no_session_id').id, 'tree'),
-	# 					(self.env.ref('point_of_sale.view_pos_pos_form').id, 'form'),
-	# 					],
-	# 				'type': 'ir.actions.act_window',
-	# 				'domain': [('secondary_session', 'in', self.ids)],
-	# 			}
-	# 		else:
-	# 			return{
-	# 				'name': _('Orders'),
-	# 				'res_model': 'pos.order',
-	# 				'view_mode': 'tree,form',
-	# 				'views': [
-	# 					(self.env.ref('point_of_sale.view_pos_order_tree_no_session_id').id, 'tree'),
-	# 					(self.env.ref('point_of_sale.view_pos_pos_form').id, 'form'),
-	# 					],
-	# 				'type': 'ir.actions.act_window',
-	# 				'domain': [('session_id', 'in', self.ids)],
-	# 			}
-				
-	def _compute_order_count(self):
-		orders_data = self.env['pos.order'].read_group([('session_id', 'in', self.ids)], ['session_id'], ['session_id'])
-		sessions_data = {order_data['session_id'][0]: order_data['session_id_count'] for order_data in orders_data}
-
-		secondary_data = self.env['pos.order'].read_group([('secondary_session', 'in', self.ids)], ['secondary_session'], ['secondary_session'])
-		secondary_sessions_data = {order_data['secondary_session'][0]: order_data['secondary_session_count'] for order_data in secondary_data}
-		for session in self:
-			if secondary_data:
-				session.order_count = secondary_sessions_data.get(session.id)
-			else:
-				session.order_count = sessions_data.get(session.id, 0)
+		return res
 
 	def _accumulate_amounts(self, data):
 		# Accumulate the amounts for each accounting lines group
