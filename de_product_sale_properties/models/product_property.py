@@ -26,7 +26,7 @@ class product_property_line(models.Model):
     
     product_property=fields.Many2one("product.properties",string="Product Property Order") 
     name = fields.Char(string="Short Value",required=True)
-    description = fields.Char(string="Long Value",required=True)
+    description = fields.Char(string="Long Value",required=False)
     
 
     
