@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceipt">
+
+        <div class="pos-receipt" style="column-gap:10px; font-family:Inconsolata; font-size: 15px;">
+            <div class="pos-logo" style="margin-top: 1px;" align="center">
+                <t t-if='receipt.company.logo'>
+                    <img class="pos-receipt-logo" t-att-src='receipt.company.logo' alt="Logo"/>
+                    <br/>
+                </t>
+            </div>
+            <br/>
+            <br/>
+<!--            <div class="pos-center-align">-->
+<!--                <h2>-->
+<!--                    <b>-->
+<!--                        WAREHOUSE-->
+<!--                    </b>-->
+<!--                </h2>-->
+<!--            </div>-->
+            <div class="pos-center-align">
+<!--                <t t-esc="customer_name"/>-->
+                <t t-if="widget.pos.config.receipt_header">
+                    <div style="width:100%;"><t t-esc="widget.pos.config.receipt_header"/></div>
+                </t>
+<!--                <t t-if="widget.pos.company.street2">-->
+<!--                    <t t-esc="widget.pos.company.street2"/>-->
+<!--                </t>-->
+<!--                <t t-if="widget.pos.company.city">-->
+<!--                    <t t-esc="widget.pos.company.city"/>-->
+<!--                </t>-->
+<!--                <t t-if="widget.pos.company.country_id">-->
+<!--                    <t t-esc="widget.pos.company.country_id"/>-->
+<!--                </t>-->
+            </div>
+            <br/>
+            <div class="pos-center-align">
+                <b>
+                    STN #
+                    <t t-esc="3277876113020"/>
+                    <br/>
+                    NTN #
+                    <t t-esc="4442615"/>
+                    <br/>
+                </b>
+            </div>
+            <div class="centered">
+                <center>
+                    <b>
+                        <p style="border-style: solid;">Sale Receipt</p>
+                    </b>
+                </center>
+            </div>
+            <table class='receipt-total'>
+                <tr>
+                    <td>
+                        <strong>Invoice #</strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-if="order.get_invoice_number()">
+                            <t t-esc="order.get_invoice_number()"/>
+                        </t>
+                        <t t-else="">-</t>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Operator Name #</strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Inv Date #</strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="order.formatted_validation_date"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Client Name #</strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="order.get_client() and order.get_client().name"/>
+                    </td>
+                </tr>
+                <br/>
+                <br/>
+                <tr>
+                    <td>
+                        <strong>Counter #</strong>
+                    </td>
+                    <td class="pos-right-align" style="float:right; margin-right: 2px;">
+                        <t t-esc="widget.pos.config.name"/>
+                    </td>
+                </tr>
+                <br/>
+                <tr>
+                    <td>
+                        <strong>cashier #</strong>
+                    </td>
+                    <td class="pos-right-align" style="float:right; margin-right: 2px;">
+                        <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <table class='class="table table-bordered"'>
+                <colgroup>
+                    <col width='70%'/>
+                    <col width='30%'/>
+                    <col width='40%'/>
+                    <col width='40%'/>
+                    <col width='20%'/>
+                </colgroup>
+                <tr style="outline: thin solid">
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th width='40%'>Qty</th>
+<!--                    <th class="pos-right-align">Tax</th>-->
+                    <th>Disc</th>
+                    <th class="pos-right-align">Amount</th>
+                </tr>
+                <t t-set="totl_qty" t-value="0"/>
+                <t t-set="total_items" t-value="0"/>
+                <tr t-foreach="orderlines" t-as="orderline">
+                    <td>
+                        <t t-esc="orderline.get_product().display_name"/>
+                    </td>
+<!--                    <td>-->
+<!--                        <b>-->
+<!--                             <t t-esc="orderline.get_product().display_name"/>-->
+<!--                        </b>-->
+<!--                         <t t-foreach="orderline.wk_question_ids" t-as="question_id">-->
+<!--                             <ul>-->
+<!--                                 <li class="wk_question" style="font-size: 10px; background: silver; border-radius: 14px;margin: 1px;width: fit-content;">-->
+<!--                                     <t t-esc="widget.pos.db.question_by_id[question_id].name" style="background:grey;" />-->
+<!--                                 </li>-->
+<!--                             </ul>-->
+<!--                        </t>-->
+<!--                    </td>-->
+                    <td>
+                        <t t-esc="widget.format_currency(orderline.get_unit_price())"/>
+<!--                        <t t-esc="'{0:,.2f}'.format(int(1799))"/>-->
+<!--                        <t t-if="widget.pos.config.is_partner_pos == false">-->
+<!--                            <t t-set="unit_price" t-value="orderline.get_unit_price()"/>-->
+<!--                        </t>-->
+<!--                        <t t-set="quantity" t-value="orderline.quantity"/>-->
+<!--                        <t t-set="discount" t-value="orderline.discount"/>-->
+<!--                        <t t-if="orderline.get_product().list_price != unit_price">-->
+<!--                            <div style="text-decoration:line-through">-->
+<!--                                <t t-if="widget.pos.config.is_partner_pos == false">-->
+<!--                                    <t t-esc="orderline.get_product().list_price"/>-->
+<!--                                </t>-->
+<!--                            </div>-->
+<!--                            <t t-if="discount">-->
+<!--                                <t t-set="total_disc_price"  t-value="(unit_price * discount) / 100"/>-->
+<!--                                <t t-esc="(unit_price- total_disc_price)"/>-->
+<!--                            </t>-->
+<!--                            <t t-if="discount == 0.00">-->
+<!--                                <t t-esc="unit_price"/>-->
+<!--                            </t>-->
+<!--                        </t>-->
+<!--                        <t t-if="orderline.get_product().list_price == unit_price">-->
+<!--                            <div>-->
+<!--                                <t t-if="widget.pos.config.is_partner_pos == false">-->
+<!--                                <t t-esc="orderline.get_product().list_price" />-->
+<!--                                </t>-->
+<!--                            </div>-->
+<!--                        </t>-->
+                    </td>
+                    <td>
+                        <t t-esc="orderline.quantity"/>
+                    </td>
+                    <td>
+                        <t t-esc="orderline.discount"/>%
+                    </td>
+                    <t t-set="totl_qty" t-value="totl_qty + orderline.get_quantity()"/>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(orderline.get_display_price())"/>
+                    </td>
+                </tr>
+            </table>
+<!--            <center>-->
+<!--                <b>-->
+<!--                    WOMEN-->
+<!--                </b>-->
+<!--            </center>-->
+            <hr style="width: 100%;height: 0px;"/>
+            <strong style="float:right;">Total Qty: <t t-esc="totl_qty"/></strong>
+            <br/>
+            <table>
+                <tr>
+                    <td>
+                        <strong>Exclusive of G.S.T :</strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.get_total_without_tax())"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>G.S.T : </strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-if="widget.pos.config.is_partner_pos == false">
+                            <tr t-foreach='receipt.tax_details' t-as='tax'>
+                                <td><t t-esc='tax.name'/></td>
+                                <td class="pos-right-align"><t t-esc='widget.format_currency(tax.amount)'/></td>
+                            </tr>
+                        </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Gross Inclusive of G.S.T : </strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-set="tax_amount" t-value="widget.format_currency(order.get_total_without_tax())"/>
+                        <t t-esc='widget.format_currency(order.get_total_with_tax())'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>On Item Discount: </strong>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-if="widget.pos.config.is_partner_pos == false">
+                            <t t-esc="widget.format_currency(order.get_total_discount())"/>
+                        </t>
+                    </td>
+                </tr>
+                <br/>
+                <br/>
+                <tr>
+                    <td>
+                        <h4>Net Amount:</h4>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc='widget.format_currency(order.get_total_with_tax())'/>
+                    </td>
+                </tr>
+            </table>
+            <div class="centered">
+                <center>
+                    <b>
+                        <p style="border-style: solid;">Payment Details</p>
+                    </b>
+                </center>
+            </div>
+            <table class='class="table table-bordered"'>
+                <colgroup>
+                    <col width='25%'/>
+                    <col width='15%'/>
+                    <col width='15%'/>
+                </colgroup>
+                <tr style="outline: thin solid">
+                    <th>Mode</th>
+                    <th class="pos-right-align">Amount</th>
+                </tr>
+                <t t-foreach="paymentlines" t-as="line">
+                    <tr>
+                        <td>
+                            <t t-esc="line.name"/>
+                        </td>
+                        <td class="pos-right-align">
+                            <t t-if="widget.pos.config.is_partner_pos == false">
+                                <t t-esc="widget.format_currency(line.get_amount())"/>
+                            </t>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+            <t t-set="tax_inclusive" t-value="widget.format_currency(order.get_total_without_tax())"/>
+            <t t-set="taxes" t-value="(tax_inclusive * 17) / 100"/>
+            <t t-esc='taxes'/>
+            <t t-set="discount_item" t-value="widget.format_currency(order.get_total_discount())"/>
+            <t t-set="total_saving" t-value="taxes - discount_item"/>
+            <div class="centered">
+                <center>
+                    <b>
+                        <p style="border-style: solid;">You Saved : <t t-esc='widget.format_currency(receipt.total_discount)' class="pos-receipt-right-align"/></p>
+                    </b>
+                </center>
+            </div>
+            <br/>
+            <div style='text-align:left'>
+                <span>Thanks for shopping with us!</span>
+                <br/>
+                <span><b>Terms &amp; Conditions:</b></span>
+                <br/>
+                <span>- GST included where applicable.</span>
+                <br/>
+                <span>- No return or exchange without original receipt.</span>
+                <br/>
+                <span>- Return or exchange is possible within 7 days of Sale. </span>
+                <br/>
+                <span>- Make sure the product you are returning or exchanging is in original condition and intact with all tags. </span>
+                <br/>
+                <span>- Sale Products/Items cannot be returned or exchanged.</span>
+                <br/>
+                <span>- Company reserves the right of changing terms and conditions without prior notice.</span>
+                <br/>
+                <span>- In case of any query feel free to contact us at:</span>
+                <br/>
+                <t t-esc="widget.pos.company.phone"/>
+                <br/>
+                <t t-esc="widget.pos.company.website"/>
+                <br/>
+                <t t-esc="widget.pos.company.social_facebook"/>
+                <br/>
+                <t t-esc="widget.pos.company.social_instagram"/>
+            </div>
+            <hr style="width: 100%;border-top:1px dotted #000;"/>
+            <div class="pos-center-align">
+                Software Developed By:<strong>Dynexcel</strong><br/>
+                Phone:<strong>+923331616393</strong><br/>
+                www.dynexcel.com
+            </div>
+        </div>
+    </t>
+</templates>

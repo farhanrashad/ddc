@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="mo_barcode_digit" inherit_id="mrp.report_mrporder">
+
+        <xpath expr="//span/img" position="after">
+            <p class="text-center"><span t-field="o.name"/></p>
+        </xpath>
+
+        <xpath expr="//div[@class='col-7']/h2/span" position="replace">
+            <p> </p>
+        </xpath>
+
+    </template>
+
+</odoo>

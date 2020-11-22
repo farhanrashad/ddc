@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<templates id="template" xml:space="preserve">
+	
+	<t t-extend="ForcedQuestionPopup">
+		<t t-jquery=".question_id" t-operation="after">
+            <td class="question_id" style="width:50%">
+                <t t-if="widget.pos.db.question_by_id[question_id].wk_extra_price >0">
+                     <t t-esc="widget.format_currency(widget.pos.db.question_by_id[question_id].wk_extra_price)"/>
+                </t>
+                <t t-if="widget.pos.db.question_by_id[question_id].wk_extra_price == 0">
+                    Free
+                </t>  
+            </td>
+		</t>
+	</t>
+
+    <t t-extend="Orderline">
+		<t t-jquery='.wk_question_on_orderline' t-operation='replace'>
+         <t t-if="line.product and line.product.question_group_ids and line.product.question_group_ids.length">
+                <t t-if="!(line.wk_question_ids and line.wk_question_ids.length)">
+                    <div class="wk_question_on_orderline" style='font-weight:bold;'>
+                        <i t-att-data-id="line.cid" class="fa fa-info-circle wkorderline" style="font-size:20px"></i>
+                    </div>
+                </t>
+                <t t-if="line.wk_question_ids and line.wk_question_ids.length">
+                    <div class="wk_question_on_orderline" style='font-weight:bold;'>
+                        <i t-att-data-id="line.cid" class="fa fa-info-circle wkorderline" style="font-size:20px;color:#8b9ddf"></i>
+                        <t t-foreach="line.wk_question_ids" t-as="question_id">
+                            <span class="wk_question_tag">
+                                <t t-esc="widget.pos.db.question_by_id[question_id].name"/>
+                            </span>
+                        </t>
+                    </div>
+                </t>
+
+            </t>
+		</t>
+	</t>
+
+</templates>

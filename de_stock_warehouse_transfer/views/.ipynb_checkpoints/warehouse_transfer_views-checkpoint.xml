@@ -1,0 +1,99 @@
+<odoo>
+  <data>
+        <record model="ir.ui.view" id="internal_transfer_tree_view">
+            <field name="name">stock.warehouse.transfer.tree</field>
+            <field name="model">stock.warehouse.transfer</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="source_warehouse_id"/>
+                    <field name="location_id"/>
+                    <field name="dest_warehouse_id"/>
+                    <field name="issue_date"/>
+                    <field name="receive_date"/>
+                    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+      
+      <record model="ir.ui.view" id="internal_transfer_form_view">
+            <field name="name">stock.warehouse.transfer.form</field>
+            <field name="model">stock.warehouse.transfer</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,transit,transfered"/>
+                        <button name="action_issue" states="draft" class="oe_highlight" string="Issue Products" type="object"/>
+                        <button name="action_receive" states="transit" class="oe_highlight" string="Receive Products" type="object"/>
+                        
+                    </header>
+                    <sheet>
+                         <div class="oe_button_box" name="button_box">
+                            <button type="object" name="picking_button" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible':['|', ('state', '=', 'draft')]}">
+                            <field name="document_id" widget="statinfo" string="Picking"/>
+                        </button>
+                    </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="source_warehouse_id"/>
+                                <field name="location_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="dest_warehouse_id"/>
+                                
+                            </group>
+                            <group>
+                                <field name="issue_date"  />
+                                <field name="receive_date"  />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string='Transfer Product'>
+                                <field name="transfer_line_ids">
+                                    <tree editable="bottom">
+                                      <field name="product_id" attrs="{'readonly': [('parent.state', '!=', 'draft')]}" />
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="product_uom" attrs="{'readonly': [('parent.state', '!=', 'draft')]}" />
+                                      <field name="inventory_quantity"/>
+                                      <field name="issue_quantity" attrs="{'readonly': [('parent.state', '!=', 'draft')]}" />
+                                      <field name="received_quantity" attrs="{'readonly': [('parent.state', '!=', 'transit')]}" />
+                                      
+                                      <field name="transfer_id" invisible="1"/>
+                                     </tree>
+                                </field>    
+                            </page>    
+                        </notebook>    
+                        <div class="oe_title">
+                            <h1>
+                            </h1>
+                        </div>
+                        
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+      
+   <record id="internal_transfer_menu_action" model="ir.actions.act_window">
+        <field name="name">Warehouse Transfer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.warehouse.transfer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a warehouse transfer record
+            </p>
+        </field>
+    </record>
+      
+    <menuitem name="Warehouse Transfer" id="stock_internal_transfer_menu" parent="stock.menu_stock_warehouse_mgmt" action="internal_transfer_menu_action" sequence="30"/>
+  </data>
+</odoo>

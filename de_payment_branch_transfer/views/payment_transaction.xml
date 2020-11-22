@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="de_payment_branch_transfer.internal_transaction_view_form" model="ir.ui.view">
+        <field name="name">internal transaction view form</field>
+        <field name="model">internal.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Internal Transfer" create="false" edit="false">
+                <sheet>
+                    <group string="Payment Transaction">
+                        <group>
+                            <field name="user_id"/>
+                            <field name="type"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="de_payment_branch_transfer.internal_transaction_view_tree" model="ir.ui.view">
+        <field name="name">internal transaction view tree</field>
+        <field name="model">internal.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Internal Transfer" create="false" edit="false">
+                <field name="user_id"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="internal_transaction_action" model="ir.actions.act_window">
+        <field name="name">Internal Transactions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">internal.transaction</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="internal_transaction_menu" name="Internal Transactions" parent="account.menu_finance_receivables"
+              action="internal_transaction_action" sequence="6"/>
+
+</odoo>

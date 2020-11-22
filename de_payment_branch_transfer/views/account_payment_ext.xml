@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="de_payment_branch_transfer.account_payment_ext_view_form" model="ir.ui.view">
+        <field name="name">account payment ext view form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='post']" position="replace">
+                <button name="post" class="oe_highlight" string="Confirm" type="object" attrs="{'invisible':[('transfer_status','!=', 'd')]}"/>
+    
+  </xpath>
+            <xpath expr="//header" position="inside">
+                 <button name="action_transfer_in" type="object" string="Send Cash"
+                         class="oe_highlight"  attrs="{'invisible':[('transfer_status','!=', 'i')]}"/>
+                <button name="action_transfer_out" type="object" string="Receive Cash"
+                         class="oe_highlight"  attrs="{'invisible':[('transfer_status','!=', 'r')]}"/>
+                 <!--
+                 <button name="action_transfer_out" type="object" string="Transfer Out"
+                         class="oe_highlight"  attrs="{'invisible':['|', ('branch_transfer','=', False),
+                         ('transfer_out', '=', True)]}"/>
+-->
+             </xpath>
+            <xpath expr="//field[@name='destination_journal_id']" position="after">
+                <field name="branch_transfer"/>
+                <field name="cash_issue_user_id" invisible="1"/>
+                <field name="cash_receive_user_id" invisible="1"/>
+                <field name="current_user_id" invisible="1"/>
+                <field name="transfer_status" invisible="1"/>
+               
+            </xpath>
+            
+             
+           
+        </field>
+    </record>
+
+    <record id="de_payment_branch_transfer.account_journal_ext_view_form" model="ir.ui.view">
+        <field name="name">account journal ext view form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='post_at']" position="after">
+                <field name="user_id" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

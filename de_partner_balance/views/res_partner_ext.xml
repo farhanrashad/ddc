@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="customer_form_view_id">
+        <field name="name">Customer_customize</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='title']" position="after">
+                <field name="account_balance"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
