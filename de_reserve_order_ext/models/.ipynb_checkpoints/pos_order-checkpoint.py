@@ -10,45 +10,13 @@ class POSOrder(models.Model):
     temp_amount = fields.Text(string='Difference Amount')
     
     def button_payment_adj_action(self):
-        vals = ovals = lvals = {}
+        vals = ovals = lvals = padj_vals = {}
         amount = 0
         order_id = self.env['pos.order']
         order_line_id = self.env['pos.order.line']
         for order in self:
             if order.state == 'reserved':
-                ovals = {
-                    'name': order.name,
-                    'session_id': 4,
-                    'partner_id': order.partner_id.id,
-                    'date_order': order.date_order,
-                    'user_id': order.user_id.id,
-                    'delivery_date': order.delivery_date,
-                    'pos_reference': order.pos_reference,
-                    'company_id': order.company_id.id,
-                    'note': order.note,
-                    'state': 'draft',
-                    'amount_tax': order.amount_tax,
-                    'amount_total': order.amount_total,
-                    'amount_paid': order.amount_paid,
-                    'amount_return': order.amount_return,
-                }
-                order_id = self.env['pos.order'].create(ovals)
-                for line in order.lines:
-                    lvals = {
-                        'order_id': order_id.id,
-                        'product_id': line.product_id.id,
-                        'qty': line.qty,
-                        'price_unit': line.price_unit,
-                        'discount': line.discount,
-                        'price_subtotal': line.price_subtotal,
-                        'price_subtotal_incl': line.price_subtotal_incl,
-                    }
-                order_line_id = self.env['pos.order.line'].create(lvals)
                 for payment in order.payment_ids:
-                    #payment.update({
-                    #    'session_id': order_id.session_id,id,
-                    #    'pos_order_id': order_id.id,
-                    #})
                     amount += payment.amount
                     vals = {
                         #'name': 'Reserve Order Adjustment',
@@ -59,9 +27,18 @@ class POSOrder(models.Model):
                         'partner_id': order_id.partner_id.id,
                     }
                 order.temp_amount = order.amount_total - amount
-                
-                
-        pos_payment_id = self.env['pos.payment'].create(vals)
+                padj_vals = {
+                    'amount': order.amount_total - amount,
+                    'pos_order_id': order.id,
+                    'payment_method_id': 3,
+                    'session_id': order.session_id.id,
+                    #'partner_id': order.partner_id.id,
+                }
+                #order.update({
+                #    'session_id': 4,
+                #})
+        #pos_payment_id = self.env['pos.payment'].create(vals)
+        pos_payment_id = self.env['pos.payment'].create(padj_vals)
 
 class PosPayment(models.Model):
     """ Used to register payments made in a pos.order.
