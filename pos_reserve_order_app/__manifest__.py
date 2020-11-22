@@ -2,7 +2,7 @@
 {
     "name" : "Odoo POS Reservation Order",
     "author": "Edge Technologies",
-    "version" : "13.0.1.3",
+    "version" : "13.0.1.4",
     "category" : "Point of Sale",
     'summary': 'pos order reservation pos reserve order reservation in pos reservation on point of sale pos order booking on pos booking order reserving in pos order reserve in pos reserve pos items pos item reserve pos order booking pos order booking order on pos',
     "description": """
