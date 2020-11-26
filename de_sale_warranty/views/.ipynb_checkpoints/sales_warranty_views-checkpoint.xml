@@ -9,6 +9,7 @@
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="product_id"/>
+                    <field name="barcode"/>
                     <field name="sale_id"/>
                     <field name="warranty_type"/>
                     <field name="warranty_start_date"/>
@@ -43,6 +44,8 @@
 	                     		<field name="partner_id" />
                                 <field name="warranty_type" />
 	                     		<field name="product_id" domain="[('is_warranty','=',True)]" />
+                                <field name="barcode"/>
+                                <field name="origin"/>
 		                    	<field name="sale_id" attrs="{'invisible':[('sale_id', '!=', True)]}" />
 		                    	<field name="picking_id" attrs="{'invisible':[('picking_id', '!=', True)]}" />
                                 <field name="invoice_id" attrs="{'invisible':[('invoice_id', '!=', True)]}" />
@@ -57,9 +60,9 @@
 			                </group>
 			           </group>
 		                <notebook>
-		                	<page string="Internal Reference">
+		                	<page string="Description">
 								<separator orientation="vertical"/>
-		                		<field name="notes" placeholder="Add internal reference notes here..." />
+		                		<field name="notes" placeholder="Add warranty notes here..." />
 		                	</page>
 		                </notebook>
 		         	</sheet>
