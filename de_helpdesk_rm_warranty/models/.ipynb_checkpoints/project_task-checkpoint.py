@@ -11,12 +11,14 @@ from odoo.addons import decimal_precision as dp
 class ProjectTask(models.Model):
     _inherit = 'project.task'
     
+    barcode = fields.Char(related='ticket_id.barcode',string='Barcode', readonly=False)
     warranty_count = fields.Integer(string='Warranty', compute='_compute_warranty_count')
-    warranty_ids = fields.One2many('sale.warranty', 'task_id', string='Warranty')
+    #warranty_ids = fields.One2many('sale.warranty', 'task_id', string='Warranty')
     
     def _compute_warranty_count(self):
+        warranty_ids = self.env['sale.warranty'].search([('barcode','=', self.barcode)])
         wc = 0
-        for line in self.order_ids.warranty_ids:
+        for line in warranty_ids:
             wc += 1
         self.warranty_count = wc
         
@@ -27,5 +29,5 @@ class ProjectTask(models.Model):
             'name': _('Warranty'),
             'res_model': 'sale.warranty',
             'view_mode': 'tree,form',
-            'domain': [('task_id', '=', self.id)],
+            'domain': [('barcode', '=', self.barcode)],
         }

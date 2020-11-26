@@ -21,11 +21,15 @@
 
             </xpath>
             
-            <xpath expr="//header" position="inside">
+            <xpath expr="//form[1]/sheet[1]/div[@name='button_box']" position="inside">
                 <button class="oe_stat_button" name="action_view_warranty" icon="fa-pencil-square-o" type="object" attrs="{'invisible': [('warranty_count', '=', 0)]}">
                             <field name="warranty_count" string="Warranty" widget="statinfo"/>
                 </button>
             </xpath>
+             <xpath expr="//field[@name='ticket_id']" position="after">
+                <field name="barcode" />
+            </xpath>
+            
         </field>
     </record>
     

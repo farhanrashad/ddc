@@ -8,15 +8,15 @@ from odoo.exceptions import UserError, ValidationError, Warning
 from odoo.addons import decimal_precision as dp
 
 
-class ProjectTask(models.Model):
-    _inherit = 'project.task'
+class HelpdeskTicket(models.Model):
+    _inherit = 'helpdesk.ticket'
     
-    barcode = fields.Char(related='ticket_id.barcode',string='Barcode', readonly=False)
     warranty_count = fields.Integer(string='Warranty', compute='_compute_warranty_count')
     #warranty_ids = fields.One2many('sale.warranty', 'task_id', string='Warranty')
-    
+        
     def _compute_warranty_count(self):
         warranty_ids = self.env['sale.warranty'].search([('barcode','=', self.barcode)])
+        #warranty_ids = self.env['sale.warranty']
         wc = 0
         for line in warranty_ids:
             wc += 1

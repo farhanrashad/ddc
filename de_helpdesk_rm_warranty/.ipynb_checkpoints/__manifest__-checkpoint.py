@@ -28,6 +28,7 @@
         
         'views/sale_warranty_views.xml',
         'views/project_task_views.xml',
+        'views/helpdesk_ticket_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
