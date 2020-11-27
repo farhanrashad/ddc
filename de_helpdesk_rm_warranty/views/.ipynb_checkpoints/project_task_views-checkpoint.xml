@@ -29,6 +29,9 @@
              <xpath expr="//field[@name='ticket_id']" position="after">
                 <field name="barcode" />
             </xpath>
+            <xpath expr="//field[@name='repair_planning_lines']/tree[1]" position="inside">
+                <field name="warranty_id" />
+            </xpath>
             
         </field>
     </record>

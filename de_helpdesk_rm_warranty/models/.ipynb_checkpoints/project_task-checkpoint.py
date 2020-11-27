@@ -31,3 +31,10 @@ class ProjectTask(models.Model):
             'view_mode': 'tree,form',
             'domain': [('barcode', '=', self.barcode)],
         }
+    
+class ProjectTask(models.Model):
+    _inherit = 'project.task.planning.line'
+    
+    warranty_id = fields.Many2one('sale.warranty')
+    
+    
