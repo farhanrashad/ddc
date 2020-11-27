@@ -30,7 +30,7 @@
                 <field name="barcode" />
             </xpath>
             <xpath expr="//field[@name='repair_planning_lines']/tree[1]" position="inside">
-                <field name="warranty_id" />
+                <field name="warranty_id" domain="[('barcode','=',parent.barcode),('state','not in',['expired','cancel'])]"/>
             </xpath>
             
         </field>
