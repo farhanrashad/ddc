@@ -51,15 +51,17 @@
                         <div class="oe_clear"/>
                     </page>
                     
-                    <page string="Repair Estimation" id="repair_estimation_tab" attrs="{'invisible': [('is_diagnosys', '=', True)]}">
+                    <page string="Repair Planning" id="repair_estimation_tab" attrs="{'invisible': [('is_diagnosys', '=', True)]}">
                         <field name="repair_planning_lines" widget="one2many_list">
                                 <tree string="Order lines" editable="bottom">
                                     <field name="product_id"/>
                                     <field name="name" />
                                     <field name="product_uom_qty"/>
+                                    <field name="qty_delivered" />
                                     <field name="product_uom_id"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="price_unit" />
+                                    <field name="invoice_amount" />
                                 </tree>
                             </field>
                     </page>

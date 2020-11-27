@@ -101,6 +101,7 @@ class ProjectTask(models.Model):
 				'price_unit' : line.price_unit,
                 'project_id': self.project_id.id,  # prevent to re-create a project on confirmation
                 'task_id': self.id,
+                'repair_planning_line_id': line.id,
             }])
         
         res.create({
@@ -110,6 +111,7 @@ class ProjectTask(models.Model):
             'client_order_ref': self.project_id.name,
             'company_id': self.project_id.company_id.id,
             'repair_task_id':self.id,
+            'ticket_id': self.ticket_id.id,
             'order_line':lines_data,
         })
         self.update({
@@ -136,6 +138,37 @@ class ProjectTaskRepairPlanning(models.Model):
         help="Unit of Measure (Unit of Measure) is the unit of measurement for the inventory control", domain="[('category_id', '=', product_uom_category_id)]")
     product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id')
     price_unit = fields.Float('Unit Price', required=True, digits='Product Price', default=0.0)
+    
+    invoice_amount = fields.Float(string='Invoiced Amount', compute='_get_invoice_amount')
+    qty_delivered = fields.Float(string='Delivered Quantity', compute='_compute_qty_delivered')
+
+    @api.depends('product_uom_qty')
+    def _compute_qty_delivered(self):
+        order_line_id = self.env['sale.order.line']
+        qty = 0
+        for line in self:
+            qty = 0
+            if line.product_id.type == 'product':
+                order_line_id = self.env['sale.order.line'].search(             
+                    [('repair_planning_line_id','=',line.id)],limit=1)
+                for qline in order_line_id:
+                    qty = qline.qty_delivered
+            line.qty_delivered = qty
+
+    @api.depends('product_uom_qty', 'price_unit')
+    def _get_invoice_amount(self):
+        order_line_id = self.env['sale.order.line']
+        amt = 0
+        for line in self:
+            amt = 0
+            order_line_id = self.env['sale.order.line'].search([('repair_planning_line_id','=',line.id)])
+            for invoice_line in order_line_id.invoice_lines:
+                if invoice_line.move_id.state != 'cancel':
+                    if invoice_line.move_id.type == 'out_invoice':
+                        amt += invoice_line.price_total
+                    elif invoice_line.move_id.type == 'out_refund':
+                        amt -= invoice_line.price_total
+            line.invoice_amount = amt
     
     @api.onchange('task_id', 'product_id', 'product_uom_qty')
     def onchange_product_id(self):
