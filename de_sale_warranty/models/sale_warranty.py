@@ -19,17 +19,19 @@ class SaleWarranty(models.Model):
     active = fields.Boolean(string='Active', default=True)
     product_id = fields.Many2one('product.product',string='Product', track_visibility='onchange', required=True, readonly=True, states={'draft': [('readonly', False)]}, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
     barcode = fields.Char(related='product_id.barcode',string='Barcode')
+    tracking = fields.Selection(related='product_id.tracking', string='Tracking')
     origin = fields.Char(string='Reference')
     #sno = fields.Char(string='Serial No',track_visibility='onchange', readonly=True,states={'draft': [('readonly', False)]},)
     lot_id = fields.Many2one('stock.production.lot',domain="[('product_id', '=', product_id)]",states={'draft': [('readonly', False)]},string='Serial No.')
     partner_id = fields.Many2one('res.partner',string='Customer', required=True, track_visibility='onchange', readonly=True, states={'draft': [('readonly', False)]}, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
     sale_id = fields.Many2one('sale.order', string='Sale Order', readonly=True)
-    warranty_type = fields.Selection(string='Warranty Type', required=True, default='product', help="Type or Mode of the gatepass", selection=[('service', 'Service'), ('product', 'Product')])
+    warranty_type_id = fields.Many2one('sale.warranty.type',string='Warranty Type', required=True, help="Type or Mode of the warranty")
     picking_id = fields.Many2one('stock.picking', string='Delivery Order', readonly=True)
     invoice_id = fields.Many2one('account.invoice',string='Invoice',readonly=True)
     purchase_date = fields.Date(string='Date of Purchase',required=False, readonly=True, states={'draft': [('readonly', False)]})
     warranty_start_date = fields.Date(string='Warranty Start Date',track_visibility='onchange',required=True, readonly=True, states={'draft': [('readonly', False)]})
     warranty_end_date = fields.Date(string='Warranty End Date',track_visibility='onchange',required=False, readonly=True, states={'draft': [('readonly', False)]})
+    
     state = fields.Selection([('draft','Draft'),
                               ('inwarranty','In Warranty'),
                               ('toexpire','To Expire'),

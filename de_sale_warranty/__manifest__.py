@@ -17,7 +17,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'version': '0.1',
+    'version': '13.0.0.2',
 
     # any module necessary for this one to work correctly
     'depends': ['base','product','sale','sales_team','stock'],
@@ -27,6 +27,7 @@
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
         'data/warranty_sequence.xml',
+        'views/sale_warranty_type_views.xml',
         'views/sales_warranty_views.xml',
         'views/product_views.xml',
         'views/warranty_card_report.xml',

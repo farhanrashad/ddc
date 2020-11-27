@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <menuitem name="Warranty" id="sale_warranty_type_configuration_menu" parent="sale.menu_sale_config" sequence="30" />
+
+    <record id="view_warranty_type_search" model="ir.ui.view">
+        <field name="name">view.warranty.type.search</field>
+        <field name="model">sale.warranty.type</field>
+        <field name="arch" type="xml">
+            <search string="Warranty Type Search">
+                <separator/>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_warranty_type_form" model="ir.ui.view">
+        <field name="name">view.warranty.type.form</field>
+        <field name="model">sale.warranty.type</field>
+        <field name="arch" type="xml">
+            <form string="Warranty Type">
+                <header>
+                </header>
+                <sheet>
+                    
+                    
+                    <group name="main">
+                        <group>
+                            <field name="name" />
+                            <field name="warranty_unit" />
+                        </group>
+                        <group>
+                            <field name="warranty_period" />
+                            
+                        </group>
+                    </group>
+                    <group>
+                        <field name="warranty_note" placeholder="Warranty type description" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_warranty_type_tree" model="ir.ui.view">
+        <field name="name">view.warranty.type.tree</field>
+        <field name="model">sale.warranty.type</field>
+        <field name="arch" type="xml">
+            <tree string="Warranty Type">
+                <field name="name"/>
+                <field name="warranty_period" />
+                <field name="warranty_unit" />
+            </tree>
+        </field>
+    </record>
+    
+    <record id="action_sales_warranty_type" model="ir.actions.act_window">
+            <field name="name">Sales Warranty Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.warranty.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new warranty Type!
+                </p>
+            </field>
+        </record>
+    
+     <menuitem name="Warranty Type" id="sale_warranty_type_menu" parent="sale_warranty_type_configuration_menu"  action="action_sales_warranty_type" /> 
+    
+
+</odoo>
