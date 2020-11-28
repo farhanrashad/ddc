@@ -12,7 +12,17 @@ class AccountInvoiceLine(models.Model):
     _inherit = 'account.move'
     
     warranty_count = fields.Integer(string='Warranty', compute='_compute_warranty_count')
+    warranty_invoice_type = fields.Char(string='Invoice Type', compute='_compute_invoice_type')
     
+    def _compute_invoice_type(self):
+        wt = ''
+        for invoice in self:
+            for line in invoice.invoice_line_ids.sale_line_ids.repair_planning_line_id.warranty_id.warranty_type_id:
+                wt = line.code
+                line.warranty_invoice_type = wt
+            if not invoice.warranty_invoice_type:
+                invoice.warranty_invoice_type = 'R'
+        
     def _compute_warranty_count(self):
         #warranty_ids = self.env['sale.warranty'].search([('barcode','=', self.barcode)])
         wc = 0
