@@ -12,7 +12,7 @@ class AccountInvoiceLine(models.Model):
     _inherit = 'account.move'
     
     warranty_count = fields.Integer(string='Warranty', compute='_compute_warranty_count')
-    warranty_invoice_type = fields.Char(string='Invoice Type', compute='_compute_invoice_type')
+    warranty_invoice_type = fields.Char(string='Invoice Type', compute='_compute_invoice_type', readonly=False)
     
     def _compute_invoice_type(self):
         wt = ''
