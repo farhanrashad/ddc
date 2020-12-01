@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+	<data>
+		<record id="pos_forced_question_inherit_pos_order" model="ir.ui.view">
+			<field name="name">>pos.forced.question.inherit</field>
+			<field name="model">pos.forced.question</field>
+			<field name="inherit_id" ref="pos_forced_question.pos_forced_question_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='sequence_number']" position='after'>
+					<field name="currency_id" invisible="1" />
+					<field name="wk_extra_price" style="width:30%"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

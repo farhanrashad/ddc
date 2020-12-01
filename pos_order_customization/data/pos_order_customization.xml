@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo noupdate="1">
+
+    <record id="pos_forced_question.force_question_1" model="pos.forced.question">
+        <field name="wk_extra_price">5</field>    
+    </record>
+
+    <record id="pos_forced_question.force_question_4" model="pos.forced.question">
+        <field name="wk_extra_price">10</field>        
+    </record>
+
+    <record id="pos_forced_question.force_question_5" model="pos.forced.question">
+        <field name="wk_extra_price">15</field>
+    </record>
+      
+    <record id="pos_forced_question.force_question_6" model="pos.forced.question">
+        <field name="wk_extra_price">2</field>    
+    </record>
+
+    <record id="pos_forced_question.force_question_8" model="pos.forced.question">
+        <field name="wk_extra_price">7</field> 
+    </record>
+
+    <record id="pos_forced_question.force_question_9" model="pos.forced.question">
+        <field name="wk_extra_price">9</field>    
+    </record>
+
+    <record id="pos_forced_question.force_question_10" model="pos.forced.question">
+        <field name="wk_extra_price">1</field>    
+    </record>
+
+    <record id="pos_forced_question.force_question_11" model="pos.forced.question">
+        <field name="wk_extra_price">5</field>    
+    </record>
+</odoo>

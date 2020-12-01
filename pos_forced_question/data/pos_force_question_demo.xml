@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo noupdate="1">
+
+    <record id="force_question_1" model="pos.forced.question">
+        <field name="name">Non-Vegetarian</field>
+    </record>
+
+    <record id="force_question_2" model="pos.forced.question">
+        <field name="name">Vegetarian</field>
+    </record>
+    
+    <record id="force_question_3" model="pos.forced.question">
+        <field name="name">Salt abd freshy ground black pepper</field>
+    </record>
+
+    <record id="force_question_4" model="pos.forced.question">
+        <field name="name">Extra Butter</field>
+    </record>
+
+    <record id="force_question_5" model="pos.forced.question">
+        <field name="name">Extra Cheese</field>
+    </record>
+      
+    <record id="force_question_6" model="pos.forced.question">
+        <field name="name">Cheese</field>
+    </record>
+
+    <record id="force_question_7" model="pos.forced.question">
+        <field name="name">Pizza Sauce</field>
+    </record>
+
+    <record id="force_question_8" model="pos.forced.question">
+        <field name="name">Mini Pepperonis</field>
+    </record>
+
+    <record id="force_question_9" model="pos.forced.question">
+        <field name="name">Black Olives</field>
+    </record>
+
+    <record id="force_question_10" model="pos.forced.question">
+        <field name="name">Extra Straw</field>
+    </record>
+
+    <record id="force_question_11" model="pos.forced.question">
+        <field name="name">With ice-cubes</field>
+    </record>
+
+    <record id="force_question_12" model="pos.forced.question">
+        <field name="name">Chilled</field>
+    </record>
+    
+    <record id="force_question_group_1" model="forced.question.group">
+        <field name="name">Food Choice</field>
+        <field name="questions" eval="[(6, 0, [ref('force_question_2'),ref('force_question_1')])]"></field>
+    </record>
+   
+    <record id="force_question_group_2" model="forced.question.group">
+        <field name="name">Dressings</field>
+        <field name="questions" eval="[(6, 0, [ref('force_question_3'),ref('force_question_4'),ref('force_question_5')])]"></field>
+    </record>
+
+    <record id="force_question_group_3" model="forced.question.group">
+        <field name="name">Stuff</field>
+        <field name="questions" eval="[(6, 0, [ref('force_question_6'),ref('force_question_7'),ref('force_question_8'),ref('force_question_9')])]"></field>
+    </record>
+    
+    <record id="force_question_group_4" model="forced.question.group">
+        <field name="name">Cold Drinks</field>
+        <field name="questions" eval="[(6, 0, [ref('force_question_10'),ref('force_question_11'),ref('force_question_12')])]"></field>
+    </record>
+
+        <record id="wk_pos_forced_question_cat" model="pos.category">
+        <field name="name">Pizza and beverages</field>
+    </record>
+
+    <record model="pos.config" id="point_of_sale.pos_config_main">
+        <field name="start_category">True</field>
+        <field name="iface_start_categ_id" ref="wk_pos_forced_question_cat"></field>
+    </record>
+
+    <record id="wk_pizza" model="product.product">
+        <field name="name">Pizza</field>
+        <field name="standard_price">50</field>
+        <field name="list_price">50</field>
+        <field name="available_in_pos">True</field>
+        <field name="default_code">wk_pizza</field>
+        <field name="pos_categ_id" ref="wk_pos_forced_question_cat"/>
+        <field name="taxes_id" eval="[(6,0,[])]"/>
+        <field name="question_group_ids"  eval="[(6, 0, [ref('force_question_group_1'),ref('force_question_group_2'),ref('force_question_group_3')])]"></field>
+        <field name="image_1920" type="base64" file="pos_forced_question/static/description/pizza.jpg"/>
+    </record>
+
+    <record id="wk_drinks" model="product.product">
+        <field name="name">Cold Drinks</field>
+        <field name="standard_price">15</field>
+        <field name="list_price">15</field>
+        <field name="available_in_pos">True</field>
+        <field name="pos_categ_id" ref="wk_pos_forced_question_cat"/>
+        <field name="default_code">wk_cold_drinks</field>
+        <field name="taxes_id" eval="[(6,0,[])]"/>
+        <field name="question_group_ids"  eval="[(6, 0, [ref('force_question_group_4')])]"></field>
+        <field name="image_1920" type="base64" file="pos_forced_question/static/description/drinks.jpg"/>
+    </record>
+
+</odoo>

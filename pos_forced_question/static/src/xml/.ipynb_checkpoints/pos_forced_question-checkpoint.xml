@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<templates id="template" xml:space="preserve">
+
+	<t t-name="ForcedQuestionPopup">
+		<div class="modal-dialog">
+			<div class="wk_question_popup" style="padding:10px;overflow:hidden;margin-top:-41px;">
+                <div style="overflow:hideen">
+                    <div class="forced_product_image">
+                        <t t-if="widget.options and widget.options.image_url">
+                            <img style="width:65px;" t-att-src='widget.options.image_url'/>
+                        </t>
+                    </div>
+                    <div class="body">
+						<t t-if="widget.options and widget.options.groups">
+                            <div id="tabs" style="font-size:12px">
+                                <ul class="wk_tabs">
+                                    <t t-foreach='widget.options.groups' t-as='group'>
+                                        <t t-set="wkgroup" t-value="widget.pos.db.question_group_by_id[group]" />
+                                        <t t-if="group_index == 0">
+                                            <li  class="tab-link current" t-att-data-id="'#tab'+wkgroup.id" style=" font-size: 18px !important;"><b t-att-data-id="'#tab'+wkgroup.id"><t t-esc="wkgroup.name"/></b></li>
+                                        </t>
+                                        <t t-if="!(group_index == 0)">
+                                            <li  class="tab-link" t-att-data-id="'#tab'+wkgroup.id" style=" font-size: 18px !important;"><b t-att-data-id="'#tab'+wkgroup.id"><t t-esc="wkgroup.name"/></b></li>
+                                        </t>
+                                    </t>
+                                </ul>
+                            </div>
+                            <t t-foreach='widget.options.groups' t-as='group'>
+                                <t t-set="wkgroup" t-value="widget.pos.db.question_group_by_id[group]" />
+                                <t t-if="group_index == 0">
+                                    <div t-att-id="'tab'+wkgroup.id" class="tab-content current">
+                                        <table class="question" >
+                                            <t t-foreach='wkgroup.questions' t-as='question_id'>
+                                                <tr>
+                                                    <td class="question_id" style="width:70%">Q<t t-esc="question_id_index + 1"/>.&#032; <t t-esc="widget.pos.db.question_by_id[question_id].name"/></td>
+                                                    <td>
+                                                        <label class='switch'>
+                                                            <t  t-if="widget.options.line and widget.options.line.wk_question_ids and widget.options.line.wk_question_ids.indexOf(question_id) >=0">
+                                                                <input checked="true" t-att-data-id="question_id" class="wk_checked_question" type='checkbox'/>
+                                                            </t>
+                                                            <t t-if="widget.options.line and !(widget.options.line.wk_question_ids and widget.options.line.wk_question_ids.indexOf(question_id)>=0)">
+                                                                <input class="wk_checked_question" t-att-data-id="question_id" type='checkbox'/>
+                                                            </t>
+                                                            <span class='check_box round'></span>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-if="!(group_index == 0)">
+                                    <div t-att-id="'tab'+wkgroup.id" class="tab-content">
+                                        <table class="question" >
+                                            <t t-foreach='wkgroup.questions' t-as='question_id'>
+                                                <tr>
+                                                    <td class="question_id" style="width:70%">Q<t t-esc="question_id_index + 1"/>.&#032; <t t-esc="widget.pos.db.question_by_id[question_id].name"/></td>
+                                                    <td>
+                                                        <label class='switch'>
+                                                            <t t-if="widget.options.line and widget.options.line.wk_question_ids and widget.options.line.wk_question_ids.indexOf(question_id) >=0">
+                                                                <input checked='true' t-att-data-id="question_id" class="wk_checked_question" type='checkbox'/>
+                                                            </t>
+                                                            <t t-if="widget.options.line and !(widget.options.line.wk_question_ids and widget.options.line.wk_question_ids.indexOf(question_id) >=0)">
+                                                                <input t-att-data-id="question_id" class="wk_checked_question" type='checkbox'/>
+                                                            </t>
+                                                            <span class='check_box round'></span>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </div>
+                    <div>
+                        <button class="button cancel_question" >Cancel</button>
+                        <button class="button add_question" >Ok</button>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</t>
+
+    <t t-extend="Orderline">
+		<t t-jquery='ul.info-list' t-operation='append'>
+            <t t-if="line.product and line.product.question_group_ids and line.product.question_group_ids.length">
+                <div class="wk_question_on_orderline" style='font-weight:bold;'>
+                    <i t-att-data-id="line.cid" class="fa fa-info-circle wkorderline" style="font-size:20px"></i>
+                </div>
+            </t>
+		</t>
+	</t>
+
+
+    <t t-extend="OrderReceipt">
+		<t t-jquery='.orderlines t[t-call="OrderReceiptWrappedProductNameLines"]' t-operation="after">
+			<t t-if="line.wk_question_ids">
+                <t t-foreach='line.wk_question_ids' t-as='question_id'>
+			        <t t-if="widget.pos and widget.pos.db and widget.pos.db.question_by_id and widget.pos.db.question_by_id[question_id] and widget.pos.db.question_by_id[question_id].name ">
+                        <div class="pos-receipt-left-padding">
+                            <t t-esc="widget.pos.db.question_by_id[question_id].name" />
+                        </div>
+                    </t>
+                </t>
+			</t>
+		</t>
+	</t>
+
+</templates>
