@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <record id="pos_order_line_questions_form_view" model="ir.ui.view">
+			<field name="name">pos.order.line.questions.form.view</field>
+			<field name="model">pos.order.line.questions</field>
+			<field name="arch" type="xml">
+				<form string="Questions">
+					<sheet>
+						<group>
+                            <field name="name" />
+                    <field name="pos_order_line_id" />
+							<field name="question_group_id" />
+							<field name="question_id" />
+                            <field name="bespoke_order_id" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="pos_order_line_questions_tree_view" model="ir.ui.view">
+			<field name="name">pos.order.line.questions.tree.view</field>
+			<field name="model">pos.order.line.questions</field>
+			<field name="arch" type="xml">
+				<tree string="Questions">
+                    <field name="name" />
+                    <field name="pos_order_line_id" />
+					<field name="question_group_id" />
+					<field name="question_id" />
+				</tree>
+			</field>
+		</record>
+      
+      <record id="pos_order_line_questions_tree_view_inherit" model="ir.ui.view">
+        <field name="name">pos.order.line.questions.tree.view.inherit</field>
+        <field name="model">pos.order.line.questions</field>
+        <field name="inherit_id" ref="pos_order_line_questions_tree_view"/>
+        <!--
+<field name="groups_id" eval="[(4, ref('hr_attendance.group_hr_attendance_user'))]"/> -->
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="edit">1</attribute>
+                <attribute name="editable">bottom</attribute>
+            </tree>
+        </field>
+    </record>
+      
+      <record id="action_pos_order_line_questions" model="ir.actions.act_window">
+			<field name="name">Questions</field>
+			<field name="res_model">pos.order.line.questions</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+      
+      <menuitem id="pos_order_line_questions_menu_item"
+			name="Bespoke Lines"
+			parent="point_of_sale.menu_point_of_sale"
+			action="action_pos_order_line_questions"
+			sequence="100" groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"/>
+      
+  </data>
+</odoo>
