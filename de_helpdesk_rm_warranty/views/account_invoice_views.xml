@@ -6,17 +6,26 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+            <!--
             <xpath expr="//field[@name='ref']" position="after">
                 <field name="warranty_invoice_type" />
             </xpath>
+            -->
             <xpath expr="//form[1]/sheet[1]/div[@name='button_box']" position="inside">
                 <button class="oe_stat_button" name="action_view_warranty" icon="fa-pencil-square-o" type="object" attrs="{'invisible': [('warranty_count', '=', 0)]}">
                             <field name="warranty_count" string="Warranty" widget="statinfo"/>
                 </button>
             </xpath>
+            <xpath expr="//field[@name='price_total']" position="after">
+                <field name="warranty_type_code" />
+            </xpath>
         </field>
     </record>
     
+    
+    
+    
+    <!--
     <record id="view_invoice_tree_inherit" model="ir.ui.view">
         <field name="name">view.move.tree.inherit</field>
         <field name="model">account.move</field>
@@ -29,5 +38,5 @@
         </field>
     </record>
     
-    
+    -->
 </odoo>

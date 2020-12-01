@@ -15,4 +15,7 @@ class SaleWarranty(models.Model):
     repair_planning_ids = fields.One2many('project.task.planning.line', 'warranty_id', string='Warranty', 
                                          )
     barcode = fields.Char(string='Barcode', related=False, readonly=False)
+    
     #domain="[('is_diagnosys','=',True),('active','=',True),('project_id','=',project_id)]")
+
+        
