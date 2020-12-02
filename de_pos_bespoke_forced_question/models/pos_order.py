@@ -35,7 +35,7 @@ class POSOrder(models.Model):
                     pos_question_id = self.env['pos.order.line.questions'].create(vals)
                 
                 
-        #self.is_bespoke_ordered = True
+        self.is_bespoke_ordered = True
 
 class PosOrderLine(models.Model):
     _inherit = 'pos.order.line'
