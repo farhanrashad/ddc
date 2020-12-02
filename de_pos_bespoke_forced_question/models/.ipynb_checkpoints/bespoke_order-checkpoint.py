@@ -29,7 +29,7 @@ class BespokeOrder(models.Model):
         ('cancel', 'Cancel'),
     ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
     
-    company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.company.id)
+    company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.company.id, readonly=True, states={'draft': [('readonly', False)], 'ready': [('readonly', False)], 'confirmed': [('readonly', False)]})
     company_currency = fields.Many2one(string='Currency', related='company_id.currency_id', readonly=True, relation="res.currency")
 
     
@@ -38,7 +38,8 @@ class BespokeOrder(models.Model):
     partner_id = fields.Many2one('res.partner', related='pos_order_id.partner_id', string='Customer', )
 
     
-    bespoke_product_id = fields.Many2one('product.product', 'Product', )
+    bespoke_product_id = fields.Many2one('product.product', 'Product', readonly=True, states={'draft': [('readonly', False)], 'ready': [('readonly', False)], 'confirmed': [('readonly', False)]})
+    
     pos_product_id = fields.Many2one('product.product', related='pos_order_line_id.product_id')
     product_qty = fields.Float(string='Quantity', related='pos_order_line_id.qty', digits='Product Unit of Measure', )
     price_unit = fields.Float(string='Unit Price', related='pos_order_line_id.price_unit')
@@ -46,8 +47,8 @@ class BespokeOrder(models.Model):
     paid_amount = fields.Float(compute='_compute_balance_amount', string='Paid Amount',readonly=True)
     due_amount = fields.Float(compute='_compute_balance_amount', string='Due Amount',readonly=True)
     
-    bespoke_bom_id = fields.Many2one('mrp.bom', 'BOM', )
-    warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', )
+    bespoke_bom_id = fields.Many2one('mrp.bom', 'BOM', readonly=True, states={'draft': [('readonly', False)], 'ready': [('readonly', False)], 'confirmed': [('readonly', False)]})
+    warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', readonly=True, states={'draft': [('readonly', False)], 'ready': [('readonly', False)], 'confirmed': [('readonly', False)]})
     
     polq_ids = fields.One2many('pos.order.line.questions', 'bespoke_order_id', string='Questions')
     polq_count = fields.Integer(string='Questions', compute='_compute_questions_count')
@@ -107,6 +108,7 @@ class BespokeOrder(models.Model):
         c = 0
         prod_long_name = prod_short_name = ''
         for line in self:
+            c = 0
             s = line.pos_order_line_id.forced_questions.split('|')
             pq_lines = self.env['pos.order.line.questions'].search([('pos_order_line_id','=',line.pos_order_line_id.id)])
             
@@ -153,10 +155,10 @@ class BespokeOrder(models.Model):
                     })
         
             
-        #self.write({
-        #    'bespoke_product_id':product_id.id,
-        #    'state': 'confirmed',
-        #})
+        self.write({
+            'bespoke_product_id':product_id.id,
+            'state': 'confirmed',
+        })
     def button_create_delivery(self):
         #Create Delivery
         if not self.warehouse_id:
@@ -205,6 +207,7 @@ class BespokeOrder(models.Model):
             'state': 'draft',
         }
         production_id = self.env['mrp.production'].create(vals)
+        self.write({'state': 'wait'})
         
     def button_cancel(self):
         self.write({'state': 'cancel'})

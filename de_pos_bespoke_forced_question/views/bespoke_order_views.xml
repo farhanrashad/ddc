@@ -9,8 +9,10 @@
                 <field name="state" widget="statusbar" statusbar_visible="draft,ready,confirmed,wait,done"/>
                         <button name="button_mark_to_do" states="draft" class="oe_highlight" string="Mark as todo" type="object"/>
                          <button name="button_confirm" states="ready" class="oe_highlight" string="Confirm" type="object"/>
+                         <!--
                         <button name="button_create_delivery" class="oe_highlight" string="Create Delivery" type="object" attrs="{'invisible': ['|',('picking_count', '!=', 0),('state', 'not in', ['confirm','ready'])]}"/>
-                         <button name="button_create_production" class="oe_highlight" string="Create Production" type="object"/>
+-->
+                         <button name="button_create_production" class="oe_highlight" string="Create Production" states="confirmed" type="object" />
 
                          <button name="button_cancel" states="draft" class="" string="Cancel" type="object"/>
 
@@ -60,7 +62,7 @@
                                 <field name="date_ordered" />
                                 <field name="bespoke_product_id" />
                                 <field name="bespoke_bom_id" />
-                                <field name="test1" />
+                                <field name="test1" invisible="1"/>
                                 
                             </group>
                             <group>

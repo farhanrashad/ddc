@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='pos_reference']" position="after">
-                <field name="is_bespoke_ordered" invisible="1"/>
+                <field name="is_bespoke_ordered" readonly="1"/>
             </xpath>
             <xpath expr="//button[@name='action_pos_order_invoice']" position="after">
-                <button name="button_bespoke_order" class="oe_highlight" string="Create Bespoke Order" type="object" attrs="{'invisible': [('is_bespoke_ordered', '=', True)]}"/>
+                <button name="button_bespoke_order" class="oe_highlight" string="Create Bespoke Order" type="object" attrs="{'invisible': ['|',('is_bespoke_ordered', '=', True),('reserved', '=', False)]}"/>
 
             </xpath>
         </field>
