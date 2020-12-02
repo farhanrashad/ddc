@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <data noupdate="1">
+        <record model="ir.sequence" id="seq_production_plan">
+            <field name="name">Plan Production Sequence</field>
+            <field name="code">plan.production.sequence</field>
+            <field name="prefix">PP</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+</odoo>
+
+

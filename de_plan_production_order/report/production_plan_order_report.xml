@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="payslip_paperformat" model="report.paperformat">
+		<field name="name">European A4</field>
+		<field name="default" eval="True" />
+		<field name="format">A4</field>
+		<field name="page_height">0</field>
+		<field name="page_width">0</field>
+		<field name="orientation">Landscape</field>
+		<field name="margin_top">40</field>
+		<field name="margin_bottom">30</field>
+		<field name="margin_left">7</field>
+		<field name="margin_right">7</field>
+		<field name="header_line" eval="False" />
+		<field name="header_spacing">35</field>
+		<field name="dpi">90</field>
+	</record>
+
+
+
+
+	<report id="product_plan_report"
+			string="Production Plan Report"
+			model="mrp.production.plan.order"
+			report_type="qweb-pdf"
+			name="de_plan_production_order.product_plan_report"
+			file="de_plan_production_order.product_plan_report"
+			paperformat="payslip_paperformat"
+	/>
+</odoo>
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<menuitem id="plan_order_production_mrp" name="Production Plan Order" parent="mrp.menu_mrp_manufacturing"
+			action="de_plan_production_order.action_production_views"
+			sequence="1" />
+
+	</data>
+</odoo>
+
+
+
+

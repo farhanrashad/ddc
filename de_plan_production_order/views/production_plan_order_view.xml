@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mrp_production_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.viw.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="order_set" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="views_prod_order_form" model="ir.ui.view">
+        <field name="name">mrp.production.plan.order.form</field>
+        <field name="model">mrp.production.plan.order</field>
+        <field name="arch" type="xml">
+            <form string="Production Plan form">
+                <header>
+                    <button name='action_execute_plan' string="Execute Plan" type="object" class='oe_highlight'
+                            states="draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,executed"/>
+                </header>
+
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date" attrs="{'readonly' : [('state','=','executed')]}"/>
+
+                        </group>
+
+                    </group>
+                    <group>
+                        <field name="note"  attrs="{'readonly' : [('state','=','executed')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Production Order Line" >
+
+                            <field name="plan_order_lines"  attrs="{'readonly' : [('state','=','executed')]}" >
+                                <tree editable="bottom">
+                                    <field name="production_order"  options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                    <field name="product"/>
+                                    <field name="internal_reference"/>
+                                    <field name="barcode"/>
+                                    <field name="quantity"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="views_prod_order_tree" model="ir.ui.view">
+        <field name="name">mrp.production.plan.order.tree</field>
+        <field name="model">mrp.production.plan.order</field>
+        <field name="arch" type="xml">
+            <tree string="Plan Production Tree">
+                <field name="name"/>
+                <field name="date" />
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="views_prodorder_search" model="ir.ui.view">
+        <field name="name">mrp.production.plan.order.search</field>
+        <field name="model">mrp.production.plan.order</field>
+        <field name="arch" type="xml">
+            <search string="plan production search">
+                <field name="name"/>
+                <field name="date"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_production_views" model="ir.actions.act_window">
+        <field name="name">Production Plan Order</field>
+        <field name="res_model">mrp.production.plan.order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
+

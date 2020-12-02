@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="recieve_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div style="float:right;"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', docs.name, 600, 100)" style="width:300px;height:40px;"/></div>
+                <br></br><br></br>
+                <div style="text-align:center; margin-top:5px;">
+                    <h2 align="center" style="text-align:center;">Production Plan Order</h2>
+
+                    <h2 align="center">
+                        <t t-esc="doc.name"/>
+                    </h2>
+                </div>
+                <br></br>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Production Order</th>
+                            <th>Quantity</th>
+                            <th>Product</th>
+                            <th>Internal Reference</th>
+                            <th>Barcode</th>
+                            <th>State</th>
+                             <th>Fabric</th>
+                            <th>Bill of Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="i" t-value="1" />
+                        <tr t-foreach="docs.plan_order_lines" t-as='o' >
+                            <td align="center"><span t-esc="i" /></td>
+                            <td><t t-esc="o.production_order.name"/></td>
+                            <td><t t-esc="o.quantity"/></td>
+                            <td><t t-esc="o.product.name"/></td>
+                            <td><t t-esc="o.production_order.bom_id.product_tmpl_id.default_code"/></td>
+
+                            <td style="text-align:center;">
+ <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.barcode, 600, 100)" style="width:150px;height:20px"/>
+                            <br></br><p style="font-size:10px; align:center;"><t t-esc="o.barcode"/></p>
+                            </td>
+
+                            <td><t t-esc="o.state"/></td>
+                            <td><t t-esc="o.product.fabric_id.name"/></td>
+                             <td>
+                                 <t t-foreach="o.production_order.move_raw_ids" t-as="obj">
+                                     <div style="border-bottom: solid;">
+                                         <t t-esc="obj.product_id.name"/>
+                                     </div>
+                                 </t>
+                             </td>
+                            <t t-set="i" t-value="i+1" />
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="float:left;border-top: 1px solid ; width:100%">Note: <t t-esc="doc.note"/></div>
+            </t>
+        </t>
+    </template>
+
+    <template id="product_plan_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="de_plan_production_order.recieve_report">
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+
