@@ -103,6 +103,7 @@ class BespokeOrder(models.Model):
         
     def button_confirm(self):
         s = []
+        bom_line_id = self.env['mrp.bom.line']
         pq_lines = self.env['pos.order.line.questions']
         question = self.env['pos.forced.question']
         c = 0
@@ -147,7 +148,7 @@ class BespokeOrder(models.Model):
         for pline in self.pos_order_id.lines:
             if not pline.product_id.type == 'service':
                 if not pline.product_id.product_tmpl_id.is_bespoke:
-                    bom_line_id = self.env['bom_line_id'].create({
+                    bom_line_id = self.env['mrp.bom.line'].create({
                         'bom_id': bom_id.id,
                         'product_id': pline.product_id.id,
                         'product_qty': (pline.qty/self.product_qty),
