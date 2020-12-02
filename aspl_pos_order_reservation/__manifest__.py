@@ -20,7 +20,7 @@ This module allows customers to book products and pay partially.
     'website': 'http://www.acespritech.com',
     'price': 35.00,
     'currency': 'EUR',
-    'version': '1.0.3',
+    'version': '1.0.4',
     'depends': ['base', 'point_of_sale'],
     'images': ['static/description/main_screenshot.png'],
     "data": [

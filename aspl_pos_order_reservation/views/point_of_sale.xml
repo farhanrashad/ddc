@@ -120,7 +120,7 @@
                 </button>
             </field>
         </record>
-
+<!--
         <record id="view_pos_order_filter_inherit" model="ir.ui.view">
             <field name="name">pos.order.list.select.inherit</field>
             <field name="model">pos.order</field>
@@ -131,7 +131,7 @@
                 </field>
             </field>
         </record>
-
+-->
         <record id="res_partner_view_form_aspl" model="ir.ui.view">
             <field name="name">res.partner.view.form.aspl</field>
             <field name="model">res.partner</field>
