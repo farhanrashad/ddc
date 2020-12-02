@@ -13,7 +13,7 @@
 
     <t t-name="OrderlineNoteButton">
         <div class='control-button'>
-            <i class='fa fa-tag' /> Note
+            <i class='fa fa-tag' /> Measurement
         </div>
     </t>
     

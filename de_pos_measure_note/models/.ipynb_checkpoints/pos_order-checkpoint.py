@@ -6,7 +6,12 @@ from re import search
 from odoo import api, fields, models
 
 
-class PosOrderLine(models.Model):
-    _inherit = 'pos.order.line'
+class PosOrderNote(models.Model):
+    """In this class a new model is created in pos to create multiple
+    order notes in the backend"""
 
-    order_note = fields.Char('Note')
+    _name = 'pos.order.note'
+    _rec_name = 'pos_note'
+
+    pos_note = fields.Char(string='Multiple Order Note In POS',
+                           help='Add the description of the order note')

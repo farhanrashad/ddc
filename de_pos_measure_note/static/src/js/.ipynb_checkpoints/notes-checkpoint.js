@@ -1,4 +1,4 @@
-odoo.define('de_pos_note.notes', function (require) {
+odoo.define('de_pos_measure_note.notes', function (require) {
 "use strict";
 
 var models = require('point_of_sale.models');
@@ -14,8 +14,20 @@ var SuperOrderWidget = screens.OrderWidget;
 var QWeb = core.qweb;
 
 var _super_orderline = models.Orderline.prototype;
+var t = ''
 models.load_fields('pos.order.line','order_note');
-
+models.load_models({
+        model: 'pos.order.note',
+        fields: ['pos_note'],
+        loaded: function (self, ordernotes) {
+            self.order_note_by_id = {};
+            for (var i = 0; i < ordernotes.length; i++) {
+                self.order_note_by_id[ordernotes[i].id] = ordernotes[i];
+                t = t + self.order_note_by_id[ordernotes[i].id];
+            }
+        }
+    });
+    
 models.Orderline = models.Orderline.extend({
     initialize: function(attr, options) {
         _super_orderline.initialize.call(this,attr,options);
@@ -47,7 +59,8 @@ models.Orderline = models.Orderline.extend({
     },
     init_from_JSON: function(json){
         _super_orderline.init_from_JSON.apply(this,arguments);
-        this.order_note = json.order_note;
+        //this.order_note = json.order_note + '}}}}';
+        this.order_note = 'Waist=  \n Collar= \n Sleeve Length= \n';
     },
 });
 
@@ -57,14 +70,16 @@ var OrderlineNoteButton = screens.ActionButtonWidget.extend({
         var line = this.pos.get_order().get_selected_orderline();
         if (line) {
             this.gui.show_popup('textarea',{
-                title: _t('Add Note'),
+                title: _t('Add Measurment'),
                 value:   line.get_note(),
                 confirm: function(note) {
                     line.set_note(note);
                 },
             });
         }
+        
     },
+    
 });
 
 screens.define_action_button({
