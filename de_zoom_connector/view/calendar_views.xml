@@ -209,13 +209,9 @@
         <field name="context">{'default_is_zoom_meeting':True}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
-            Schedule a new meeting
+            Schedule a new zoom meeting
           </p>
-          <p>
-            The calendar is shared between employees and fully integrated with
-            other applications such as the employee leaves or the business
-            opportunities.
-          </p>
+         
         </field>
     </record>
 
@@ -226,6 +222,9 @@
         <field name="view_id" ref="view_zoom_calendar_event_calendar"/>
     </record>
 
-    <menuitem name="Zoom Meetings" id="menu_meeting" web_icon="calendar.event" groups="base.group_user" sequence="99" action="action_zoom_calendar_event"/>
+    <menuitem id="zoom_meetings_root_menu" name="Zoom" sequence="50"
+            web_icon="de_zoom_connector,static/description/icon.png" groups="base.group_user"/>
+    
+    <menuitem name="Meeting" id="zoom_meeting_menu" parent="zoom_meetings_root_menu" groups="base.group_user" sequence="99" action="action_zoom_calendar_event"/>
 
 </odoo>
