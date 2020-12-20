@@ -1,0 +1,12 @@
+<odoo>
+
+    <menuitem id="schedule_activity_root_menu" name="Schedule Activity" active="True" sequence="10"/>
+
+    <menuitem  name="Activity" id="activity_menu" sequence="10" parent="schedule_activity_root_menu" />
+    <menuitem action="action_schedule_activity_inherit" name="All Activities" id="all_activities_submenu" groups="group_activity_manager" sequence="10" parent="activity_menu" />
+    <menuitem action="action_team_activities_inherit" name="My Team Activities" groups="group_activity_manager,group_activity_supervisor" id="team_activities_submenu" sequence="11" parent="activity_menu" />
+    <menuitem action="action_my_activities_inherit" name="My Activities" id="my_activities_submenu" sequence="12" parent="activity_menu" />
+
+    <menuitem name="Reporting" id="reporting_menu" sequence="11" groups="group_activity_manager,group_activity_supervisor" parent="schedule_activity_root_menu" />
+    <menuitem action="action_report_activities_inherit" name="Activities" id="reporting_activities_submenu" sequence="10" parent="reporting_menu" />
+</odoo>

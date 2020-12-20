@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="schedule_activity_groups_root">
+        <field name="name">Schedule Activity</field>
+   		<field name="description">Manage Schedule Activity Security</field>
+    </record>
+
+    <record id="group_activity_supervisor" model="res.groups">
+        <field name="name">Activity Supervisor</field>
+        <field name="category_id" ref="schedule_activity_groups_root"/>
+    </record>
+
+    <record id="group_activity_manager" model="res.groups">
+        <field name="name">Activity Manager</field>
+        <field name="category_id" ref="schedule_activity_groups_root"/>
+    </record>
+    
+</odoo>

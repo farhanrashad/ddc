@@ -1,0 +1,167 @@
+<odoo>
+  <data>
+
+	  <record id="view_schedule_activity_kanban" model="ir.ui.view">
+            <field name="name">mail.activity.kanban</field>
+            <field name="model">mail.activity</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="summary"/>
+                    <field name="res_name"/>
+                    <field name="date_deadline"/>
+                    <field name="activity_type_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row mb4">
+                                    <div class="col-6 o_kanban_record_headings">
+                                        <strong><span><field name="summary"/></span></strong>
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="col-6">
+                                        <span><field name="activity_type_id"/></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span><field name="res_name"/></span>
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="col-6">
+                                        <strong><i class="fa fa-clock-o" aria-label="Date" role="img" title="Date"/> <t t-esc="record.date_deadline.value"/></strong>
+									</div>
+                                </div>
+                                <div class="o_kanban_record_bottom" >
+                                    <div class="col-12 text-right">
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+	  <record id="view_schedule_activity_pivot" model="ir.ui.view">
+            <field name="name">mail.activity.pivot</field>
+            <field name="model">mail.activity</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="summary"/>
+                    <field name="res_name"/>
+                    <field name="date_deadline"/>
+                    <field name="activity_type_id"/>
+                </pivot>
+            </field>
+        </record>
+
+      <record id="view_schedule_activity_calendar" model="ir.ui.view">
+            <field name="name">mail.activity.calendar</field>
+            <field name="model">mail.activity</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Leads Generation" create="0" mode="month" date_start="date_deadline" color="user_id" hide_time="true" event_limit="5">
+                   <field name="summary"/>
+                    <field name="res_name"/>
+                    <field name="date_deadline"/>
+                    <field name="activity_type_id"/>
+                </calendar>
+            </field>
+        </record>
+
+      <record id="view_schedule_activity_graph" model="ir.ui.view">
+            <field name="name">mail.activity.graph</field>
+            <field name="model">mail.activity</field>
+            <field name="arch" type="xml">
+                <graph string="Pipeline Analysis" stacked="True">
+                    <field name="activity_type_id" type="row"/>
+                    <field name="date_deadline" type="row" interval="month"/>
+                </graph>
+            </field>
+        </record>
+
+      <record id="schedule_activity_search" model="ir.ui.view">
+            <field name="name">mail.activity.search</field>
+            <field name="model">mail.activity</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="date_deadline"/>
+                    <field name="current_date" invisible="1"/>
+                    <filter string="Late Activities" name="date_deadline" domain="['!',('date_deadline','>=',current_date)]"/>
+                    <filter string="Today Activities" name="date_deadline" domain="[('date_deadline','=',current_date)]"/>
+                    <filter string="Future Activities" name="date_deadline" domain="[('date_deadline','>',current_date)]"/>
+                </search>
+            </field>
+        </record>
+
+
+    <record id="action_schedule_activity_inherit" model="ir.actions.act_window">
+		<field name="name">All Activity</field>
+		<field name="res_model">mail.activity</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form,kanban,pivot,graph,calendar</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+        <field name="view_id" ref="mail.mail_activity_view_tree"/>
+        <field name="search_view_id" ref="de_schedule_activity_global.schedule_activity_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No Activities
+			</p>
+		</field>
+	</record>
+
+      <record id="action_team_activities_inherit" model="ir.actions.act_window">
+		<field name="name">My Team Activity</field>
+		<field name="res_model">mail.activity</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form,kanban,pivot,graph,calendar</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+        <field name="view_id" ref="mail.mail_activity_view_tree"/>
+        <field name="search_view_id" ref="de_schedule_activity_global.schedule_activity_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No Team Activities
+			</p>
+		</field>
+	</record>
+
+	  <record id="action_my_activities_inherit" model="ir.actions.act_window">
+		<field name="name">My Activity</field>
+		<field name="res_model">mail.activity</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form,kanban,pivot,graph</field>
+		<field name="domain">[('user_id','=', uid)]</field>
+		<field name="context">{}</field>
+        <field name="view_id" ref="mail.mail_activity_view_tree"/>
+        <field name="search_view_id" ref="de_schedule_activity_global.schedule_activity_search"/>
+          <field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No My Activities
+			</p>
+		</field>
+	</record>
+
+      <record id="action_report_activities_inherit" model="ir.actions.act_window">
+		<field name="name">Activities</field>
+		<field name="res_model">mail.activity</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">graph,pivot</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+        <field name="view_id" ref="mail.mail_activity_view_tree"/>
+        <field name="search_view_id" ref="de_schedule_activity_global.schedule_activity_search"/>
+          <field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No Activities
+			</p>
+		</field>
+	</record>
+
+
+  </data>
+</odoo>
