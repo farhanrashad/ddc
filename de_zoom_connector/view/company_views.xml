@@ -11,8 +11,10 @@
                                 <group>
                                     <field name="api_key" />
                                     <field name="api_secret" />
-                                    <br/><br/>
-                                        <button name="test_connection" type="object" string="Test Connection" class="oe_highlight" icon="fa-refresh"/>
+                                    <br/>
+                                    <br/>
+                                        <button name="test_connection" type="object" string="Test Connection"
+                                                    class="oe_highlight" />
 
 
                                 </group>

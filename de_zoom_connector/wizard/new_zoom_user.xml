@@ -32,7 +32,7 @@
 	</record>
 
 	<record id="create_user_action" model="ir.actions.act_window">
-		<field name="name">Create Zoom User</field>
+		<field name="name">Zoom Users</field>
 		<field name="res_model">create.zoom.account</field>
 		<field name="type">ir.actions.act_window</field>
 		<field name="view_mode">form</field>
@@ -41,7 +41,7 @@
 	</record>
 
 	 <menuitem id="user_creation_call"
-                  name="Create Zoom User"
+                  name="Zoom Users"
                   action="create_user_action"
                   parent="base.menu_users"
                   sequence="6"/>

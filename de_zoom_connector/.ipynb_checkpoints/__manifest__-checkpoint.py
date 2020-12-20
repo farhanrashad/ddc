@@ -1,32 +1,25 @@
 # -*- coding: utf-8 -*-
-#################################################################################
-# Author      : Dynexcel (<www.dynexcel.com>)
-# Copyright(c): 2015-Present Dynexcel.
-# All Rights Reserved.
-#
-# This program is copyright property of the author mentioned above.
-# You can`t redistribute it and/or modify it.
-#
-#################################################################################
 {
-    'name': '[5% OFF] Zoom Meetings Integration',
-    'version': '13.0.0.2',
-    'summary': 'Create and share Zoom video meetings through odoo calendar.',
+    'name': 'Zoom Meeting Integration',
+    'summary': 'Multi User Zoom Meeting Integration',
     'description': """
-        Create and share Zoom video meetings through odoo calendar.
+    This Zoom integration enables users to schedule instant Zoom meetings with customers. users can use their Zoom login credentials and host concurrent Zoom meetings with customers.
+
     """,
-    'category': 'Extra Tools',
-    'website': 'http://www.dynexcel.com',
+    'category': 'Discuss',
     'author': 'Dynexcel',
-    'price': 95.00,
+    'maintainer': 'Dynexcel',
+    'version': '13.0.0.2',
+    'price': 149,
     'currency': 'USD',
+    'website': 'https://www.dynexcel.com',
     'images': ['static/description/banner.gif'],
     'depends': ['calendar', 'mail'],
     'data': [
             'security/ir.model.access.csv',
             'data/external_user_mail_data.xml',
             'data/mail_data.xml',
-            'view/user_views.xml',
+            'view/users_views.xml',
             'view/calendar_views.xml',
             'view/company_views.xml',
             'view/calendar_templates.xml',

@@ -200,7 +200,7 @@
     </record>
 
     <record id="action_zoom_calendar_event" model="ir.actions.act_window">
-        <field name="name">Zoom Meetings</field>
+        <field name="name">Meetings</field>
         <field name="res_model">calendar.event</field>
         <field name="view_mode">calendar,tree,form</field>
         <field name="view_id" ref="view_zoom_calendar_event_calendar"/>
@@ -211,7 +211,7 @@
           <p class="o_view_nocontent_smiling_face">
             Schedule a new zoom meeting
           </p>
-         
+          
         </field>
     </record>
 
@@ -222,9 +222,6 @@
         <field name="view_id" ref="view_zoom_calendar_event_calendar"/>
     </record>
 
-    <menuitem id="zoom_meetings_root_menu" name="Zoom" sequence="50"
-            web_icon="de_zoom_connector,static/description/icon.png" groups="base.group_user"/>
-    
-    <menuitem name="Meeting" id="zoom_meeting_menu" parent="zoom_meetings_root_menu" groups="base.group_user" sequence="99" action="action_zoom_calendar_event"/>
+    <menuitem name="Zoom" id="menu_meeting" web_icon="de_zoom_connector,static/description/icon.png" groups="base.group_user" sequence="99" action="action_zoom_calendar_event"/>
 
 </odoo>

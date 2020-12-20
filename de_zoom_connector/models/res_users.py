@@ -10,7 +10,7 @@ class User(models.Model):
 
     _inherit = "res.users"
 
-    zoom_login_email = fields.Char("Zoom Email")
+    zoom_login_email = fields.Char("Account")
 
     zoom_login_user_id = fields.Char("Zoom user id")
 
