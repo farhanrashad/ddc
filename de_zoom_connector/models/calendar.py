@@ -28,7 +28,7 @@ def convert_cal_id_to_actual_id(id_of_calander=None, date_time_with=False):
         we have to pass the calender id, date_time_with value. Real event id will be return
     """
 
-    print('function')
+    # print('function')
 
     if id_of_calander and isinstance(id_of_calander, str):
 
@@ -49,7 +49,7 @@ def check_calender_id(id_of_the_record):
 
 
 def convert_actual_id_to_cal_id(id_of_the_record, date_t):
-    print('funtion')
+    # print('funtion')
 
     return '%s-%s' % (id_of_the_record, date_t.strftime(CUSTOM_VIRTUAL_FORMATE))
 
@@ -87,16 +87,18 @@ class Meeting(models.Model):
 
     @api.onchange('start_datetime')
     def meeting_datetime_start(self):
-        print('funtion')
+        # print('funtion')
         self.check_today_events()
 
     def check_today_events(self):
-        print('funtion')
+        # print('funtion')
 
         self.todays_meeting = ''
         if not self.create_uid or (self.create_uid and self.create_uid.id == self.env.user.id):
             if not self.recurrency and self.start_datetime and self.is_zoom_meeting:
                 local_date_time = self.local_time_fun(self.start_datetime)
+                if not local_date_time:
+                    raise UserError('You Have Not Selected TimeZone In User Profile!')
                 local_time = datetime.strptime(local_date_time, "%Y-%m-%d %H:%M:%S")
                 start_date = local_time.strftime("%Y-%m-%d").strip() + " 00:00:00"
                 tz = pytz.timezone(self.env.user.tz)
@@ -123,7 +125,7 @@ class Meeting(models.Model):
                 self.todays_meeting = ''
 
     def is_visible_test(self):
-        print('funtion')
+        # print('funtion')
 
         for record in self:
             record.visible_factor = False
@@ -132,7 +134,7 @@ class Meeting(models.Model):
                     record.visible_factor = True
 
     def is_join_visibile_test(self):
-        print('funtion')
+        # print('funtion')
 
         for record in self:
             record.join_visible_factor = True
@@ -146,7 +148,7 @@ class Meeting(models.Model):
                 record.join_visible_factor = False
 
     def is_user_visible_test(self):
-        print('funtion')
+        # print('funtion')
 
         # Checking the login user is same as meeting created user.
         for record in self:
@@ -160,7 +162,7 @@ class Meeting(models.Model):
         """
          Check Whether the time selected is available in odoo or not.
         """
-        print('funtion')
+        # print('funtion')
 
         for meeting in self:
             if meeting.is_zoom_meeting == True and meeting.event_tz:
@@ -184,7 +186,7 @@ class Meeting(models.Model):
 
     @api.constrains('rrule_type')
     def weekday_check(self):
-        print('funtion')
+        # print('funtion')
 
         for meeting in self:
             if meeting.rrule_type == 'weekly':
@@ -208,7 +210,7 @@ class Meeting(models.Model):
         """
             Checking the years whether is available in zoom or not. Otherwise raise exception.
         """
-        print('funtion')
+        # print('funtion')
 
         for meeting in self:
             if meeting.is_zoom_meeting == True:
@@ -217,7 +219,7 @@ class Meeting(models.Model):
 
     @api.onchange('recurrency')
     def recurrency_check(self):
-        print('funtion')
+        # print('funtion')
 
         self.rrule_type = ''
         if self.recurrency:
@@ -246,7 +248,7 @@ class Meeting(models.Model):
 
     @api.onchange('rrule_type')
     def rruletype_check(self):
-        print('funtion')
+        # print('funtion')
 
         if self.rrule_type == 'daily':
             self.month_by = ''
@@ -297,7 +299,7 @@ class Meeting(models.Model):
 
     @api.onchange('end_type')
     def endtype_check(self):
-        print('funtion')
+        # print('funtion')
 
         if self.end_type == "count":
             self.final_date = ''
@@ -306,7 +308,7 @@ class Meeting(models.Model):
 
     @api.onchange('month_by')
     def monthby_check(self):
-        print('funtion')
+        # print('funtion')
 
         if self.end_type == "day":
             self.day = ''
@@ -316,7 +318,7 @@ class Meeting(models.Model):
 
     @api.onchange('is_zoom_meeting')
     def zoommetingchange(self):
-        print('funtion')
+        # print('funtion')
 
         if self.is_zoom_meeting == True:
             self.allday = False
@@ -332,7 +334,7 @@ class Meeting(models.Model):
         """
         Take UTC Timezone and Convert it to local Timezone
         """
-        print('funtion')
+        # print('funtion')
 
         user_tz = self.env.user.tz
         if user_tz:
@@ -349,7 +351,7 @@ class Meeting(models.Model):
         """
         Convert utc time to local timezone.
         """
-        print('funtion')
+        # print('funtion')
 
         user_tz = self.env.user.tz
         if user_tz:
@@ -371,7 +373,7 @@ class Meeting(models.Model):
         """
         Allow the internal odoo users called attendee and the external users to join the meet.
         """
-        print('funtion')
+        # print('funtion')
 
         if self.sudo().join_url:
             return {
@@ -383,7 +385,7 @@ class Meeting(models.Model):
         """
             Who have created a meeting can join the meeting, start the meeting.
         """
-        print('funtion')
+        # print('funtion')
 
         if self.sudo().start_url:
             return {
@@ -396,7 +398,7 @@ class Meeting(models.Model):
         """
           It will create the meeting, delete or unlink the zoom meeting etc.
         """
-        print('funtion')
+        # print('funtion')
 
         self = self.with_context(zoom_meeting_create=True)
         res = super(Meeting, self).create(values)
@@ -445,7 +447,7 @@ class Meeting(models.Model):
 
     def check_zoom_list_of_occurence(self, records, occurrence_list, res_obj, meeting_id):
 
-        print('funtion')
+        # print('funtion')
 
         client = self.api_connection_fun()
         zoom_occurrence_list = []
@@ -484,7 +486,7 @@ class Meeting(models.Model):
         It will create the zoom meeting using the python sdk and check the record and also stores
         the xoom responce.
         """
-        print('funtion')
+        # print('funtion')
 
         client = self.api_connection_fun()
         user_id = self.env.user.zoom_login_user_id
@@ -650,7 +652,7 @@ class Meeting(models.Model):
          Test Connection with JWt App
         """
 
-        print('function')
+        # print('function')
 
         company_rec = self.env.user.company_id
         if company_rec.api_key and company_rec.api_secret:
@@ -691,7 +693,7 @@ class Meeting(models.Model):
                 'API credential invalid'))
 
     def convert_to_datetime(self, date):
-        print('funtion')
+        # print('funtion')
 
         if date:
             is_var_str = isinstance(date, str)
@@ -705,7 +707,7 @@ class Meeting(models.Model):
                 - zoom_meeting_create,zoom_meet_unlink,zoom_write are restrict to access zoom api
 
         """
-        print('funtion')
+        # print('funtion')
 
         super(Meeting, self).write(values)
         zoom_meeting = False
@@ -774,7 +776,7 @@ class Meeting(models.Model):
                                    zoom meeting occureance to current record updatation
                                    zoom meeting id updataion
         """
-        print('funtion')
+        # print('funtion')
 
         self = self.with_context(zoom_write=True)
         meeting_id = self.meeting_id
@@ -800,7 +802,7 @@ class Meeting(models.Model):
         """
         check if the related fileds are updated then it calls zoom api and return true
         """
-        print('funtion')
+        # print('funtion')
 
         is_zoom_meeting = values.get('is_zoom_meeting') and values['is_zoom_meeting']
         recurrency = False
@@ -874,7 +876,7 @@ class Meeting(models.Model):
         """
         it will update the zoom meeting and return the responce of api
         """
-        print('funtion')
+        # print('funtion')
 
         client = self.api_connection_fun()
         recurrency = values.get('recurrency') and values['recurrency'] or self.recurrency
@@ -1072,7 +1074,7 @@ class Meeting(models.Model):
         return http_status, occurrence_list
 
     def unlink(self, can_be_deleted=True):
-        print('funtion')
+        # print('funtion')
 
         # Get concerned attendees to notify them if there is an alarm on the unlinked events,
         # as it might have changed their next event notification
@@ -1124,7 +1126,7 @@ class Meeting(models.Model):
         """
             Zoom meeting deletion api : using python SDK.
         """
-        print('funtion')
+        # print('funtion')
 
         try:
             client = self.api_connection_fun()
@@ -1147,7 +1149,7 @@ class Meeting(models.Model):
             raise UserError(_('Zoom API Exception! \n %s') % e)
 
     def zoom_meeting_cancel_fun(self):
-        print('funtion')
+        # print('funtion')
 
         self.unlink()
         if self.env.context.get('default_is_zoom_meeting'):
@@ -1176,7 +1178,7 @@ class Meeting(models.Model):
         it will take the paramters of converted datetime and current meeting timezon and return
         the current meeting time to zoom user time.
         """
-        print('funtion')
+        # print('funtion')
 
         if event_tz and self.env.user.zoom_user_timezone:
             tz1 = pytz.timezone(event_tz)
@@ -1198,7 +1200,7 @@ class Meeting(models.Model):
                 UserError("Please set zoom user timezone")
 
     def action_sendmail(self):
-        print('funtion')
+        # print('funtion')
 
         current_user = self.env.user
         email = self.env.user.email
@@ -1212,7 +1214,7 @@ class Meeting(models.Model):
         return True
 
     def create_attendees(self):
-        print('funtion')
+        # print('funtion')
 
         current_user = self.env.user
         result = {}
@@ -1273,7 +1275,7 @@ class Meeting(models.Model):
 
     # Remove zoom meeting
     def delete_remove_zoom_meeting_fun(self):
-        print('funtion')
+        # print('funtion')
 
         for meeting in self:
             if self.env.user.id != meeting.create_uid.id and self.env.user.id != self.env.user.company_id.zoom_admin_user_id.id:
@@ -1302,7 +1304,7 @@ class Meeting(models.Model):
         """
         :return: Link current meeting to zoom
         """
-        print('funtion')
+        # print('funtion')
 
         for meeting in self:
             if meeting.allday != True:
@@ -1324,7 +1326,7 @@ class Meeting(models.Model):
             This method is called from email template, to not use sudo().
 
           """
-        print('funtion')
+        # print('funtion')
 
         self.ensure_one()
         if tz:
@@ -1336,7 +1338,7 @@ class Meeting(models.Model):
             it will detach the events of virtual recurring by making the copy of orignal and then change
             the values to it.
         """
-        print('funtion')
+        # print('funtion')
 
         if not values:
             values = {}
@@ -1424,7 +1426,7 @@ class Meeting(models.Model):
             it will accept the paramters of intervel indicating the desired format.
             return the formateed date
         """
-        print('funtion')
+        # print('funtion')
 
         self.ensure_one()
         date = fields.Datetime.from_string(date)
@@ -1480,7 +1482,7 @@ class OuterUserForEmail(models.Model):
         and force_Send used to send the mail instantly.
         """
 
-        print('function')
+        # print('function')
 
         res = False
 
@@ -1541,7 +1543,7 @@ class AlarmManager(models.AbstractModel):
     _inherit = 'calendar.alarm_manager'
 
     def do_mail_reminder(self, alert_check):
-        print('funtion')
+        # print('funtion')
 
         meeting = self.env['calendar.event'].browse(alert_check['event_id'])
 
@@ -1575,7 +1577,7 @@ class Attendee(models.Model):
         force_send used for to send the email instantly.
         """
 
-        print('funtion')
+        # print('funtion')
 
         res = False
 

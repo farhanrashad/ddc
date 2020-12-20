@@ -23,7 +23,7 @@ class CreateNewZoomUser(models.TransientModel):
 
     @api.onchange('user_id')
     def setting_fname_lname_email(self):
-        print('funtion')
+        # print('funtion')
 
         if self.user_id:
             name = self.user_id.name.split(" ", 1)
@@ -35,7 +35,7 @@ class CreateNewZoomUser(models.TransientModel):
             self.email = self.user_id.email
 
     def new_user_creation(self):
-        print('funtion')
+        # print('funtion')
 
         client = self.api_connection()
         if self.type_of_user == 'basic':
@@ -63,7 +63,7 @@ class CreateNewZoomUser(models.TransientModel):
         """
          Checking Crediontionals With The Zoom API
         """
-        print('funtion')
+        # print('funtion')
 
         company_rec = self.env.user.company_id
         if company_rec.api_key and company_rec.api_secret:
