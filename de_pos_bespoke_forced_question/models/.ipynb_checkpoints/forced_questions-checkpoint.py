@@ -13,6 +13,10 @@ class POSForcedQuestion(models.Model):
     product_property_is_short =fields.Boolean(string='Is Short', readonly=True, compute="_get_property_value")
     product_property_is_long =fields.Boolean(string='Is Long', readonly=True, compute="_get_property_value")
 
+    product_id =fields.Many2one("product.product",string="Product")
+    product_uom_id = fields.Many2one('uom.uom',related='product_id.uom_id', string='UOM')
+    product_qty = fields.Float(string='Quantity')
+
     @api.depends('product_property_line_id.product_property')
     def _get_property_value(self):
         for line in self:

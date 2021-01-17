@@ -9,6 +9,8 @@
                 <field name="is_bespoke_ordered" readonly="1"/>
             </xpath>
             <xpath expr="//button[@name='action_pos_order_invoice']" position="after">
+                <button name="button_bespoke_order" class="oe_highlight" string="Create Bespoke Order" type="object" />
+                
                 <button name="button_bespoke_order" class="oe_highlight" string="Create Bespoke Order" type="object" attrs="{'invisible': ['|',('is_bespoke_ordered', '=', True),('reserved', '=', False)]}"/>
 
             </xpath>

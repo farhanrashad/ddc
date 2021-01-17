@@ -6,8 +6,34 @@
         <field name="inherit_id" ref="point_of_sale.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='to_weight']" position="after">
-               <field name="is_bespoke" attrs="{'invisible': [('available_in_pos', '=', False)]}"/>
+                <field name="is_bespoke" attrs="{'invisible': [('available_in_pos', '=', False)]}"/>
+                <field name="is_open_bespoke_component_service" attrs="{'invisible': [('available_in_pos', '=', False)]}"/>
+                <field name="bespoke_component_product_template_id" attrs="{'invisible': [('available_in_pos', '=', False)]}"/>
+
+
+            </xpath>
+            <xpath expr="//header" position="inside">
+                    <button string="Open Bespoke Service" name="open_bespoke_service_action" type="object" class="oe_highlight" attrs="{'invisible': [('is_open_bespoke_component_service', '=', False)]}"/>
+
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <record id="product_pos_category_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.pos.category.form.view.inherit</field>
+        <field name="model">pos.category</field>
+        <field name="inherit_id" ref="point_of_sale.product_pos_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]/group[1]" position="after">
+                <group>
+                   <field name="is_open_bespoke_component_service" />
+                    <field name="bespoke_category_id" attrs="{'required': [('is_open_bespoke_component_service', '=', True)]}"/>
+                    <field name="bespoke_pos_categ_id" attrs="{'required': [('is_open_bespoke_component_service', '=', True)]}"/>
+
+                </group>
             </xpath>
         </field>
     </record>
+    
 </odoo>

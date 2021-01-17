@@ -17,10 +17,10 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Point of Sale',
-    'version': '0.1',
+    'version': '13.0.0.3',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','pos_forced_question','stock','mrp','de_product_sale_properties'],
+    'depends': ['base','pos_forced_question','stock','mrp','de_product_sale_properties','aspl_pos_order_reservation'],
 
     # always loaded
     'data': [

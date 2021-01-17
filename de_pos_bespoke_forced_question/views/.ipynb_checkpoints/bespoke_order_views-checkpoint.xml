@@ -6,13 +6,21 @@
 			<field name="arch" type="xml">
 				<form string="Bespoke Order">
                      <header>
-                <field name="state" widget="statusbar" statusbar_visible="draft,ready,confirmed,wait,done"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,ready,confirmed,wait,available,done"/>
                         <button name="button_mark_to_do" states="draft" class="oe_highlight" string="Mark as todo" type="object"/>
                          <button name="button_confirm" states="ready" class="oe_highlight" string="Confirm" type="object"/>
+                        <button name="button_confirm" class="oe_highlight" string="Confirm" type="object"/>
+
                          <!--
                         <button name="button_create_delivery" class="oe_highlight" string="Create Delivery" type="object" attrs="{'invisible': ['|',('picking_count', '!=', 0),('state', 'not in', ['confirm','ready'])]}"/>
 -->
                          <button name="button_create_production" class="oe_highlight" string="Create Production" states="confirmed" type="object" />
+                         
+                                                  <button name="button_check_availability" class="oe_highlight" string="Check Availability" states="wait" type="object" />
+                                                                           <button name="button_process" class="oe_highlight" string="Process Order"  type="object" />
+
+
+                         
 
                          <button name="button_cancel" states="draft" class="" string="Cancel" type="object"/>
 
@@ -36,11 +44,11 @@
                         <button class="oe_stat_button" name="action_view_invoices" icon="fa-credit-card" type="object" attrs="{'invisible': [('invoice_count', '=', 0)]}">
                             <field name="invoice_count" string="Invoices" widget="statinfo"/>
                         </button>
-                        
+                      <!--  
                         <button name="action_show_payments_list" type="object" class="oe_stat_button" icon="fa-dollar">
                             <field name="total_payments_amount" widget="statinfo" string="Payments"/>
                         </button>
-                        
+                        -->
                         
                         
                            
@@ -77,6 +85,7 @@
 						</group>
                         <div class="oe_clear"/>
                         <div class="oe_clear"/>
+                        <!--
                         <group class="oe_subtotal_footer oe_right">
                                 <field name="total_amount" />
                                 <field name="paid_amount" />
@@ -85,7 +94,7 @@
                                 </div>
                                 <field name="due_amount" nolabel="1" class="oe_subtotal_footer_separator" />
                             </group>
-                        
+                        -->
 					</sheet>
 				</form>
 			</field>
