@@ -9,9 +9,11 @@ class ProductTemplate(models.Model):
     is_bespoke = fields.Boolean(string='Allowed Bespoke',
                                  help="Check if the product should be bespoke order")
     
-    is_open_bespoke_component_service = fields.Boolean(related='pos_categ_id.is_open_bespoke_component_service', string='Open Bespoke Component Service', help="Create a product as services for reference component")
-    
+    is_open_bespoke_component_service = fields.Boolean(related='categ_id.is_open_bespoke_component_service', string='Open Bespoke Component Service', help="Create a product as services for reference component")
     bespoke_component_product_template_id = fields.Many2one('product.template',string='Bespoke Component')
+    
+    is_bespoke_component = fields.Boolean(string='Bespoke Component', readonly=True)
+
     
     @api.returns('self', lambda value: value.id)
     def open_bespoke_service_action(self, default=None):
@@ -25,16 +27,18 @@ class ProductTemplate(models.Model):
             'bespoke_component_product_template_id': bespoke_service_id.id,
         })
         bespoke_service_id.update({
-            'categ_id': self.pos_categ_id.bespoke_category_id.id,
-            'pos_categ_id': self.pos_categ_id.bespoke_pos_categ_id.id,
+            'categ_id': self.categ_id.bespoke_category_id.id,
+            'pos_categ_id': self.categ_id.bespoke_pos_categ_id.id,
             'is_bespoke': False,
             'type': 'service',
             'name': self.name,
+            'available_in_pos':True,
+            'is_bespoke_component':True,
         })
         return bespoke_service_id
     
 class ProductCategory(models.Model):
-    _inherit = 'pos.category'
+    _inherit = 'product.category'
     
     is_open_bespoke_component_service = fields.Boolean(string='Open Bespoke Component Service',
                                                        help="Create a product as services for reference component")
