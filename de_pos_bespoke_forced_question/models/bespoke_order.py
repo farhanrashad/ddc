@@ -68,6 +68,8 @@ class BespokeOrder(models.Model):
     
     test1 = fields.Char('test')
     
+    bespoke_component_line = fields.One2many('pos.bespoke.order.component', 'order_id', string='Bespoke Component Lines', copy=True, auto_join=True)
+    
     @api.depends('pos_order_line_id')
     def _compute_qty_price(self):
         for line in self:
@@ -333,4 +335,10 @@ class BespokeOrder(models.Model):
             'context': {'search_default_group_by_payment_method': 1}
         }
     
+class BespokeOrder(models.Model):
+    _name = 'pos.bespoke.order.component'
+    _description = 'Bespoke Comoenent'
     
+    order_id = fields.Many2one('pos.bespoke.order', string='Order Reference', required=True, ondelete='cascade', index=True, copy=False)
+    bespoke_component_product_id = fields.Many2one('product.product', string='Bespoke Component', required=True)
+    bespoke_component_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', required=True)

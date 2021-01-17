@@ -17,6 +17,7 @@ class ProductTemplate(models.Model):
     def open_bespoke_service_action(self, default=None):
         # TDE FIXME: should probably be copy_data
         self.ensure_one()
+        self.bespoke_component_product_template_id.active = False
         if default is None:
             default = {}
         bespoke_service_id = super(ProductTemplate, self).copy(default=default)

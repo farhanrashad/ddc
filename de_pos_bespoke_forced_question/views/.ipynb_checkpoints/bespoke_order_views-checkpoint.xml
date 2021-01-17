@@ -83,6 +83,16 @@
                             </group>
                             
 						</group>
+                        <notebook>
+                            <page name="components" string="Components">
+                                <field name="bespoke_component_line" widget="one2many_list">
+                                    <tree string="Bespoke Componenet lines" editable="bottom">
+                                        <field name="bespoke_component_product_id"/>
+                                        <field name="bespoke_component_qty"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                         <div class="oe_clear"/>
                         <div class="oe_clear"/>
                         <!--

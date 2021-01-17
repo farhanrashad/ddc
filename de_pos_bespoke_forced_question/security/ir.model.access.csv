@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pos_order_line_questions,access.pos.order.line.questions,model_pos_order_line_questions,point_of_sale.group_pos_user,1,1,1,1
 access_pos_bespoke_order,access.pos.bespoke.order,model_pos_bespoke_order,point_of_sale.group_pos_user,1,1,1,1
+access_pos_bespoke_order_component,access.pos.bespoke.order.component,model_pos_bespoke_order_component,point_of_sale.group_pos_user,1,1,1,1
