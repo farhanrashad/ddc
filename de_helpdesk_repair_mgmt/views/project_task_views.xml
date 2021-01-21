@@ -44,7 +44,6 @@
                 </xpath>
                 
                 
-                
                 <xpath expr="//notebook/page[@name='description_page']" position="after">
                     <page name="description_page" string="Fault,Causes" attrs="{'invisible': [('is_diagnosys', '=', False)]}">
                         <field name="description" type="html"/>
@@ -55,15 +54,26 @@
                         <field name="repair_planning_lines" widget="one2many_list">
                                 <tree string="Order lines" editable="bottom">
                                     <field name="product_id"/>
+                                    <field name="material_code" />
                                     <field name="name" />
                                     <field name="product_uom_qty"/>
                                     <field name="qty_delivered" />
                                     <field name="product_uom_id"/>
                                     <field name="product_uom_category_id" invisible="1"/>
                                     <field name="price_unit" />
+                                    <field name="warranty_status" />
                                     <field name="invoice_amount" />
+                                    <field name="subtotal" string="Subtotal"/>
                                 </tree>
                             </field>
+                
+                        <group class="oe_subtotal_footer oe_right">
+                                <div>
+                                    <label for="total"/>
+                                </div>
+                                <field name="total" nolabel="1" widget="monetary" />
+                        </group>
+                        
                     </page>
                 </xpath>
                 
