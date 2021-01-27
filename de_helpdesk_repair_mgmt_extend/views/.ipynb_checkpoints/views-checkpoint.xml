@@ -1,0 +1,28 @@
+<odoo>
+    
+    <record id="helpdesk_form_inherit_view" model="ir.ui.view">
+            <field name="name">helpdesk.form.inherit.view</field>
+            <field name="model">helpdesk.ticket.team</field>
+            <field name="inherit_id" ref="de_helpdesk.view_helpdesk_team_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                        <field name="technician_ids" widget="many2many_tags"/>
+                    </group>
+                </xpath>
+            </field>
+    </record>
+    
+    <record id="helpdesk_form_inherit_view_extend" model="ir.ui.view">
+        <field name="name">helpdesk.form.inherit.view.extend</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="de_helpdesk.ticket_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[@name='main']/group/field[@name='user_id']" position="after">
+                <field name="team" widget="many2many_tags" invisible="1"/>
+                <field name="technician_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
