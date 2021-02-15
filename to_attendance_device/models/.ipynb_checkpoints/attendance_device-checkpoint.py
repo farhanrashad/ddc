@@ -932,6 +932,8 @@ class AttendanceDevice(models.Model):
                         ('user_id', '=', user_id.id),
                         ('timestamp', '=', str_utc_timestamp)], limit=1)
 
+                    
+                    
                     if not duplicate_attend:
                         try:
                             datetime = timestamp.strftime('%Y-%m-%d')
