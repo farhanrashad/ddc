@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+1,access_extra_issuance,model_extra_issuance,base.group_user,1,1,1,1
+2,access_extra_issuance_article_line,model_extra_issuance_article_line,base.group_user,1,1,1,1
+3,access_extra_issuance_component_line,model_extra_issuance_component_line,base.group_user,1,1,1,1
+4,access_extra_issuance_wizard,model_extra_issuance_wizard,base.group_user,1,1,1,1
+5,access_extra_issuance_wizard_line,model_extra_issuance_wizard_line,base.group_user,1,1,1,1
+6,access_extra_issuance_wizard_line2,model_extra_issuance_wizard_line2,base.group_user,1,1,1,1

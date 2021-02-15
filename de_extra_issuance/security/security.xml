@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="extra_issuance">
+        <field name="name">Extra Issuance</field>
+        <field name="description">User access For Approve Extra Issuance</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="extra_issuance_approve" model="res.groups">
+        <field name="name">Extra Issuance Approve</field>
+        <field name="category_id" ref="extra_issuance"/>
+    </record>
+
+</odoo>

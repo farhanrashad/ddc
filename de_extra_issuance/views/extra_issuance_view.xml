@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+		<record id="view_extra_issuance_form" model="ir.ui.view">
+			<field name="name">extra.issuance.form</field>
+			<field name="model">extra.issuance</field>
+			<field name="arch" type="xml">
+				<form string="Extra Issuance Form">
+					<header>
+                        <button name="action_process" string="Process" type="object"
+								attrs="{'invisible': [('state', '!=', 'draft')]}"
+								class="btn-primary" />
+                        <button name="action_submit" string="Submit" type="object"
+								attrs="{'invisible': [('state', '!=', 'processed')]}"
+								class="btn-primary" />
+                        <button name="action_approve" string="Approve" type="object"
+								groups="de_extra_issuance.extra_issuance_approve"
+                                attrs="{'invisible': [('state', '!=', 'submitted')]}"
+								class="btn-primary" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+					<sheet>
+                          <div class="oe_button_box" name="button_box">
+                        <button name="action_view_picking" type="object" class="oe_stat_button"  icon="fa-truck"  attrs="{'invisible': [('picking_count', '=', 0)]}">
+                            <field name="picking_count" widget="statinfo" string="Picking"/>
+                        </button>
+                    </div> 
+                          <div class="oe_title">
+                           <h1><field name="name"  placeholder="Reference" nolabel="1"/></h1>
+                        </div>
+						<group>
+							<group>
+								<field name="sale_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="product_line_ids" widget="many2many_tags" invisible="1"/>
+
+							</group>
+							<group>
+								<field name="reason" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Articles" attrs="{'readonly': [('state', '!=', 'draft')]}">
+								<field name="articles_lines" >
+									<tree  editable="bottom" attrs="{'readonly': [('is_processed', '=', True)]}">
+                                        <field name="product_line_ids" invisible="1" />
+										<field name="product_id"/>
+										<field name="is_processed" invisible="1"/>
+										<field name="quantity"/>
+										<field name="article_id" invisible="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Components">
+								<field name="component_lines" >
+									<tree  editable="bottom" >
+                                        <field name="product_line_ids" invisible="1" />
+										<field name="product_id"/>
+										<field name="component_qty"/>
+										<field name="component_id" invisible="1"/>
+									</tree>
+								</field>
+							</page>
+                    	</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_extra_issuance_tree" model="ir.ui.view">
+			<field name="name">extra.issuance.tree</field>
+			<field name="model">extra.issuance</field>
+			<field name="arch" type="xml">
+				<tree string="Extra Issuance Tree">
+					<field name="sale_id" />
+					<field name="reason" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_extra_issuance_search" model="ir.ui.view">
+			<field name="name">extra.issuance.search</field>
+			<field name="model">extra.issuance</field>
+			<field name="arch" type="xml">
+				<search string="Extra Issuance Search">
+					<field name="sale_id" />
+					<field name="reason" />
+				</search>
+			</field>
+		</record>
+
+
+		<record id="action_extra_issuance_view" model="ir.actions.act_window">
+            <field name="name">Extra Issuance</field>
+            <field name="res_model">extra.issuance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+			<field name="view_id" ref="view_extra_issuance_tree"/>
+            <field name="search_view_id" ref="view_extra_issuance_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   Add Extra Issuances ...........
+                </p>
+            </field>
+        </record>
+
+		<menuitem id="extra_issuance_menu"
+				  name="Extra Issuance Request"
+				  action="de_extra_issuance.action_extra_issuance_view"
+				  parent="stock.menu_stock_warehouse_mgmt"
+				  sequence="1" />
+    
+      
+
+</odoo>

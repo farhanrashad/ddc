@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="open_extra_issuance_action"
+            string="Extra Issuance Report"
+            model="report.de_extra_issuance.stock_extra_issuance"
+            report_type="qweb-pdf"
+            file="de_extra_issuance.stock_extra_issuance"
+            name="de_extra_issuance.stock_extra_issuance"
+        />
+    </data>
+</odoo>

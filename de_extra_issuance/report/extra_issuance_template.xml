@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="stock_extra_issuance">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="row justify-content-end">
+                            <div class="col-12">
+                                <table class="table table-bordered" style="table-layout: fixed" >
+                                    <thead>
+                                        <tr>
+                                            <th >Product</th>
+                                            <th >Product Uom</th>
+                                            <th >Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                 <t t-set="totquantity" t-value="0"/>
+                                    
+                                    
+                                 
+                                    <tbody>
+                                      <t t-foreach="bom_product" t-as="component">                                                                               
+                                        <tr>
+                                            <td>
+                                                <span t-esc="component['product_id']"  />
+                                            </td>
+                                            
+                                             <td>
+                                                <span t-esc="component['uom_id']" />
+                                            </td>
+                                
+                                            <td>
+                                                <span t-esc="round(component['component_qty'],4)" />
+                                            </td>
+                                            <t t-set="totquantity" t-value="totquantity + component['component_qty']"/>
+                                        </tr>
+                                          
+                                      </t>
+                                        
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
