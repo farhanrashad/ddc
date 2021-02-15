@@ -20,6 +20,7 @@
 							<group>
 								<field name="user_id" />
 								<field name="timestamp" />
+								<field name="check_out" />
 								<field name="is_attedance_created" />
 								<field name="status" groups="base.group_no_one" />
 								<field name="attendance_state_id" />
@@ -41,6 +42,7 @@
 			<field name="arch" type="xml">
 				<pivot string="Attendance Data">
 					<field name="timestamp" type="col" />
+					<field name="check_out" type="col" />
 					<field name="user_id" type="row" />
 				</pivot>
 			</field>
@@ -53,6 +55,7 @@
 				<tree string="Attendance Data" create="false"
 					edit="false">
 					<field name="timestamp" />
+					<field name="check_out" />
 					<field name="user_id" />
                     <field name="is_attedance_created" />
 					<field name="status" groups="base.group_no_one" />

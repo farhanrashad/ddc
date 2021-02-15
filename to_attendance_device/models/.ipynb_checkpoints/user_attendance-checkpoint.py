@@ -10,7 +10,8 @@ class UserAttendance(models.Model):
 
     device_id = fields.Many2one('attendance.device', string='Attendance Device', required=True, ondelete='restrict', index=True)
     user_id = fields.Many2one('attendance.device.user', string='Device User', required=True, ondelete='cascade', index=True)
-    timestamp = fields.Datetime(string='Timestamp', required=True, index=True)
+    timestamp = fields.Datetime(string='Check In', required=True, index=True)
+    check_out = fields.Datetime(string='Check Out', required=True, index=True)
     status = fields.Integer(string='Device Attendance State', required=True,
                             help='The state which is the unique number stored in the device to'
                             ' indicate type of attendance (e.g. 0: Checkin, 1: Checkout, etc)')
