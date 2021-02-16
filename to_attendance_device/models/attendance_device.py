@@ -936,16 +936,16 @@ class AttendanceDevice(models.Model):
                     
                     if not duplicate_attend:
                         try:
-                            datetime = timestamp.strftime('%Y-%m-%d')
-                            date_start = datetime + relativedelta(hours =+ 1)
-                            date_end = datetime + relativedelta(hours =+ 23)
-                            existing_checkin = self.env['user.attendance'].search([('timestamp','>=',date_start),('timestamp','<=',date_end),('user_id','=',user_id.id)])
-                            if existing_checkin:
-                                existing_checkin.update({
-                                    'check_out' : str_utc_timestamp
-                                })
-                            else:    
-                                vals = {
+#                             datetime = timestamp.strftime('%Y-%m-%d')
+#                             date_start = datetime + relativedelta(hours =+ 1)
+#                             date_end = datetime + relativedelta(hours =+ 23)
+#                             existing_checkin = self.env['user.attendance'].search([('timestamp','>=',date_start),('timestamp','<=',date_end),('user_id','=',user_id.id)])
+#                             if existing_checkin:
+#                                 existing_checkin.update({
+#                                     'check_out' : str_utc_timestamp
+#                                 })
+#                             else:    
+                            vals = {
                                     'device_id': r.id,
                                     'user_id': user_id.id,
                                     'timestamp': str_utc_timestamp,
@@ -953,7 +953,7 @@ class AttendanceDevice(models.Model):
                                     'attendance_state_id': attendance_states[attendance.punch]
                                     }
 
-                                DeviceUserAttendance.create(vals)
+                            DeviceUserAttendance.create(vals)
                         except Exception as e:
                             error_msg += str(e) + "<br />"
                             error_msg += _("Error create DeviceUserAttendance record: device_id %s; user_id %s; timestamp %s; attendance_state_id %s.<br />") % (

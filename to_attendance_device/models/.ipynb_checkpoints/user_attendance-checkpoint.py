@@ -87,8 +87,8 @@ class UserAttendance(models.Model):
                                   }
                         hr_attendance = self.env['hr.attendance'].create(vals)
 
-            attendancelist = attendance_test.search([('employee_id','=',employee.id),('timestamp','>=',date_start),('timestamp','<=',date_end),('is_attedance_created','=',False)])
-            for line in attendance_test:
-                line.update({
-                   'is_attedance_created' : True
-                 })
+                attendancelist = attendance_test.search([('employee_id','=',employee.id),('timestamp','>=',date_start),('timestamp','<=',date_end),('is_attedance_created','=',False)])
+                for line in attendancelist:
+                    line.update({
+                       'is_attedance_created' : True
+                     })

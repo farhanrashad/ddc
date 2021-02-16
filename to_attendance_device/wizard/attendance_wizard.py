@@ -40,9 +40,11 @@ class AttendanceWizard(models.TransientModel):
         devices.action_attendance_download()
         
         
-    def cron_user_attendance(self):
-        devices = self.env['user.attendance'].search([('state', '=', 'confirmed')])
-        devices.action_attendance_download()    
+    def cron_user_attendance_validate(self):
+        user_attendance = self.env['user.attendance']
+        user_attendance.action_attendace_validated()
+        
+   
 
     def cron_sync_attendance(self):
         self.with_context(synch_ignore_constraints=True).sync_attendance()
@@ -121,7 +123,8 @@ class AttendanceWizard(models.TransientModel):
                         ('activity_id', '=', activity_id.id)], limit=1)
                     if not hr_attendance_id:
                         try:
-                            hr_attendance_id = HrAttendance.create(vals)
+                            pass
+#                             hr_attendance_id = HrAttendance.create(vals)
                         except Exception as e:
                             _logger.error(e)
 
