@@ -922,8 +922,7 @@ class AttendanceDevice(models.Model):
                         continue
 
                 user_id = AttendanceUser.with_context(active_test=False).search([
-                    ('user_id', '=', attendance.user_id),
-                    ('device_id', '=', r.id)], limit=1)
+                    ('user_id', '=', attendance.user_id)], limit=1)
                 if user_id:
                     utc_timestamp = r.convert_time_to_utc(attendance.timestamp, r.tz)
                     str_utc_timestamp = fields.Datetime.to_string(utc_timestamp)
@@ -932,34 +931,22 @@ class AttendanceDevice(models.Model):
                         ('user_id', '=', user_id.id),
                         ('timestamp', '=', str_utc_timestamp)], limit=1)
 
-                    
-                    
                     if not duplicate_attend:
                         try:
-#                             datetime = timestamp.strftime('%Y-%m-%d')
-#                             date_start = datetime + relativedelta(hours =+ 1)
-#                             date_end = datetime + relativedelta(hours =+ 23)
-#                             existing_checkin = self.env['user.attendance'].search([('timestamp','>=',date_start),('timestamp','<=',date_end),('user_id','=',user_id.id)])
-#                             if existing_checkin:
-#                                 existing_checkin.update({
-#                                     'check_out' : str_utc_timestamp
-#                                 })
-#                             else:    
                             vals = {
-                                    'device_id': r.id,
-                                    'user_id': user_id.id,
-                                    'timestamp': str_utc_timestamp,
-                                    'status': attendance.punch,
-                                    'attendance_state_id': attendance_states[attendance.punch]
-                                    }
+                                'device_id': r.id,
+                                'user_id': user_id.id,
+                                'timestamp': str_utc_timestamp,
+                                'status': attendance.punch,
+                                'attendance_state_id': attendance_states[attendance.punch]
+                                }
 
                             DeviceUserAttendance.create(vals)
                         except Exception as e:
                             error_msg += str(e) + "<br />"
-                            error_msg += _("Error create DeviceUserAttendance record: device_id %s; user_id %s; timestamp %s; attendance_state_id %s.<br />") % (
+                            error_msg += _("Error create DeviceUserAttendance record: device_id %s; user_id %s; attendance_state_id %s.<br />") % (
                                 r.id,
                                 user_id.id,
-                                format_datetime(r.env, attendance.timestamp, r.tz),
                                 attendance_states[attendance.punch]
                                 )
                             _logger.error(error_msg)
