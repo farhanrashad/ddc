@@ -18,7 +18,7 @@
     'version': '13.0.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','de_helpdesk'],
+    'depends': ['base','de_helpdesk','de_helpdesk_repair_custom_views'],
 
     # always loaded
     'data': [

@@ -17,7 +17,7 @@
                         <group>
                             <field name="active" invisible="1"/>
                             <separator colspan="2" string="Apply on"/>
-                            <field name="team_id" domain="[('use_sla', '=', True)]"/>
+                            <field name="team_id"/>
                             <field name="ticket_type_id"/>
                             <separator colspan="2" string="Target" class="mt32"/>
                             <field name="stage_id" string="Reach Stage" />
@@ -58,7 +58,7 @@
         </field>
     </record>
     
-    <menuitem id="helpdesk_ticket_sla_menu" name="SLA Policies"
+    <menuitem id="helpdesk_ticket_sla_menu" name="Ticket SLA"
             parent="de_helpdesk.helpdesk_ticket_config_main_menu" action="helpdesk_ticket_sla_action" sequence="50"/>
 
 </odoo>

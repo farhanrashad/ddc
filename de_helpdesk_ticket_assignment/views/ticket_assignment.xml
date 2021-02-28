@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    
+       <record id="view_stages_inherit" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.stage2</field>
+            <field name="model">helpdesk.ticket.stage</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="de_helpdesk.view_helpdesk_ticket_stage_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group/group/field[@name='company_id']" position="after">
+                 
+                     <field name="user_ids" string="Responsible"/>
+                        
+                </xpath>
+                                
+            </field>
+        </record> 
+        </data>        
+           
+        </odoo>
+   
+

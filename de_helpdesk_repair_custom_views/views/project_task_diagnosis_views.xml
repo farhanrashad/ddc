@@ -1,5 +1,99 @@
 <odoo>
   <data>
+      
+      <record model="ir.ui.view" id="view_project_task_sla_inh">
+        <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="asset_model"/>
+                </xpath>
+                
+            </field>
+    </record>
+      
+      
+      <record model="ir.ui.view" id="view_helpdesk_ticket_sla_inh">
+        <field name="name">helpdesk.ticket.sla.form.inherit</field>
+            <field name="model">helpdesk.ticket.sla</field>
+            <field name="inherit_id" ref="de_helpdesk_sla.view_helpdesk_sla_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='team_id']" position="replace">
+                    <field name="team_ids" widget="many2many_tags"/>
+                </xpath>
+                
+            </field>
+    </record>
+                
+      <record model="ir.ui.view" id="view_helpdesk_ticket_inh">
+        <field name="name">helpdesk.ticket.form.inherit</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="de_helpdesk.ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='reference']" position="after">
+                    <field name="closed_date"/>
+                    <field name="sla_ids" widget="many2many_tags"/>
+                    <field name="sla_status" readonly="1"/>
+<!--                     <field name="level"/> -->
+                </xpath>
+                <xpath expr="//field[@name='sale_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='other_info']" position="after">
+                    <page name="sla_status_page" string="SLA Status">
+                        <field name='sla_status_lines' readonly='1' force_save="1">
+                            <tree>
+                                <field name='name'/>
+                                <field name='completion_date'/>
+                                <field name='completion_stage'/>
+                                <field name='sla_status'/>
+                            </tree>
+                        </field>
+                        
+                    </page>
+                </xpath>
+                
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="widget">0</attribute>
+                </xpath>
+                
+        </field>
+    </record>
+      
+    <record model="ir.ui.view" id="view_project_task_form_inh">
+        <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='description_page']" position="attributes">
+                    <attribute name="string">Remedy</attribute>               
+                </xpath>
+                <xpath expr="//notebook/page[@name='description_page']/field[@name='description']" position="replace">
+                    <field name='remedy_description'/>              
+                </xpath>
+        </field>
+    </record>
+      
+      
+<!--       <record model="ir.ui.view" id="view_helpdesk_ticket_tree_inh">
+        <field name="name">project.task.tree.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="de_helpdesk_repair_custom_views.project_task_tickets_feedback_list_view "/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="string">Fault &</attribute>
+                </xpath>
+
+        </field>
+    </record> -->
+      
     <!-- Feedback list view definition -->
     <record model="ir.ui.view" id="project_task_tickets_feedback_list_view">
       <field name="name">project.task.tickets.feedback.list.view</field>
@@ -10,8 +104,8 @@
          <field name="crmid" optional="show"/>
             <field name="material" optional="show"/>
             <field name="partner_name" optional="show"/>
-            <field name="contact_name" optional="show"/>
-            <field name="contact_no" optional="show"/>
+            <field name="contact_name_ticket" optional="show"/>
+            <field name="contact_no_ticket" optional="show"/>
             <field name="site_address" optional="show"/>
             <field name="ticket_description" optional="show"/>
             <field name="additional_info1" optional="show"/>
@@ -24,11 +118,16 @@
             <field name="barcode" optional="show"/>
             <field name="asset_no" optional="show"/>
             <field name="asset_model" optional="show"/>
-            <field name="description" optional="show"/>
+            <field name="description" string="Fault&amp;Causes" optional="show"/>
             <field name="remarks" optional="show"/>
             <field name="category_id" optional="show"/>
             <field name="ticket_tag_ids" optional="show"/>
             <field name="ticket_stage_id" optional="show"/>
+            <field name="site_name" optional="show"/>
+            <field name="contact_name" optional="show"/>
+            <field name="contact_no" optional="show"/>
+            <field name="closed_date" optional="show"/>
+<!--             <field name="level" optional="show"/> -->
 
 
         </tree>
@@ -56,12 +155,15 @@
       <field name="model">project.task.planning.line</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="sap_no" optional="show"/>
-         <field name="city" optional="show"/>
+            <field name="sap_no" optional="show"/>
+            <field name="city" optional="show"/>
             <field name="asset_model" optional="show"/>
             <field name="ticket_stage_id" optional="show"/>
             <field name="material" optional="show"/>
+             <field name="material_code" optional="show"/>
             <field name="name" optional="show"/>
+            <field name="date_deadline" optional="show"/>
+            <field name="warranty_status" optional="show"/>
             <field name="product_uom_qty" optional="show"/>
             <field name="price_unit" optional="show"/>
             <field name="total_amount" optional="show"/>

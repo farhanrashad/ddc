@@ -24,5 +24,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="helpdesk_form_inherit_view_custom" model="ir.ui.view">
+        <field name="name">helpdesk.form.inherit.view.report</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="de_helpdesk_repair_custom_views.project_task_tickets_feedback_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='site_name']" position="after">
+               
+                <field name="technician_id"/>
+            </xpath>
+        </field>
+    </record>
     
 </odoo>
