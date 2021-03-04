@@ -68,7 +68,7 @@ class UserAttendance(models.Model):
 
     def action_attendace_validated(self):
         month_datetime = fields.date.today()
-        for month_date in range(32):
+        for month_date in range(100):
             datetime =  month_datetime - timedelta(month_date)
             date_start = datetime + relativedelta(hours =+ 1)
             date_end = datetime + relativedelta(hours =+ 23)
