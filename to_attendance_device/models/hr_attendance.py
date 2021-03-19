@@ -20,6 +20,7 @@ class HrAttendance(models.Model):
     activity_id = fields.Many2one('attendance.activity', string='Attendance Activity',
                                   help='This field is to group attendance into multiple Activity (e.g. Overtime, Normal Working, etc)')
     employee_batch_id = fields.Char(related='employee_id.barcode', store=True)
+    department_id = fields.Many2one(related='employee_id.department_id', store=True)
     
     
     

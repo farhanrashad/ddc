@@ -9,6 +9,9 @@
 		    	<field name="check_in" position="after">
 		            <field name="checkin_device_id"/>
 		        </field>
+                        <field name="employee_id" position="after">
+		            <field name="department_id"/>
+		        </field>
 		        <field name="check_out" position="after">
 		            <field name="checkout_device_id"/>
 		            <field name="activity_id"/>
