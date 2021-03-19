@@ -1,0 +1,9 @@
+<odoo>
+    
+    <menuitem id="employee_att_wizard"
+              name="Attendance Report"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="de_employee_attendance_report.action_emp_att_wizard"
+              sequence="98" />
+    
+</odoo>
