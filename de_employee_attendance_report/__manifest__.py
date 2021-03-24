@@ -10,7 +10,7 @@
     'author': "Dynexcel",
     'website': "http://www.dynexcel.co",
 #     'license': 'LGPL-3',
-    'depends': ['base','hr_attendance','report_xlsx'],
+    'depends': ['base','hr_attendance'],
     
     'data': [
         'security/ir.model.access.csv',
