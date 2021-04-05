@@ -37,7 +37,6 @@ class AttendanceReport(models.AbstractModel):
             work_hour = round(count_hours, 2)
             record_list[4] = work_hour
 
-            print([tuple(record_list)])
             return [tuple(record_list)]
         else:
             record_list = [(None, None, None, None, None)]
