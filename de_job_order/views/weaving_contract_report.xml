@@ -1,0 +1,257 @@
+<odoo>
+    <template id="weaving_contract_report_template">
+        <t t-call="web.internal_layout">
+            <t t-set="o" t-value="doc.with_context({'lang': 'en_US'})"/>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                <div class="row mt0 mb16 text-center" style="text-align:center;width:100%;display:block;" id="Heading">
+                    <h1 class="text-center mb0">Weaving Plan</h1>
+                </div>
+                <div class="row mt0 mb0" id="Contract">
+                    <h4 class="mt0">
+                        <span t-if="o.sale_id">Order # </span>
+                        <span t-field="o.id"/>/
+                        
+                        <span t-field="o.sale_id.name"/>-
+                        
+                        <span t-field="o.sale_id.global_ref"/>
+                    </h4>
+                </div>
+                <div class="row mt8 mb8" id="box1">
+                    <div t-if="o.sale_id" class="col-6 col-md-6 col-xs-6">
+                        <strong>Contract Date: </strong>
+                        <span t-field="o.date_order"/>
+                    </div>
+                    <div t-if="o.sale_id" class="col-6 col-md-6 col-xs-6">
+                        <strong>Prepared By: </strong>
+                        <span t-field="o.create_uid"/>
+                    </div>
+                </div>
+                <div class="row mt0 mb8" id="box2">
+                    <div t-if="o.sale_id" class="col-6 col-md-6 col-xs-6">
+                        <strong>Order Date: </strong>
+                        <span t-field="o.sale_id.date_order"/>
+                    </div>
+                </div>
+                <div class="row mt0 mb8" id="box2">
+                    <div t-if="o.sale_id" class="col-6 col-md-6 col-xs-6">
+                        <strong>Delivery Date: </strong>
+                        <span t-field="o.sale_id.expected_date"/>
+                    </div>
+                </div>
+                <div class="row mt0 mb32" id="box3">
+                    <div t-if="o.sale_id" class="col-12 col-md-12 col-xs-12">
+                        <strong>Remarks:</strong>
+                        <span t-field="o.note"/>
+                    </div>
+                </div>
+                <table class="table table-sm table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" name="th_description" class="text-center">Description</th>
+                            <th rowspan="2" name="th_description" class="text-center"/>
+                            <th colspan="2" class="text-center">Unit Weight</th>
+                            <th colspan="2" class="text-center">Finish</th>
+                            <th colspan="2" class="text-center">B</th>
+                            <th colspan="2" class="text-center">Greige</th>
+                            <th colspan="2" class="text-center">Hard Waste</th>
+                            <th colspan="2" class="text-center">Remarks</th>
+                        </tr>
+                        <tr>
+                            <th name="th_description" class="text-center">Finish</th>
+                            <th name="th_description" class="text-center">Greige</th>
+                            <th name="th_description" class="text-center">Qty</th>
+                            <th name="th_description" class="text-center">Weight</th>
+                            <th name="th_description" class="text-center">%</th>
+                            <th name="th_description" class="text-center">Qty</th>
+                            <th name="th_description" class="text-center">G.Qty</th>
+                            <th name="th_description" class="text-center">G.Wgt</th>
+                            <th name="th_description" class="text-center">HW(%)</th>
+                            <th name="th_description" class="text-center">HW Qty</th>
+                            <th name="th_description" class="text-center">R/OE</th>
+                            <th name="th_description" class="text-center">Fancy</th>
+                        </tr>
+                    </thead>
+                    <tobdy>
+                        <t t-set="products" t-value="[]"/>
+                        <t t-set="components" t-value="[]"/>
+                        <t t-foreach="request.env['mrp.production'].search([])" t-as="p">
+                            <t t-if="(p.job_order_id.id==o.id and p.product_id.categ_id.name=='Greige')">
+                                <t t-set="products" t-value="products+[p.product_id.product_tmpl_id]"/>
+                                <t t-foreach="p.move_raw_ids" t-as="line_ids">
+                                    <t t-set="components" t-value="components+[line_ids.product_id.product_tmpl_id]"/></t>
+                            </t>
+                        </t>
+                        <tr t-foreach="set(products)" t-as="product">
+                            <td>
+                                <span t-field="product.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="product.ref_product_tmpl_id.weight_sm"/>
+                            </td>
+                            <td>
+                                <span t-esc="product.ref_product_tmpl_id.dim_weight"/>
+                            </td>
+                            <td>
+                                <span t-esc="product.dim_weight"/>
+                            </td>
+                            <t t-set="sq" t-value="0"/>
+                            <t t-set="sw" t-value="0"/>
+                            <t t-set="bgp" t-value="0"/>
+                            <t t-set="hwp" t-value="0"/>
+                            <t t-foreach="o.job_order_sale_lines" t-as="sale">
+                                <t t-if="product.ref_product_tmpl_id.id==sale.product_tmpl_id.id">
+                                    <t t-set="sq" t-value="sq+sale.product_uom_qty"/>
+                                    <t t-set="sw" t-value="sw+sale.sale_line_id.total_weight"/></t>
+                            </t>
+                            <td>
+                                <span t-esc="sq"/>
+                                <span t-esc="product.ref_product_tmpl_id.uom_id.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="sw"/>
+                            </td>
+                            <t t-set="q" t-value="0"/>
+                            <t t-set="w" t-value="0"/>
+                            <t t-foreach="request.env['mrp.production'].search([])" t-as="prd">
+                                <t t-if="prd.job_order_id.id==o.id">
+                                    <t t-if="prd.product_id.product_tmpl_id.id==product.id">
+                                        <t t-set="q" t-value="q+prd.product_qty"/>
+                                        <t t-set="w" t-value="q+prd.production_weight"/></t>
+                                </t>
+                            </t>
+                            <!--bgrade and hard waste-->
+                            <t t-set="bq" t-value="0"/>
+                            <t t-set="hq" t-value="0"/>
+                            <t t-foreach="o.job_order_lines" t-as="line">
+                                <t t-if="product.ref_product_tmpl_id.id==line.product_tmpl_id.id">
+                                    <t t-if="line.job_rule_id.code=='GQ'">
+                                        <t t-set="bq" t-value="line.quantity"/></t>
+                                    <t t-elif="line.job_rule_id.code=='HWKG'">
+                                        <t t-set="hq" t-value="line.quantity"/></t>
+                                </t>
+                            </t>
+                            <td/>
+                            <td>
+                                <span t-esc="bq"/>
+                            </td>
+                            <td>
+                                <span t-esc="q"/>
+                                <span t-esc="product.uom_id.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="w"/>
+                            </td>
+                            <td/>
+                            <td>
+                                <span t-esc="hq"/>
+                            </td>
+                            <td/>
+                            <td/>
+                        </tr>
+                        <!--above code-->
+                        <!--
+                        <tr t-foreach="request.env['mrp.production'].search([])" t-as="prd"><t t-if="prd.job_order_id.id==o.id"><td><span t-field="prd.name"/></td><td><span t-field="prd.product_id.product_tmpl_id"/></td><td><span t-field="prd.product_qty"/></td></t></tr>
+                        -->
+                    </tobdy>
+                </table>
+                <table class="table table-sm table-striped table-bordered">
+                    <tr>
+                        <th>Description</th>
+                        <th>Composition</th>
+                        <th>Quantity</th>
+                    </tr>
+                    <tr t-foreach="set(components)" t-as="component">
+                        <td>
+                            <span t-field="component.name"/>
+                        </td>
+                        <t t-set="q" t-value="0"/>
+                        <t t-set="label" t-value=""/>
+                        <t t-foreach="request.env['mrp.production'].search([])" t-as="prd">
+                            <t t-if="prd.job_order_id.id==o.id">
+                                <t t-foreach="prd.move_raw_ids" t-as="line">
+                                    <t t-if="line.product_id.product_tmpl_id.id==component.id">
+                                        <t t-set="q" t-value="q+line.product_uom_qty"/>
+                                        <t t-set="label" t-value="line.bom_line_id.material_desc"/></t>
+                                </t>
+                            </t>
+                        </t>
+                        <td>
+                            <span t-esc="label"/>
+                        </td>
+                        <td>
+                            <span t-esc="q"/>
+                            <span t-esc="component.uom_id.name"/>
+                        </td>
+                    </tr>
+                </table>
+                <div class="row mt32 mb16 text-center" style="text-align:center;width:100%;display:block;" id="Heading">
+                    <h3 class="text-center mb0">Production Details</h3>
+                </div>
+                <table class="table table-sm table-striped table-bordered">
+                    <tr>
+                        <th>Description</th>
+                        <th>Composition</th>
+                        <th>Quantity</th>
+                    </tr>
+                    <t t-foreach="request.env['mrp.production'].search([])" t-as="prd">
+                        <t t-set="tot_qty" t-value="0"/>
+                        <t t-if="(prd.job_order_id.id==o.id and prd.product_id.categ_id.name=='Greige')">
+                            <tr>
+                                <td colspan="3">
+                                    <strong>
+                                        <span t-field="prd.product_id"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <t t-if="prd.job_order_id.id==o.id">
+                                <tr t-foreach="prd.move_raw_ids" t-as="line">
+                                    <t t-set="tot_qty" t-value="tot_qty+line.product_qty"/>
+                                    <td>
+                                        <span t-field="line.product_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.bom_line_id.material_desc"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_qty"/>
+                                        <span t-field="line.product_id.uom_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <span t-esc="tot_qty"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </t>
+                </table>
+            </div>
+            </t>
+        </t>
+    </template>
+    <!--TEMPLATE [Weaving Contract Report]-->
+    <template id="weaving_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="de_job_order.weaving_contract_report_template"/>
+            </t>
+        </t>
+    </template>
+
+    <report id="action_print_weaving_order_report"
+            model="job.order"
+            string="Weaving Contract"
+            report_type="qweb-pdf"
+            name="de_job_order.weaving_order_report"
+            file="de_job_order.weaving_order_report"
+            attachment_use="True"
+    />
+
+</odoo>

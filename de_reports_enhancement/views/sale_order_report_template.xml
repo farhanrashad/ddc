@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="/t/t/div/h2" position="inside">
+            / <span t-field="doc.global_ref"/>
+        </xpath>
+        <!-- add partner fields -->
+        <xpath expr="/t[1]/t[1]/t[2]/div[1]" position="before">
+            <div t-if="doc.partner_id.ref">
+                <strong>Reference:</strong>
+                <span t-field="doc.partner_id.ref"/>
+            </div>
+        </xpath>
+        <xpath expr="/t[1]/t[1]/t[2]/div[1]" position="attributes">
+            <attribute name="t-options-fields">['address', 'name', 'phone', 'email']</attribute>
+        </xpath>
+        <xpath expr="/t[1]/t[1]/t[2]/div[1]" position="attributes">
+            <attribute name="t-options-no_marker">False</attribute>
+        </xpath>
+        
+ <!-- add weight field -->
+        <xpath expr="/t/t/div/table/thead/tr/th[3]" position="after">
+            <th><span>Unit Weight</span></th>
+            <th><span>Total Weight</span></th>
+            <th><span>Weight Price</span></th>
+        </xpath>
+        <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="after">
+            <td><span t-field="line.product_id.weight"/> Kg</td>
+            <td><span t-field="line.total_weight"/> Kg</td>
+            <td><span t-field="line.price_weight"/></td>
+        </xpath>
+        
+       
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[3]" position="attributes">
+            <attribute name="t-if">doc.is_sale_weight is not True</attribute>
+        </xpath>
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[3]" position="attributes">
+            <attribute name="t-if">doc.is_sale_weight is not True</attribute>
+        </xpath>
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[6]" position="attributes">
+            <attribute name="t-if">doc.is_sale_weight is not False</attribute>
+        </xpath>
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[6]" position="attributes">
+            <attribute name="t-if">doc.is_sale_weight is not False</attribute>
+        </xpath>
+        
+ <!--
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[5]" position="attributes">
+            <attribute name="t-if">doc.is_sale_weight is not True</attribute>
+        </xpath>
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[6]" position="attributes">
+            <attribute name="t-if">doc.is_sale_weight is not True</attribute>
+        </xpath>
+-->
+        <!-- add weight subtotal -->
+       <!--
+        <xpath expr="/t/t/div/table/tbody/t[2]/tr" position="before">
+            <t t-set="current_totweight" t-value="current_totweight + line.total_weight" />
+        </xpath>
+         <xpath expr="/t/t/div/table/tbody/t/tr" position="before">
+            <t t-set="current_totweight" t-value="0"/>
+        </xpath>
+        <xpath expr="//tr[hasclass('is-subtotal')]//td" position="replace">
+            <td name="td_section_subtotal" colspan="99">
+                <strong class="mr16">Subtotal</strong>
+                <span t-esc="current_totweight" />
+                <span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+            </td>
+        </xpath>
+-->
+        <!-- add terms & Conditions Heading -->
+        <xpath expr="/t/t/div/div[3]" position="after">
+            <div t-if="doc.note" class="row">
+                <div class="col h5">
+                    <span>Terms &amp; Conditions</span>
+                </div>
+            </div>
+        </xpath>
+        
+        <!-- add total quantities -->
+        <xpath expr="//div[@id='total']//table[1]" position="inside">
+            <tr>
+                <td colspan="2"><br/></td>
+            </tr>
+            <tr t-if="doc.sum_qty">
+                <td><b>Total Quantity</b></td>
+                <td><span class="m-0" t-field="doc.sum_qty"/></td>
+            </tr>
+            <tr t-if="doc.sum_weight">
+                <td><b>Total Weight</b></td>
+                <td><span class="m-0" t-field="doc.sum_weight"/> Kg</td>
+            </tr>
+        </xpath>
+        <!-- hide tax field when tax amount zero -->
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[7]" position="attributes">
+            <attribute name="t-if">doc.amount_tax != ""</attribute></xpath>
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[7]" position="attributes">
+            <attribute name="t-if">doc.amount_tax != ""</attribute>
+        </xpath>
+        
+        <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[8]" position="replace"/>
+          <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[8]" position="replace"/>
+        
+    </template>
+</odoo>

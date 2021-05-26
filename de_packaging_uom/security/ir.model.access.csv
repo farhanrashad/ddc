@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_packaging_uom_de_packaging_uom,de_packaging_uom.de_packaging_uom,model_de_packaging_uom_de_packaging_uom,,1,0,0,0

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_partnerledger">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+                    <h2>Partner Ledger</h2>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>Company:</strong>
+                            <p t-esc="res_company.name"/>
+                        </div>
+                        <div class="col-3">
+                            <t t-if="data['form']['date_from']">
+                                <strong>Date from :</strong>
+                                <span t-esc="data['form']['date_from']"/>
+                                <br/>
+                            </t>
+                            <t t-if="data['form']['date_to']">
+                                <strong>Date to :</strong>
+                                <span t-esc="data['form']['date_to']"/>
+                            </t>
+                        </div>
+                        <div class="col-3">
+                            <strong>Target Moves:</strong>
+                            <p t-if="data['form']['target_move'] == 'all'">All Entries</p>
+                            <p t-if="data['form']['target_move'] == 'posted'">All Posted Entries</p>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-reports" style="border:1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="border:1px solid black;">Date</th>
+                                <th style="border:1px solid black;">JRNL</th>
+                                <th style="border:1px solid black;">Account</th>
+                                <th style="border:1px solid black;">Ref</th>
+                                <th style="border:1px solid black;">Debit</th>
+                                <th style="border:1px solid black;">Credit</th>
+                                <th style="border:1px solid black;">Balance</th>
+                                <th style="border:1px solid black;" t-if="data['form']['amount_currency']">Currency</th>
+                            </tr>
+                        </thead>
+                         <t t-foreach="docs" t-as="o">
+                            <tbody>
+                                <tr t-if="data['form']['initial_balance'] == True">
+                                    <td colspan="4" style="border:1px solid black;">
+                                        <strong>
+                                         Opening Balnce
+                                        </strong>
+                                    </td>
+                                    <td class="text-right" style="border:1px solid black;">
+                                        <strong t-esc="round(sum_partner_open(o.id ,data['form']['date_from'])[1])" />
+                                    </td>
+                                    <td class="text-right" style="border:1px solid black;">
+                                        <strong t-esc="round(sum_partner_open(o.id ,data['form']['date_from'])[2])"/>
+                                    </td>
+                                    <td class="text-right" style="border:1px solid black;">
+                                        <strong t-esc="round(sum_partner_open(o.id ,data['form']['date_from'])[0])"/>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td colspan="4" style="border:1px solid black;">
+                                        <strong t-esc="o.ref"/>
+                                        -
+                                        <strong t-esc="o.name"/>
+                                    </td>
+                                    <td class="text-right" style="border:1px solid black;">
+                                        <strong t-esc="round(sum_partner(data, o, 'debit'))"/>
+                                    </td>
+                                    <td class="text-right" style="border:1px solid black;">
+                                        <strong t-esc="round(sum_partner(data, o, 'credit'))" />
+                                    </td>
+                                    <td class="text-right" style="border:1px solid black;">
+                                        <strong t-esc="round(sum_partner(data, o, 'debit - credit'))" />
+                                    </td>
+                                </tr>
+                                
+                               
+                                
+                               <t t-set="sum_balance" t-value="0"/>
+                               <t t-set="entry_count" t-value="0"/>
+                               <t t-set="init_balance" t-value="0"/>
+                                <t t-set="sum_balance" t-value="round(sum_partner_open(o.id ,data['form']['date_from'])[0])"/> 
+                               <tr t-foreach="lines(data, o)" t-as="line">
+                                    <td style="border:1px solid black;">
+                                        <span t-esc="line['date']" t-options="{&quot;widget&quot;: &quot;date&quot;}" style="font-size: 12pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                    </td>
+                                    <td style="border:1px solid black;">
+                                        <span t-esc="line['code']" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;" />
+                                    </td>
+                                    <td style="border:1px solid black;">
+                                        <span t-esc="line['a_code']" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                    </td>
+                                    <td style="border:1px solid black; max-width:300px; word-wrap:break-word;">
+                                        <span t-esc="line['displayed_name']" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                    </td>
+                                    <td style="border:1px solid black;" class="text-right">
+                                        <span t-esc="round(line['debit'])"  style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                    </td>
+                                    <td style="border:1px solid black;" class="text-right">
+                                        <span t-esc="round(line['credit'])"  style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                    </td>
+                                    <td style="border:1px solid black;" class="text-right">
+                                         <t t-if="entry_count == 0">
+                                         <span t-esc="sum_balance + round(line['debit']) - round(line['credit'])"  style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                         <t t-set="init_balance" t-value="sum_balance + round(line['debit']) - round(line['credit'])"/>
+                                         </t>
+                                        
+                                        <t t-if="entry_count > 0">
+                                         <span t-esc="init_balance + round(line['debit']) - round(line['credit'])"  style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                         <t t-set="init_balance" t-value="init_balance + round(line['debit']) - round(line['credit'])"/>
+                                         </t>
+                                         <t t-set="entry_count" t-value="entry_count + 1"/>
+
+
+                                        
+                                        
+                                    </td>
+                                    <td style="border:1px solid black;" class="text-right" t-if="data['form']['amount_currency']">
+                                        <t t-if="line['currency_id']">
+                                            <span t-esc="line['amount_currency']" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;"/>
+                                        </t>
+                                    </td>
+                                   
+                                </tr>
+                            </tbody>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </t>
+
+
+    </template>
+</odoo>

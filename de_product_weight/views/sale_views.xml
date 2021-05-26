@@ -1,0 +1,55 @@
+<odoo>
+    <record id="sale_view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="is_sale_weight" invisible="1" />
+            </field>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='price_unit']" position="attributes">
+                <attribute name="column_invisible">{[('parent.is_sale_weight', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='price_unit']" position="after">
+                <field name="weight"/>
+                <field name="total_weight" attrs="{'required':[('parent.is_sale_weight', '=', True)]}" />
+                <field name="price_weight" attrs="{'column_invisible':[('parent.is_sale_weight', '!=', True)],'required':[('parent.is_sale_weight', '=', True)]}" optional="show" />
+            </xpath>
+            
+            <xpath expr="/form/sheet/notebook" position="after">
+                <group>
+                    <group>
+                        <field name="sum_qty" nolabel="0"/>
+                        <field name="sum_weight" nolabel="0" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="sale_view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="before">
+                <field name="sum_qty" optional="show" />
+                <field name="sum_weight" optional="show" />
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="sale_view_quotation_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.quotation.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='amount_total']" position="before">
+                <field name="sum_qty" optional="show" />
+                <field name="sum_weight" optional="show" />
+            </xpath>
+        </field>
+    </record>
+    
+    
+</odoo>

@@ -1,0 +1,76 @@
+<odoo>
+    <record id="view_stock_move_operations_inherit" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="ref_job_order_id" invisible="1" />
+                    <field name="job_order_id" invisible="1" />
+                    <field name="ref_sale_id" invisible="1" />
+                    <field name="sale_id" invisible="1" />
+                    
+                    <field name="subcontract_order_line_id"/>
+                </xpath>
+
+            </field>
+    </record>
+    
+    
+    <record id="view_move_form_inherit" model="ir.ui.view">
+        <field name="name">view.move.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+<!--                 <field name="ref_job_order_id" /> -->
+<!--                 <field name="ref_sale_id" /> -->
+                <field name="sale_id" />
+            </field>
+        </field>
+    </record>
+    
+	<record id="view_move_tree_inherit" model="ir.ui.view">
+        <field name="name">view.move.tree.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="reference" position="after">
+<!--                 <field name="ref_job_order_id" /> -->
+<!--                 <field name="ref_sale_id" /> -->
+                <field name="job_order_id" />
+                <field name="sale_id" />
+
+            </field>
+        </field>
+    </record>
+    
+    <record id="view_move_line_form_inherit" model="ir.ui.view">
+        <field name="name">view.move.line.form.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <field name="reference" position="after">
+                
+                <field name="job_order_id" />
+                <field name="sale_id" />
+                
+            </field>
+        </field>
+    </record>
+    
+	<record id="view_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">view.move.line.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="reference" position="after">
+<!--                 <field name="ref_job_order_id" /> -->
+<!--                 <field name="ref_sale_id" /> -->
+                <field name="job_order_id" />
+                <field name="sale_id" />
+                
+            </field>
+        </field>
+    </record>
+</odoo>

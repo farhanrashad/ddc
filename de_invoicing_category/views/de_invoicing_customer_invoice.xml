@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+<!-- =============================================================================-->
+
+<!--        account.move model  custom field added in Customer invoicing form below partner_id and and also added
+vendor partner Bill form    vendor, customer are main menu item of invoicing app invoice are sub menu of customer menu item
+and bill are sun menu of vendor menu item
+-->
+
+<!--===============================================================================-->
+       <record id="res_partner_category_inherit" model="ir.ui.view">
+            <field name="name">account.move.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="tag_id" widget="many2many_tags" options="{'store': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

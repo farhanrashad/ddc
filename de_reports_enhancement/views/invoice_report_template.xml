@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="/t/t/div/table/thead/tr/th[4]" position="after">
+        <t t-if="docs.is_sale_weight">
+            <th class="text-center">
+                <span>Total Weight</span>
+            </th>
+            <th class="text-center">
+                <span>Weight Price/Kg</span>
+            </th>
+        </t>
+    </xpath>
+    <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[4]" position="after">
+        <t t-if="docs.is_sale_weight">
+            <td class="text-right">
+                <span t-field="line.total_weight"/>
+            </td>
+            <td class="text-right">
+                <span t-field="line.price_weight"/>
+            </td>
+        </t>
+    </xpath>
+    <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[4]" position="attributes">
+        <attribute name="t-if">docs.is_sale_weight is not True</attribute>
+    </xpath>
+    <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="attributes">
+        <attribute name="t-if">docs.is_sale_weight is not True</attribute>
+    </xpath>
+    <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[2]" position="replace">
+        <td class="text-right">
+            <span t-esc="round(line.quantity,0)"/>
+        </td>
+    </xpath>
+	
+	<xpath expr="/t/t/t[2]/div[1]" position="attributes">
+        <attribute name="class" separator=" " add="h2"/>
+    </xpath>
+    <xpath expr="/t/t/div/h2" position="replace">
+        <h4>
+            <span t-if="o.type == 'out_invoice' and o.state == 'posted'">Invoice</span>
+            <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+            <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+            <span t-if="o.type == 'out_refund'">Credit Note</span>
+            <span t-if="o.type == 'in_refund'">Vendor Credit Note</span>
+            <span t-if="o.type == 'in_invoice'">Vendor Bill</span>
+            <span t-if="o.name != '/'" t-field="o.name"/>
+        </h4>
+    </xpath>
+	
+    <xpath expr="/t/t/div" position="inside">
+        <div class="row mt96">
+            <div class="col-3">
+                <strong>
+                    <span>Authorized By</span>
+                </strong>
+                <hr/>
+            </div>
+        </div>
+    </xpath>
+	
+        
+    </template>
+</odoo>

@@ -1,0 +1,13 @@
+<odoo>
+  <data>
+  
+             <record id="production_bill_generation_action" model="ir.actions.server">
+                  <field name="name">Create Bill</field>
+                  <field name="model_id" ref="de_mrp_production_bill.model_mrp_production"/>
+                  <field name="binding_model_id" ref="de_mrp_production_bill.model_mrp_production"/>            
+                  <field name="binding_view_types">list</field>
+                  <field name="state">code</field>
+                  <field name="code">action = records.action_create_bill() </field>
+                 </record>
+  </data>
+</odoo>

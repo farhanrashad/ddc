@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_order_subcontract_report_tree" model="ir.ui.view">
+        <field name="name">view.order.subcontract.report.tree</field>
+        <field name="model">order.subcontract.report</field>
+        <field name="arch" type="xml">
+            <tree string="Order Subcontract Report">
+                <field name="partner_id"/>
+                <field name="sale_id"/>
+                <field name="global_ref"/>
+                <field name="categ_id"/>
+                <field name="product_id"/>
+                <field name="order_qty"/>
+                <field name="order_weight"/>
+                <field name="received_qty"/>
+                <field name="received_weight"/>
+                <field name="remaining_qty"/>
+                <field name="remaining_weight"/>
+                <field name="consumed_qty"/>
+                <field name="consumed_weight"/>
+                <field name="diff_qty"/>
+                <field name="diff_weight"/>
+                <field name="issued_qty"/>
+                <field name="issued_weight"/>
+                <field name="supplier_diff_qty"/>
+                <field name="supplier_diff_weight"/>
+                
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_order_purchse_report_pivot" model="ir.ui.view">
+         <field name="name">order.purchase.report.pivot</field>
+         <field name="model">order.subcontract.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Order Purchase Stock" disable_linking="True">
+                 <!--<field name="team_id" type="col"/>-->
+                 <field name="partner_id" type="row"/>
+                 <field name="order_qty" type="measure"/>
+                 <field name="order_weight" type="measure"/>
+                 <field name="received_qty" type="measure"/>
+                <field name="received_weight" type="measure"/>
+                <field name="remaining_qty" type="measure"/>
+                <field name="remaining_weight" type="measure"/>
+                <field name="consumed_qty" type="measure"/>
+                <field name="consumed_weight" type="measure"/>
+                <field name="diff_qty" type="measure"/>
+                <field name="diff_weight" type="measure"/>
+                <field name="issued_qty" type="measure"/>
+                <field name="issued_weight" type="measure"/>
+                <field name="supplier_diff_qty" type="measure"/>
+                <field name="supplier_diff_weight" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+    
+    
+    <record id="view_order_subcontract_search" model="ir.ui.view">
+        <field name="name">order.subcontract.report.search</field>
+        <field name="model">order.subcontract.report</field>
+        <field name="arch" type="xml">
+            <search string="Order Subcontract Stock Report">
+                <field name="name"/>
+                <separator/>
+                <field name="categ_id"/>
+                <field name="product_id"/>
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Partner" name="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <separator/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    
+    <record id="action_order_subcontract_report" model="ir.actions.act_window">
+        <field name="name">Order Subcontract Report</field>
+        <field name="res_model">order.subcontract.report</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="view_order_subcontract_search"/>
+        <!--<field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>-->
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+    
+    <menuitem id="sale_order_subcontract_menu" name="Order Purchase Analysis" parent="sale.menu_sale_report" action="action_order_subcontract_report" sequence="20"/>
+    
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="mrp_report_mrporder_inherit" inherit_id="mrp.report_mrporder">
+        <xpath expr="/t/t/t/t/div/div" position="inside">
+            <h2 class="text-center"><span t-field="o.product_id.categ_id.name"/> Order</h2>
+        </xpath>
+        
+        <xpath expr="/t/t/t/t/div/div/div/h2" position="inside">
+            / <span t-field="o.job_order_id.sale_id.global_ref"/>
+        </xpath>
+        
+        <xpath expr="/t/t/t/t/div/div[4]" position="inside">
+            <div class="col-2">
+                <strong>Unit Weight:</strong><br/>
+                <span t-field="o.product_id.weight"/> Kg
+            </div>
+            <div class="col-2">
+                <strong>Wgt 2 Produce:</strong><br/>
+                <span t-field="o.production_weight"/> Kg
+            </div>
+            <div class="col-2">
+                <strong>Sec. Qty:</strong><br/>
+                <span t-field="o.product_sec_qty"/> <span t-field="o.product_id.sec_uom_id"/>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/t/t/div/div[4]" position="after">
+            <div class="row">
+                <div t-if="o.job_order_id" class="col-3">
+                    <span><strong>Reference:</strong><br/></span>
+                    <span t-field="o.job_order_id.sale_id.partner_id.ref"/>
+                </div>
+                <div t-if="o.product_id" class="col-3">
+                    <span><strong>Production Category:</strong><br/></span>
+                    <span t-field="o.product_id.categ_id.name"/>
+                </div>
+                
+                <div class="col-3"/>
+                <div class="col-3"/>
+            </div>
+        </xpath>
+         <xpath expr="/t/t/t/t/div/table/thead/tr/th[1]" position="after">
+             <th><span>Componenet Description</span></th>
+             <th><span>Unit Weight</span></th>
+            <th><span>Total Weight</span></th>
+        </xpath>
+        <xpath expr="/t/t/t/t/div/table/tbody/t/tr/td[1]" position="after">
+            <td><span t-field="raw_line.bom_line_id.material_desc"/></td>
+             <td><span t-field="raw_line.product_id.weight"/> Kg</td>
+            <td><span t-field="raw_line.total_weight"/> Kg</td>
+        </xpath>
+        
+        
+       
+    </template>
+</odoo>

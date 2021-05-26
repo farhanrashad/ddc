@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+<!--              <record id="stock_move_line_view_tree_inherit" model="ir.ui.view">
+			<field name="name">stock.move.line.form.view</field>
+			<field name="model">stock.move.line</field>
+			<field name="inherit_id" ref="stock.view_move_line_form"/>
+			<field name="arch" type="xml">
+                    <xpath expr="//field[@name='date']" position="replace">
+                        <field name="date" />
+		    </xpath>
+
+		</field>
+	  </record>   
+ -->
+         <record id="maintenance_stage_view_tree_inherit" model="ir.ui.view">
+			<field name="name">maintenance.stage.form.view</field>
+			<field name="model">maintenance.stage</field>
+			<field name="inherit_id" ref="maintenance.hr_equipment_stage_view_tree"/>
+			<field name="arch" type="xml">
+                    <xpath expr="//field[@name='done']" position="after">
+                        <field name="in_progress" />
+                        <field name="is_todo" />
+                        <field name="is_done" />
+		    </xpath>
+
+		</field>
+	  </record>   
+
+        <record id="maintenance_form_view_search_inherit" model="ir.ui.view">
+			<field name="name">maintenance.request.form.view</field>
+			<field name="model">maintenance.request</field>
+			<field name="inherit_id" ref="maintenance.hr_equipment_request_view_search"/>
+			<field name="arch" type="xml">
+                    <xpath expr="//filter[@name='todo']" position="after">
+                      <filter string="To do" domain="[('stage_id.is_todo', '=', False)]" name="todo"/>
+		  		</xpath>
+
+                    <xpath expr="//filter[@name='done']" position="after">                     
+                     <filter string="Done" name="done" domain="[('stage_id.is_done', '=', True)]" />
+				</xpath>
+
+                    <xpath expr="//filter[@name='progress']" position="after">
+                        <filter string="In Progress" name="progress" domain="[('stage_id.in_progress', '=', True)]"/>
+		    </xpath>
+		</field>
+	  </record>   
+              
+
+
+
+        <menuitem id="daily_progress_report_menu" name="Daily Progress Report" parent="mrp.menu_mrp_production_report" sequence="1"
+                   action="action_progress_report_wizard" />
+</odoo>
+
+

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_job_order,access.job.order,model_job_order,,1,1,1,1
+access_job_order_line,access.job.order.line,model_job_order_line,,1,1,1,1
+access_job_order_structure,access.job.order.structure,model_job_order_structure,,1,1,1,1
+access_job_order_rule,access.job.order.rule,model_job_order_rule,,1,1,1,1
+access_job_order_rule_category,access.job.order.rule.category,model_job_order_rule_category,,1,1,1,1
+access_job_order_sale_line,access.job.order.sale.line,model_job_order_sale_line,,1,1,1,1
+access_job_order_mrp,access.job.order.mrp,model_job_order_mrp,,1,1,1,1
+access_job_order_routing,access.job.order.routing,model_job_order_routing,,1,1,1,1

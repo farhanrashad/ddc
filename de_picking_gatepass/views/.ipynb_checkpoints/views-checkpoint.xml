@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+      <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">view.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='extra']/group" position="inside">
+                <group string="Gatepass">
+                    <field name="driver_name" />
+                    <field name="vehicle_no" />
+                    <field name="gatepass_no" />
+                </group>
+            </xpath>
+        </field>
+      </record>
+  </data>
+</odoo>

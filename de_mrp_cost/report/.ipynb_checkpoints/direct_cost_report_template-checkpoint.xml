@@ -1,0 +1,70 @@
+<odoo>
+  <data>
+   <template id="report_mrp_direct_cost_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="row justify-content-end">
+                            <div class="col-12">
+                                <table class="table table-bordered" style="table-layout: fixed">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Cost</th>
+                                            <th>Vendor</th>
+                                          
+                                        </tr>
+                                    </thead>
+                             <p style="margin: 0px; padding: 0px; font-weight: bold;">
+                                    <span t-field="o.name"/>
+                               </p>
+                                     <t t-set="totcost" t-value="0"/>
+                                    <tbody>
+                                      <t t-foreach="o.cost_lines" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-field="line.product_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.standard_price"/>
+                                            </td>
+                                            <t t-set="totcost" t-value="totcost + line.standard_price"/>
+                                            <td>
+                                                <span t-field="line.partner_id"/>
+                                            </td>
+                                        </tr>
+                                      </t>
+                                        <tr>
+                                            <td>
+<!--                                                 <span t-esc="qty"/> -->
+                                            </td>
+                                            <td>
+                                                <span t-esc="totcost"/>
+                                            </td>
+                                            <td>
+<!--                                                 <span t-esc="totcost"/> -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+<!--                                <p style="margin: 0px; padding: 0px; font-weight: bold;">-->
+<!--&lt;!&ndash;                                    <span t-field="o.note"/>&ndash;&gt;-->
+<!--                                </p>-->
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="mrp_direct_cost_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="de_mrp_cost.report_mrp_direct_cost_template"/>
+            </t>
+        </t>
+    </template>
+       
+  </data>
+</odoo>

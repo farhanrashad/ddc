@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+	<report id="gate_pass_report_id"
+			string="GatePass Report"
+			model="stock.gatepass"
+			report_type="qweb-pdf"
+			name="de_stock_gatepass.gate_pass_report"
+			file="de_stock_gatepass.gate_pass_report"
+
+	/>
+</odoo>
+

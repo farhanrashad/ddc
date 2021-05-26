@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Report-->
+    <template id="job_order_report_template">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="doc.with_context({'lang': 'en_US'})"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o.sale_id">
+                    <div t-field="o.sale_id.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                </t>
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h2><span t-if="doc.state not in ['draft','sent']">Job Order # </span><span t-field="doc.name"/></h2>
+                    <div class="row col mt32 mb32" id="informations">
+                        <div t-if="o.sale_id" class="mr32">
+                            <strong>Order Reference:</strong>
+                            <p t-field="o.sale_id.name"/>
+                        </div>
+                        <div t-if="o.date_order" class="mr32">
+                            <strong>Date:</strong>
+                            <p t-field="o.date_order"/>
+                        </div>
+                        <div t-if="o.struct_id" class="mr32">
+                            <strong>Calculation Reference:</strong>
+                            <p t-field="o.struct_id"/>
+                        </div>
+                    </div>
+<!-- Job Order Lines -->                
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Product</th>
+                                <th class="text-left">UOM</th>
+                                <th class="text-left">Quantity</th>
+                                <th class="text-left">Weight</th>
+                                <th class="text-left">Total Weight</th>
+                                <th class="text-left">Secondary Qty</th>
+                                <th class="text-left">Secondary UOM</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-foreach="o.job_order_sale_lines" t-as="line">
+                            <tr>
+                                <td><span t-field="line.product_tmpl_id.name"/></td>
+                                <td><span t-field="line.product_uom"/></td>
+                                <td><span t-field="line.product_uom_qty"/></td>
+                                <td><span t-field="line.product_uom_qty"/></td>
+                                <td><span t-field="line.product_uom_qty"/></td>
+                                <td><span t-field="line.product_uom_qty"/></td>
+                                <td><span t-field="line.product_uom_qty"/></td>
+                            </tr>
+                            </t>
+                        </tbody>            
+                    </table>
+<!-- end job order line -->
+<!-- Job Order Rule Lines --> 
+                    <table class="table table-sm">
+                        <tbody>
+                        <tr>
+                            <t t-foreach="o.job_order_lines" t-as="rule">
+                                <td t-if="rule.rule_id.name" style="height:30px;">
+                                    <strong><span t-field="rule.rule_id.code"/></strong>
+                                    <p t-field="rule.quantity"/>
+                                </td>
+                            </t>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Description</th>
+                                <th class="text-left">Category</th>
+                                <th class="text-left">Quantity</th>                               
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-foreach="o.job_order_lines" t-as="rule">
+                            <tr>
+                                <td><span t-field="rule.rule_id.name"/> - <span t-field="rule.name"/></td>
+                                <td><span t-field="rule.rule_id.category_id.name"/></td>
+                                <td><span t-field="rule.quantity"/></td>
+                            </tr>
+                            </t>
+                        </tbody>            
+                    </table>
+<!-- end job order Rule line -->                    
+                    <p t-field="doc.note" />
+                </div>
+            </t>
+        </t>
+    </template>
+    <!--TEMPLATE [Job Order Report]-->
+    <template id="job_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="de_job_order.job_order_report_template"/>
+            </t>
+        </t>
+    </template>
+
+    <report id="action_print_job_order_report"
+            model="job.order"
+            string="Job Order"
+            report_type="qweb-pdf"
+            name="de_job_order.job_order_report"
+            file="de_job_order.job_order_report"
+            attachment_use="True"
+    />
+
+</odoo>

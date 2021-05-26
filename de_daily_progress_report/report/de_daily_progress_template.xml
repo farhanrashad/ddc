@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+-     <template id="progress_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+              <div class="page">
+
+              <table class="table table-condensed">
+                   <thead>
+                       <tr>
+                            <th>Sr#</th>
+                            <th>SO</th>
+                            <th>LOT#</th>
+                           <th>Partner</th>
+                           <th>MO#</th>
+                           <th>Cloth Desc.</th> 
+                           <th>Greige/Issued Today</th>
+                           <th>Greige/Previous</th>
+                           <th>Greige/Total</th>
+                           <th>Stiched/Issued Today</th>
+                           <th>Stiched/Previous</th>
+                           <th>Stiched/Total</th>
+                           <th>Processed/Issued Today</th>
+                           <th>Processed/Previous</th>
+                           <th>Processed/Total</th>
+                       </tr>
+                   </thead>
+                   <tbody> 
+                       
+                 <t t-foreach="lot_records" t-as='o' >  
+                      <t t-set="row_number" t-value="1"/>
+                       <t t-set="greige_qty" t-value="0"/>
+                        <t t-set="sum_qty_processed" t-value="0"/>
+                        <t t-set="sum_qty_finish" t-value="0"/>
+                        <t t-set="sum_finish_qty" t-value="0"/>
+                        <t t-set="sum_processed_qty" t-value="0"/>
+                       <t t-set="sum_stiched_qty" t-value="0"/>
+                     
+                   <t t-if="o.product_id.categ_id.id == 235">    
+                        <t t-foreach="request.env['stock.move.line'].search([('lot_id','=', o.lot_id.id),('reference','=', o.reference),('date','>', docs.date), ('product_id','=',o.product_id.id)])" t-as="move_line">                             
+                                 <t t-set="greige_qty" t-value="greige_qty + move_line.qty_done"/>      
+                        </t>
+                       
+                     </t>   
+                     
+                       <t t-if="o.product_id.categ_id.id == 238">    
+                       <t t-foreach="request.env['stock.move.line'].search([('lot_id','=', o.lot_id.id),('reference','=', o.reference),('date','>', docs.date), ('product_id','=',o.product_id.id)])" t-as="move_line">                             
+                                 <t t-set="sum_qty_processed" t-value="sum_qty_processed + move_line.qty_done"/>      
+                        </t>
+                     </t>    
+                     
+                    <t t-if="o.product_id.categ_id.id == 235">    
+                         <t t-foreach="request.env['stock.move.line'].search([('lot_id','=', o.lot_id.id),('reference','=', o.reference),('date','>', docs.date), ('product_id','=',o.product_id.id)])" t-as="move_line">                             
+                                 <t t-set="sum_qty_finish" t-value="sum_qty_finish + move_line.qty_done"/>      
+                        </t>
+                     </t>    
+                            
+                          <t t-if=" 'WH/MO' in o.reference">  
+                           <tr> 
+                               <td><t t-esc="row_number"/></td>
+                               <td><t t-esc="o.sale_id.name"/></td>
+                               <td><t t-esc="o.lot_id.name"/></td>
+                               <td><t t-esc="o.owner_id.name"/></td>
+                               <td><t t-esc="o.reference"/></td>
+                               <td><t t-esc="o.lot_id.cloth_desc"/></td>
+                               
+                               <td>
+                                  <t t-if="o.product_id.categ_id.id == 235"> 
+                                   <t t-esc="o.qty_done"/>
+                                   </t>    
+                               </td> 
+                              <t t-set="sum_stiched_qty" t-value="sum_stiched_qty + o.qty_done"/>
+                               
+                               <td>
+                                   <t t-if="o.product_id.categ_id.id == 235"> 
+                                   <t t-esc="greige_qty"/>
+                                   </t>    
+                               </td>
+                               
+                              <t t-set="sum_stiched_qty" t-value="sum_stiched_qty + greige_qty"/>
+                               
+                               <td>
+                                <t t-if="o.product_id.categ_id.id == 235"> 
+                                   <t t-esc="sum_stiched_qty"/>
+                                   </t>                                        
+                               </td>
+                               <td>
+                                  <t t-if="o.product_id.categ_id.id == 238">  
+                                   <t t-esc="o.qty_done"/>
+                                   </t>     
+                               </td> 
+                               <t t-set="sum_processed_qty" t-value="sum_processed_qty + o.qty_done"/>
+
+                               <td>
+                                  <t t-if="o.product_id.categ_id.id == 238">  
+                                   <t t-esc="sum_qty_processed"/>
+                                   </t>     
+                               </td>
+                               <t t-set="sum_processed_qty" t-value="sum_processed_qty + sum_qty_processed"/>
+
+                               <td>
+                                 <t t-if="o.product_id.categ_id.id == 238">    
+                                   <t t-esc="sum_processed_qty"/>
+                                </t>    
+                               </td>
+                               <td>
+                                 <t t-if="o.product_id.categ_id.id == 235">    
+                                   <t t-esc="o.qty_done"/>
+                                   </t>    
+                               </td> 
+                                 <t t-set="sum_finish_qty" t-value="sum_finish_qty + o.qty_done"/>
+
+                               <td>
+                                  <t t-if="o.product_id.categ_id.id == 235">    
+                                    <t t-esc="sum_qty_finish"/>
+                                  </t>    
+                               </td>
+                                <t t-set="sum_finish_qty" t-value="sum_finish_qty + sum_qty_finish"/>
+
+                               <td>
+                                  <t t-if="o.product_id.categ_id.id == 235">    
+                                    <t t-esc="sum_finish_qty"/>
+                                  </t>    
+                               </td>
+                           <t t-set="row_number" t-value="row_number + 1"/>
+                       </tr>
+                        </t>    
+                            
+                        </t>
+                   </tbody>
+               </table> 
+                </div>
+             </t>
+        </t>
+    </template>
+
+</odoo>
+

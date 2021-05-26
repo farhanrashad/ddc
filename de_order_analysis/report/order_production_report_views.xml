@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_order_production_report_tree" model="ir.ui.view">
+        <field name="name">view.order.production.report.tree</field>
+        <field name="model">order.production.report</field>
+        <field name="arch" type="xml">
+            <tree string="Order Production Report">
+                <field name="partner_id"/>
+                <field name="global_ref"/>
+                <field name="name"/>
+                <field name="product_tmpl_id"/>
+                <field name="product_id"/>
+                <field name="order_qty"/>
+                <field name="order_weight"/>
+                <field name="delivered_qty"/>
+                
+                <field name="prd_order_qty"/>
+                <field name="prd_weight"/>
+                <field name="produced_qty"/>
+                <field name="produced_weight"/>
+                <field name="remaining_qty"/>
+                <field name="remaining_weight"/>
+                
+                
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_order_production_report_pivot" model="ir.ui.view">
+         <field name="name">order.production.report.pivot</field>
+         <field name="model">order.production.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Order Purchase Stock" disable_linking="True">
+                 <field name="partner_id" type="row"/>
+                 <field name="order_qty" type="measure"/>
+                 <field name="order_weight" type="measure"/>
+                 <field name="delivered_qty" type="measure"/>
+                 
+                 <field name="prd_order_qty" type="measure"/>
+                <field name="prd_weight" type="measure"/>
+                 
+                <field name="produced_qty" type="measure"/>
+                <field name="produced_weight" type="measure"/>
+                
+                 <field name="remaining_qty" type="measure"/>
+                <field name="remaining_weight" type="measure"/>
+                
+             </pivot>
+         </field>
+    </record>
+    
+    
+    <record id="view_order_production_search" model="ir.ui.view">
+        <field name="name">order.production.report.search</field>
+        <field name="model">order.production.report</field>
+        <field name="arch" type="xml">
+            <search string="Order Production Report">
+                <field name="name"/>
+                <separator/>
+                <field name="partner_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="product_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Partner" name="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Product Template" name="ProductTemplate" context="{'group_by':'product_tmpl_id'}"/>
+                    <separator/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    
+    <record id="action_order_production_report" model="ir.actions.act_window">
+        <field name="name">Order Production Report</field>
+        <field name="res_model">order.production.report</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="view_order_subcontract_search"/>
+        <!--<field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>-->
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+    
+    <menuitem id="sale_order_production_menu" name="Order Production Analysis" parent="sale.menu_sale_report" action="action_order_production_report" sequence="30"/>
+    
+</odoo>

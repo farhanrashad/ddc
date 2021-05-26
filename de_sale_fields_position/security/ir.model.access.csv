@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_sale_fields_position_de_sale_fields_position,de_sale_fields_position.de_sale_fields_position,model_de_sale_fields_position_de_sale_fields_position,base.group_user,1,1,1,1

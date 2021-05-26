@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="sale_stock_pdf"
+            string="Sale Stock Report"
+            model="sale.stock"
+            report_type="qweb-pdf"
+            file="de_sale_product_move_report.de_sale_stock_pdf_report"
+            name="de_sale_product_move_report.de_sale_stock_pdf_report" />
+</odoo>

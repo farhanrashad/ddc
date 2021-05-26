@@ -1,0 +1,12 @@
+<odoo>
+<record id="job_order_sheet_tree_view_inherit" model="ir.ui.view">
+        <field name="name">job.order.sheet.tree.view.inherit</field>
+        <field name="model">job.order</field>
+        <field name="inherit_id" ref="de_job_order.job_order_sheet_tree_view"/>
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='sale_id']" position="after">
+				<field name="global_ref"/>
+			</xpath>
+        </field>
+    </record>
+</odoo>

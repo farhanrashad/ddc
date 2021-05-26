@@ -1,0 +1,27 @@
+<odoo>
+    
+    <record id="sale_view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="delivery_status" optional="show" />
+                <field name="due_amount" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="sale_view_quotation_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.quotation.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='state']" position="after">
+                <field name="delivery_status" optional="hide" />
+                <field name="due_amount" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

@@ -1,0 +1,133 @@
+<odoo>
+     <!-- Withholding Tax Group-->
+    <record id="withholding_tax_group_list_view" model="ir.ui.view">
+        <field name="name">withholding.tax.group.list.view</field>
+        <field name="model">account.wht.group</field>
+        <field name="arch" type="xml">
+            <tree string="Withholding Tax Group">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Withholdig Tax Group form view-->
+    <record id="withholding_tax_group_form_view" model="ir.ui.view">
+        <field name="name">withholding.tax.group.form.view</field>
+        <field name="model">account.wht.group</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax Group">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Withholding Tax Type-->
+    <record id="withholding_tax_type_list_view" model="ir.ui.view">
+        <field name="name">withholding.tax.type.list.view</field>
+        <field name="model">account.wht.type</field>
+        <field name="arch" type="xml">
+            <tree string="Withholding Tax Type">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="wht_type"/>
+                <field name="wht_rate"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Withholdig Tax type form view-->
+    <record id="withholding_tax_type_form_view" model="ir.ui.view">
+        <field name="name">withholding.tax.type.form.view</field>
+        <field name="model">account.wht.type</field>
+        <field name="arch" type="xml">
+            <form string="Withholding Tax Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="wht_type"/>
+                            <div>
+                                <label for="wht_rate"/>
+                                <field name="wht_rate" class="oe_inline"/>
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="definition" string="Definition">
+                            <group>
+                                <group>
+                                    <field name="description"/>
+                                    <field name="wht_group_id"/>
+                                </group>
+                                <group>
+                                    <field name="account_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="advanced" string="Advanced Options">
+                            <group>
+                                <group string="Calculation">
+                                    <label for="base_amount"/>
+                                    <div name="base_amount" class="o_row">
+                                        <field name="base_amount" widget="radio"/>
+                                    </div>
+                                </group>
+                                <group string="Control">
+                                    <field name="manual_base_amount" />
+                                    <field name="manual_tax_amount" />
+                                    <field name="is_certification_number" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    
+    <!-- Action Withholding Tax Group -->
+    <record id="action_withholding_tax_group" model="ir.actions.act_window">
+        <field name="name">WHT Group</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.wht.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new withholding tax group
+            </p>
+        </field>
+    </record>
+    
+     <!-- Action Withholding Tax Type -->
+    <record id="action_withholding_tax_type" model="ir.actions.act_window">
+        <field name="name">WHT Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.wht.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new withholding tax Type
+            </p>
+        </field>
+    </record>
+    
+    
+    <menuitem id="menu_withholding_tax_configuration" name="Withholding Tax" parent="account.menu_finance_configuration" sequence="20" groups="account.group_account_manager"/>
+    
+    <menuitem name="WHT Group" id="wht_group_menu" parent="de_withholding_tax.menu_withholding_tax_configuration"  action="action_withholding_tax_group" sequence="20" />
+        
+    <menuitem name="WHT Type" id="wht_type_menu" parent="de_withholding_tax.menu_withholding_tax_configuration"  action="action_withholding_tax_type" sequence="10" />
+    
+</odoo>

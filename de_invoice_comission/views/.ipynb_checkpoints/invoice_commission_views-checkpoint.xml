@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <group string="Agent">
+                    <field name="agent_id"/>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='purchase']" position="after">
+                <group string="Agent" name="agent" priority="3">
+                    <field name="is_agent"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="agent_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="invoice_form_view_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="agent_id"/>
+                <field name="commission_rate" invisible="1"/>
+                <field name="commission"/>
+                <field name="commission_settled"/>
+            </xpath>
+              <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']" position="after">
+					<field name="commission_rate"  />
+                  
+<!--                   attrs="{'readonly': [('package_id.shipping_grade','!=', 'fresh')]}" -->
+				</xpath>
+        </field>
+    </record>
+</odoo>

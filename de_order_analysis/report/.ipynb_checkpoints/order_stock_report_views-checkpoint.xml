@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_order_stock_report_tree" model="ir.ui.view">
+        <field name="name">view.order.stock.report.tree</field>
+        <field name="model">order.stock.report</field>
+        <field name="arch" type="xml">
+            <tree string="Order Analysis">
+                <field name="name"/>
+                <field name="job_order"/>
+                <field name="global_ref"/>
+                <field name="code"/>
+                <field name="product_id"/>
+                <field name="product_uom_qty"/>
+                <field name="qty_receipt"/>
+                <field name="qty_delivered"/>
+                <field name="diff_qty"/>
+                <field name="weight_receipt" />
+                 <field name="weight_delivered" />
+                 <field name="diff_weight" />
+                 <field name="remaining_qty" />
+                 <field name="remaining_weight" />
+            </tree>
+        </field>
+    </record>
+    
+
+    <record id="view_order_stock_pivot" model="ir.ui.view">
+         <field name="name">order.stock.report.pivot</field>
+         <field name="model">order.stock.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Order Stock" disable_linking="True">
+                 <!--<field name="team_id" type="col"/>-->
+                 <field name="job_order" type="row"/>
+                 <field name="product_uom_qty" type="measure"/>
+                 <field name="order_weight" type="measure"/>
+                 <field name="qty_receipt" type="measure"/>
+                 <field name="qty_delivered" type="measure"/>
+                 <field name="diff_qty" type="measure"/>
+                 
+                 <field name="weight_receipt" type="measure"/>
+                 <field name="weight_delivered" type="measure"/>
+                 <field name="diff_weight" type="measure"/>
+                 
+                 <field name="remaining_qty" type="measure"/>
+                 <field name="remaining_weight" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="view_order_stock_report_graph" model="ir.ui.view">
+         <field name="name">order.stock.report.graph</field>
+         <field name="model">order.stock.report</field>
+         <field name="arch" type="xml">
+             <graph string="Order Stock" type="line">
+                 <field name="name" type="row" />
+             </graph>
+         </field>
+    </record>
+
+    <record id="view_order_stock_search" model="ir.ui.view">
+        <field name="name">order.stock.report.search</field>
+        <field name="model">order.stock.report</field>
+        <field name="arch" type="xml">
+            <search string="Sales Stock Report">
+                <field name="name"/>
+                <separator/>
+                <field name="team_id"/>
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <field name="partner_id"/>
+                <group expand="0" string="Extended Filters">
+                    <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </group>
+                <group expand="1" string="Group By">
+                    <filter string="Sales Team" name="sales_channel" context="{'group_by':'team_id'}"/>
+                    <filter string="Customer" name="Customer" context="{'group_by':'partner_id'}"/>
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Product Category" name="Category" context="{'group_by':'categ_id'}"/>
+                    <filter string="Job Order" name="Job Order" context="{'group_by':'job_order'}"/>
+                    <filter string="Company" name="company" groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
+                    <separator/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_order_stock_report" model="ir.actions.act_window">
+        <field name="name">Order Stock Report</field>
+        <field name="res_model">order.stock.report</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="view_order_stock_search"/>
+        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+    
+    <menuitem id="sale_order_stock_menu" name="Order Stock" parent="sale.menu_sale_report" action="action_order_stock_report" sequence="0"/>
+    
+</odoo>

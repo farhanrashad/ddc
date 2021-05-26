@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_material_sample_document">
+        <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="row">
+                        <div name="address" class="col-xs-7">
+                            <strong>Sample Name:</strong>
+                            <div t-field="doc.sample_name"/></div>
+                        <div name="address" class="col-xs-5">
+                            <strong>Customer Name:</strong>
+                            <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/></div>
+                    </div>
+                    <h2 name="title">
+                        <strong>
+                            <t t-esc="doc.name"/>
+                        </strong>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div name="date" class="col-xs-3" t-if="doc.sampl_rqst_date">
+                            <strong>Sample Request Date:</strong>
+                            <p>
+                                <t t-esc="doc.sampl_rqst_date"/>
+                            </p>
+                        </div>
+                        <div name="date" class="col-xs-3" t-if="doc.sample_sent_date">
+                            <strong>Sample Sent Date:</strong>
+                            <p>
+                                <t t-esc="doc.sample_sent_date"/>
+                            </p>
+                        </div>
+                        <div name="date" class="col-xs-3" t-if="doc.concern_person">
+                            <strong>Concern Person:</strong>
+                            <p>
+                                <t t-esc="doc.concern_person"/>
+                            </p>
+                        </div>
+                        <div name="date" class="col-xs-3" t-if="doc.sample_dispatch_date">
+                            <strong>Sample Dispatch Date:</strong>
+                            <p>
+                                <t t-esc="doc.sample_dispatch_date" t-field-options='{"format": "dd-MM-YYYY"}'/>
+                            </p>
+                        </div>
+                        <div name="date" class="col-xs-3" t-if="doc.code_awb">
+                            <strong>Code AWB#:</strong>
+                            <p>
+                                <t t-esc="doc.code_awb"/>
+                            </p>
+                        </div>
+                        <div name="date" class="col-xs-3" t-if="doc.state">
+                            <strong>Status:</strong>
+                            <p>
+                                <t t-esc="doc.state"/>
+                            </p>
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="text-right">Arranged By</th>
+                                <th class="text-right">Quantity</th>
+                                <th class="text-right">Aprx. Cost</th>
+                                <th class="text-right">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="lines_tbody">
+                            <tr t-foreach="doc.design_sample_lines" t-as="line">
+                                <td>
+                                    <span>
+                                        <t t-esc="line.product_name"/>
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span>
+                                        <t t-esc="line.arranged_by"/>
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span>
+                                        <t t-esc="'%.2f'% line.qty"/>
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span>
+                                        <t t-esc="'%.2f'% line.aprx_cost"/>
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span>
+                                        <t t-esc="'%.2f'% line.value"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <strong>Total Cost:</strong>
+                            <span t-esc="'%.2f'% doc.total_cost" />
+                        </div>
+                        <div class="col-xs-5" t-if="doc.quote_price">
+                            <strong>Quote Pice:</strong>
+                            <span t-field="doc.quote_price"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <strong>Total Price</strong> in
+                            <span t-field="doc.currency_id"></span>
+                            <strong>: </strong>
+                            <span t-esc="'%.2f'% doc.total_price" />
+                        </div>
+                    </div>
+                    <!--<p name="note">-->
+                    <!--    <strong>Note:</strong>-->
+                    <!--</p>-->
+                </div>
+            </t>
+        </t>
+    </t>
+    </template>
+</odoo>

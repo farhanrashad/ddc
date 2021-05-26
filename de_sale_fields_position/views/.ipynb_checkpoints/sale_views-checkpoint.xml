@@ -1,0 +1,49 @@
+<odoo>
+  <data>
+   <record id="sale_view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <record id="sale_view_quotation_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.quotation.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name='entry_date' optional='show'/>
+                <field name='delivery_date' optional='show'/>
+            </xpath>
+            <xpath expr="//field[@name='create_date']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='commitment_date']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            
+            
+           <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='expected_date']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+      
+  </data>
+</odoo>

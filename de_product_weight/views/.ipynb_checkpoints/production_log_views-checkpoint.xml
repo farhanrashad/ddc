@@ -1,0 +1,68 @@
+<odoo>
+    
+    <!-- Production Log view-->
+    <record id="production_log_view" model="ir.ui.view">
+        <field name="name">production.log.tree.view</field>
+        <field name="model">mrp.production.log</field>
+        <field name="arch" type="xml">
+            <tree string="production log">
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="move_id"/>
+                <field name="move_line_id"/>
+                <field name="qty_done"/>
+                <field name="consumed_weight"/>
+                <field name="finished_product_id"/>
+                <field name="finished_lot_id"/>
+                 <field name="finished_qty_done"/>
+                <field name="finished_produced_weight"/>
+                
+                <field name="product_produce_id"/>
+                <field name="product_produce_line_id"/>
+            </tree>
+        </field>
+    </record>
+    
+    
+    <!-- Production Log view -->
+    <record id="production_log_form_view" model="ir.ui.view">
+        <field name="name">production.log.form.view</field>
+        <field name="model">mrp.production.log</field>
+        <field name="arch" type="xml">
+            <form string="production log">
+                <group col="4">
+                   <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="move_id"/>
+                <field name="move_line_id"/>
+                <field name="qty_done"/>
+                <field name="consumed_weight"/>
+                    <field name="finished_product_id"/>
+                <field name="finished_lot_id"/>
+                 <field name="finished_qty_done"/>
+                <field name="finished_produced_weight"/>
+                    
+                <field name="product_produce_id"/>
+                <field name="product_produce_line_id"/>
+                </group>
+                
+            </form>
+        </field>
+    </record>
+    
+   
+    
+    <!-- Production Log View -->
+    <record id="production_log_action" model="ir.actions.act_window">
+            <field name="name">Production Log</field>
+            <field name="res_model">mrp.production.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Click here to create a new Job Order Rule.
+                </p>
+            </field>
+        </record>
+    
+    <menuitem id="production_log_menu" name="Production Log" parent="mrp.menu_mrp_configuration" action="production_log_action" sequence="3"/>
+</odoo>

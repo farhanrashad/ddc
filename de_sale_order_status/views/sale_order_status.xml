@@ -1,0 +1,97 @@
+<odoo>
+  <data>
+<!-- =============================================================================-->
+
+<!--        qutation custom field added in Qutation form-->
+
+<!--===============================================================================-->
+       <record id="sale_order_status_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='client_order_ref']" position="after">
+                    <field name="sale_order_status"/>
+                </xpath>
+            </field>
+        </record>
+<!--=================================================================================-->
+<!--   status   field in tree view of sale order form-->
+<!--      below code for adding above custom field in tree view of sale order form-->
+<!--      if you uncomment this code than status field added in tree view of sale order-->
+<!--=================================================================================-->
+
+
+<!--             <record id="sale_order_status_inherit_tree" model="ir.ui.view">-->
+<!--            <field name="name">sale.order.inherit.tree</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_tree"/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//field[@name='invoice_status']" position="after">-->
+<!--&lt;!&ndash;                    <tree>&ndash;&gt;-->
+<!--                    <field name="sale_order_status"/>-->
+<!--&lt;!&ndash;                    </tree>&ndash;&gt;-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!-- ==============================================================================-->
+<!--     status field added in tree view of Qutation-->
+
+<!-- ==============================================================================-->
+        <record id="sale_order_status_inherit_qutation_tree" model="ir.ui.view">
+            <field name="name">sale.order.inherit.tree.qutation</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='state']" position="after">
+<!--                    <tree>-->
+                    <field name="sale_order_status"/>
+<!--                    </tree>-->
+                </xpath>
+            </field>
+        </record>
+
+<!--==============================================================================-->
+<!--        below commented code to add filter in sale order not Qutation-->
+
+<!--==============================================================================-->
+
+<!--    <record id="sale_order_status_search_inherit" model="ir.ui.view">-->
+<!--    <field name="name">sale.order.search.inherit</field>-->
+<!--    <field name="model">sale.order</field>-->
+<!--    <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>-->
+<!--    <field name="arch" type="xml">-->
+<!--          <xpath expr="//filter[@name='to_invoice']" position="after">-->
+<!--          <separator/>-->
+<!--          <filter string="In-process" name="in-process" domain="[('sale_order_status','=','in-process')]"/>-->
+<!--          <filter string="Shipped" name="shipped" domain="[('sale_order_status','=','shipped')]"/>-->
+<!--          <filter string="Pending" name="pending" domain="[('sale_order_status','=','pending')]"/>-->
+<!--          <filter string="Cancelled" name="cancelled" domain="[('sale_order_status','=','cancelled')]"/>-->
+<!--          </xpath>-->
+
+<!--    </field>-->
+<!--</record>-->
+<!--=================================================================================-->
+<!--      below code to add filter in Qutation-->
+<!--==================================================================================-->
+
+          <record id="sale_order_status_search_inherit_qutation" model="ir.ui.view">
+    <field name="name">sale.order.search.inherit.qutation</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+    <field name="arch" type="xml">
+          <xpath expr="//filter[@name='my_quotation']" position="after">
+          <separator/>
+          <filter string="In Process" name="in-process" domain="[('sale_order_status','=','in-process')]"/>
+          <filter string="Shipped" name="shipped" domain="[('sale_order_status','=','shipped')]"/>
+          <filter string="Pending" name="pending" domain="[('sale_order_status','=','pending')]"/>
+          <filter string="Cancelled" name="cancelled" domain="[('sale_order_status','=','cancelled')]"/>
+          </xpath>
+
+    </field>
+</record>
+
+  </data>
+</odoo>

@@ -1,0 +1,92 @@
+<odoo>
+  <data>
+<!--     <record model="ir.ui.view" id="stock_gatepass_move_line_tree_view">
+            <field name="name">stock.gatepass.move.line.tree.view</field>
+            <field name="model">stock.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Move Lines" >
+                    <field name="id" />
+                    <field name="reference"/>
+                </tree>
+            </field>
+    </record> -->
+      
+<!--     <record model="ir.ui.view" id="stock_gatepass_move_line_form_view">
+            <field name="name">Move Line</field>
+            <field name="model">stock.move.line</field>
+            <field name="arch" type="xml">
+                <form string="Move Line">
+                </form>
+                </field>
+    </record> -->
+      
+<!--
+      <record id="action_gatepass_move_line_view" model="ir.actions.act_window">
+        <field name="name">Move Lines</field>
+        <field name="res_model">stock.move.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="stock_gatepass_move_line_tree_view"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No stock move line found.
+          </p>
+        </field>
+    </record>
+-->      
+      
+      
+      
+      
+      
+      <record id="stock_move_line_tree_view_new"
+			model="ir.ui.view">
+			<field name="name">stock.move.line.tree</field>
+			<field name="model">stock.move.line</field>
+			<field name="arch" type="xml">
+				<tree string="Stock Move Line" editable="bottom">
+					<field name="date" />
+					<field name="reference" />
+                    <field name="gatepass_id" />
+                    <field name="gatepass_id" />
+                    <field name="gatepass_id" />
+<!--                     <field name="product_id" /> -->
+<!--                     <field name="lot_id" /> -->
+<!--                     <field name="result_package_id" /> -->
+<!--                     <field name="qty_done" /> -->
+<!--                     <field name="gatepass_qty" />
+                    <field name="residual_qty" /> -->
+				</tree>
+			</field>
+		</record>
+
+  
+
+      
+      <record id="action_stock_move_line_adjustment"
+		model="ir.actions.act_window">
+		<field name="name">Training</field>
+		<field name="res_model">stock.move.line</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="view_id"
+				ref="stock_move_line_tree_view_new" />
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click here to create new stock move line.
+				</p>
+		</field>
+	</record>
+      
+      
+      <menuitem id="stock_move_line_menu"
+        name="stock move line "
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="31"
+        action="action_stock_move_line_adjustment"
+        />
+
+      
+    </data>
+</odoo>

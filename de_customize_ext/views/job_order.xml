@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+<!--    <record id="de_customize_ext.mrp_bom_ext_from_view" model="ir.ui.view">-->
+<!--        <field name="name">mrp bom ext form view</field>-->
+<!--        <field name="model">mrp.bom</field>-->
+<!--        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='salvage_value']" position="after">-->
+<!--            <field name="emp_name"/>-->
+<!--            </xpath>-->
+<!--      </field>-->
+<!--    </record>-->
+
+<!--    job order form view-->
+    <record id="de_customize_ext.job_order_view_form" model="ir.ui.view">
+        <field name="name">job order form view</field>
+        <field name="model">mrp.job.order</field>
+        <field name="arch" type="xml">
+            <form string="Job Order">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Job Order Reference" nolabel="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+<!--                            <field name="name"/>-->
+                            <field name="date"/>
+                            <field name="sale_id"/>
+                        </group>
+                    </group>
+                    <button name="get_bom_lines" type="object" string="Process"
+                                    class="oe_highlight"/>
+                    <notebook>
+                        <page string="Material Planing" name="job_order_lines">
+                            <field name="job_order_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="prod_quantity"/>
+                                    <field name="prod_uom"/>
+                                    <field name="tolerance_ids" widget="many2many_tags"/>
+                                    <field name="stock_quantity"/>
+                                    <field name="forecast_quantity"/>
+                                    <field name="order_quantity"/>
+                                    <button name="mrp_process_method" type="object" string="Mrp Process"
+                                            class="oe_highlight"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    job order tree view-->
+    <record id="de_customize_ext.job_order_view_tree" model="ir.ui.view">
+        <field name="name">job order tree view</field>
+        <field name="model">mrp.job.order</field>
+        <field name="arch" type="xml">
+            <tree string="Job Order">
+                <field name="date"/>
+                <field name="sale_id"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    job order action-->
+    <record id="de_customize_ext.job_order_action" model="ir.actions.act_window">
+        <field name="name">Job Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mrp.job.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    order order form view-->
+    <record id="de_customize_ext.order_order_view_form" model="ir.ui.view">
+        <field name="name">order order form view</field>
+        <field name="model">order.order</field>
+        <field name="arch" type="xml">
+            <form string="Order Creation">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="ordered_qty"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"/>
+                    <button string="Discard" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<!--    order order action-->
+    <record id="de_customize_ext.order_order_view_action" model="ir.actions.act_window">
+        <field name="name">Order Confirmation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">order.order</field>
+        <field name="view_mode">form</field>
+    </record>
+
+<!--    job order menu-->
+    <menuitem id="de_customize_ext.job_order_menu" name="Job Order" parent="mrp.menu_mrp_manufacturing" action="de_customize_ext.job_order_action" sequence="2"/>
+</odoo>
