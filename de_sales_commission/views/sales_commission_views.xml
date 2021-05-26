@@ -1,0 +1,120 @@
+<odoo>
+    
+    <menuitem name="Sales Commission" id="sales_commission_main_menu" parent="sale.sale_menu_root" sequence="3" />
+    
+    <!-- Sales Commission Tree-->
+    <record id="view_sale_commission_list_view" model="ir.ui.view">
+        <field name="name">sale.commission.tree</field>
+        <field name="model">sale.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Job Order Function">
+                <field name="name"/>
+                <field name="doc_date"/>
+                <field name="agent_id"/>
+                <field name="sale_id"/>
+                <field name="commission_amount" widget="monetary"/>
+                <field name="invoice_id"/>
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    
+    <!-- Sales Commission Form -->
+    <record id="view_job_order_strucutre_form" model="ir.ui.view">
+        <field name="name">view.job.order.structure.form</field>
+        <field name="model">sale.commission</field>
+        <field name="arch" type="xml">
+            <form string="Sale Commission">
+                <header>
+                    <button string="Confirm" name="action_confirm" type="object" states="draft" class="oe_highlight"/>
+                    
+                    <button name="%(action_view_commission_inv)d" string="Create Invoice"
+                        type="action" class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'posted')]}"/>
+                    
+                    <button string="Cancel" name="action_cancel" states="draft,confirmed" type="object"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,paid,cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" readonly="1" force_save="1"/></h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="agent_id"/>
+                            <field name="product_id"/>
+                            <field name="commission_amount" widget="monetary"/>
+                            <field name="currency_id" />
+                        </group>
+                        <group>
+                        <field name="doc_date"/>
+                        <field name="sale_id"/>
+                        <field name="sale_amount"/>
+                        <field name="user_id"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Invoice">
+                        <group>
+                            <field name="is_invoiced"/>
+                            <field name="invoice_id"/>
+                            <field name="date_invoiced"/>
+                        </group>
+                    </group>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+    
+    <!-- Sales Commission Action View -->
+    <record id="action_sales_commission" model="ir.actions.act_window">
+        <field name="name">Sales Commission</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_commission_unpaid_filter': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Commission document!
+            </p>
+            <p>
+                Commission will pay through vendor bill.
+            </p>
+        </field>
+    </record>
+    
+    <record id="view_sales_commission_filter" model="ir.ui.view">
+        <field name="name">sales.commission.list.select</field>
+            <field name="model">sale.commission</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Sales Commission">
+                    <field name="name" string="Sales Commission" filter_domain="['|','|',('name','ilike',self),('client_order_ref','ilike',self),('agent_id','child_of',self)]"/>
+                    <field name="agent_id" operator="child_of"/>
+                    <field name="user_id"/>                    
+                    <filter string="My Orders Commission" domain="[('user_id','=',uid)]" name="my_sale_commission_filter"/>
+                    <separator/>
+                    <filter string="Draft" domain="[('state','=','draft')]" name="commission_draft_filter"/>
+                    <filter string="Unpaid" domain="[('state','=','posted')]" name="commission_unpaid_filter"/>
+                    <filter string="Paid" domain="[('state','=','paid')]" name="commission_paid_filter"/>
+                    
+                    <group expand="0" string="Group By">
+                        <filter name="agent" string="Agent" domain="[]" context="{'group_by':'agent_id'}"/>
+                        <filter string="Salesperson" name="salesperson" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Commission Date" name="doc_date" domain="[]" context="{'group_by':'doc_date'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+    
+    
+    <menuitem name="Commission" id="sales_commission_menu" parent="sales_commission_main_menu"  action="action_sales_commission" />
+    
+</odoo>

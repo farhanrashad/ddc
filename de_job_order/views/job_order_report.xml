@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Report-->
+    <template id="job_order_report_template">
+        <t t-call="web.internal_layout">
+            <t t-set="o" t-value="doc.with_context({'lang': 'en_US'})"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o.sale_id">
+                    <!--<div t-field="o.sale_id.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />-->
+                </t>
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h2><span t-if="doc.state not in ['draft','sent']">Job Order # </span><span t-field="doc.name"/>/<t t-if="o.sale_id"><span t-field="o.sale_id.partner_id.ref"/></t></h2>
+                    <div class="row col mt32 mb32" id="informations">
+                        <div t-if="o.sale_id" class="mr32">
+                            <strong>Order Reference:</strong>
+                            <p t-field="o.sale_id.name"/>
+                        </div>
+                        <div t-if="o.date_order" class="mr32">
+                            <strong>Date:</strong>
+                            <p t-field="o.date_order"/>
+                        </div>
+                        <div t-if="o.struct_id" class="mr32">
+                            <strong>Calculation Reference:</strong>
+                            <p t-field="o.struct_id"/>
+                        </div>
+                        <div t-if="o.state" class="mr32">
+                            <strong>Status:</strong>
+                            <p t-field="o.state"/>
+                        </div>
+                    </div>
+
+<!-- Job Order Rule Lines --> 
+                    
+                    <t t-set="product" t-value="[]"/>
+                    <t t-set="variant" t-value="[]"/>
+                    <t t-set="sale_item" t-value="[]"/>
+                    <t t-set="rule" t-value="[]"/>
+                    <t t-foreach="o.job_order_lines.sorted(key=lambda b: b.job_rule_id.sequence)" t-as="s">
+                        <t t-set="product" t-value="product+[s.job_sale_line_id.product_tmpl_id]"/>
+                        <t t-set="variant" t-value="variant+[s.job_sale_line_id.product_id]"/>
+                        <t t-set="sale_item" t-value="sale_item+[s.job_sale_line_id]"/>
+                        <t t-set="rule" t-value="rule+[s.job_rule_id]"/>
+                    </t>
+                    <t t-foreach="set(product)" t-as="p">
+                        <br/><br/>
+                        <span t-field="p.name"/>
+                        <t t-set="stot" t-value="0"/>
+                        <t t-set="i" t-value="0"/>
+                        <t t-set="sumqty" t-value="0"/>
+                        <table class="table-striped table-bordered ">
+                            <t t-foreach="set(sale_item)" t-as="s">
+                                <t t-if="p.id==s.product_tmpl_id.id">
+                                    <tr t-if="i == 0">
+                                        <th style="padding:5px;">Variant</th>
+                                        <th style="padding:5px;">UOM</th>
+                                        <th style="padding:5px;">Qty</th>
+                                    <t t-foreach="o.job_order_lines.sorted(key=lambda b: b.job_rule_id.sequence)" t-as="l">
+                                        <t t-if="s.product_id.id==l.job_sale_line_id.product_id.id and l.job_rule_id.rule_type== 'normal' and l.job_rule_id.active==True and l.job_rule_id.appears_on_sheet==True">
+                                            
+                                            <th style="padding:5px;"><span t-field="l.code"/></th>
+                                            
+                                        </t>
+                                    </t>
+                                    </tr>
+                                    <t t-set="i" t-value="i+1"/> 
+                                    <tr>
+                                        <td class="text-nowrap" style="padding:5px;"><span t-field="s.product_id"/></td>
+                                       <td style="padding:5px;"><span t-field="s.product_uom"/></td>
+                                       <td style="padding:5px;"><span t-esc="round(s.product_uom_qty,3)"/></td>
+                                       <t t-set="sumqty" t-value="sumqty+s.product_uom_qty"/>
+                                        <t t-foreach="o.job_order_lines.sorted(key=lambda b: b.job_rule_id.sequence)" t-as="l">
+                                            <t t-if="s.product_id.id==l.job_sale_line_id.product_id.id and l.job_rule_id.rule_type== 'normal' and l.job_rule_id.active==True and l.job_rule_id.appears_on_sheet==True">
+                                               <td class="" style="padding:5px;"><span t-esc="round(l.quantity,3)"/></td>
+                                               
+                                            </t>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr>
+                                <t t-set="stot" t-value="0"/>
+                                <th>Total</th>
+                                <th></th>
+                                <th><span t-esc="round(sumqty,3)"/></th>
+                                <!--<t t-foreach="set(rule)" t-as="r">-->
+                                <t t-foreach="request.env['job.order.rule'].search([])" t-as="r">
+                                    <t t-set="stot" t-value="0"/>
+                                    <t t-foreach="o.job_order_lines.sorted(key=lambda b: b.job_rule_id.sequence)" t-as="l">
+                                        <t t-if="r.id==l.job_rule_id.id and l.job_sale_line_id.product_tmpl_id.id == p.id and l.job_rule_id.rule_type== 'normal' and l.job_rule_id.active==True and l.job_rule_id.appears_on_sheet==True">
+                                            <t t-set="stot" t-value="stot+l.quantity"/>
+                                        </t>
+                                    </t>                                    
+                                    <th style="padding:5px;"><span t-if="r.is_total==True" t-esc="round(stot,3)"/></th>
+                                </t>
+                                
+                            </tr>
+                        </table>
+                    </t>
+<!-- end job order Rule line -->                                        <p t-field="doc.note" />
+                </div>
+            </t>
+        </t>
+    </template>
+    <!--TEMPLATE [Job Order Report]-->
+    <template id="job_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="de_job_order.job_order_report_template"/>
+            </t>
+        </t>
+    </template>
+
+    <report id="action_print_job_order_report"
+            model="job.order"
+            string="Job Order"
+            report_type="qweb-pdf"
+            name="de_job_order.job_order_report"
+            file="de_job_order.job_order_report"
+            attachment_use="True"
+    />
+
+</odoo>

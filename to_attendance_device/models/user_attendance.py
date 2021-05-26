@@ -2,6 +2,8 @@ from odoo import models, fields, api, _
 from datetime import date, datetime, timedelta
 from odoo import exceptions
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
 
 class UserAttendance(models.Model):
     _name = 'user.attendance'
@@ -30,7 +32,6 @@ class UserAttendance(models.Model):
                            " mapped will not be valid.")
     is_attedance_created = fields.Boolean(string="Is Attendance")
 
-
     _sql_constraints = [
         ('unique_user_id_device_id_timestamp',
          'UNIQUE(user_id, device_id, timestamp)',
@@ -55,7 +56,7 @@ class UserAttendance(models.Model):
             valid = self.type == 'checkin' and True or False
         else:
             valid = prev_att.type != self.attendance_state_id.type and True or False
-        return False
+        return valid
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -65,37 +66,32 @@ class UserAttendance(models.Model):
             valid_attendances.write({'valid': True})
         return attendances
 
-
     def action_attendace_validated(self):
-        month_datetime = fields.date.today()
-        for month_date in range(100):
-            datetime =  month_datetime - timedelta(month_date)
+        for month_date in range(32):
+            datetime = fields.date.today() - timedelta(month_date)
             date_start = datetime + relativedelta(hours =+ 1)
             date_end = datetime + relativedelta(hours =+ 23)
             total_employee = self.env['hr.employee'].search([])
             for employee in total_employee:
                 attendance_test = self.env['user.attendance']
                 count = attendance_test.search_count([('employee_id','=',employee.id)])
-                
-                attendance_list = attendance_test.search([('employee_id','=',employee.id),('timestamp','>=',date_start),('timestamp','<=',date_end),('is_attedance_created','=',False)], order="timestamp asc",)
-                if attendance_list:
-                    for attendace in attendance_list:
-                        existing_attendance = self.env['hr.attendance'].search([('employee_id','=',attendace.employee_id.id),('check_in','<=', attendace.timestamp), ('check_out','=', False)])
-                        if existing_attendance:
-                            existing_attendance.update({
-                              'check_out': attendace.timestamp,
-                            })
-                            attendace.update({
-                                'is_attedance_created' : True
-                            })
-                            
-                        if not existing_attendance:
-                            vals = {
-                                'employee_id': attendace.employee_id.id,
-                                'check_in': attendace.timestamp,
-                                }
-                            hr_attendance = self.env['hr.attendance'].create(vals)
-                            attendace.update({
-                                'is_attedance_created' : True
-                            })
-                         
+                if count > 1:
+                    attendance_checkin = attendance_test.search([('employee_id','=',employee.id),('timestamp','>=',date_start),('timestamp','<=',date_end),('is_attedance_created','=',False)], order="timestamp asc", limit=1)
+                    attendance_checkout = attendance_test.search([('employee_id','=',employee.id),('timestamp','>=',date_start),('timestamp','<=',date_end),('is_attedance_created','=',False)], order="timestamp desc", limit=1)
+                    if attendance_checkin and attendance_checkout:
+                        vals = {
+                               'employee_id': attendance_checkin.employee_id.id,
+                               'check_in': attendance_checkin.timestamp,
+                               'check_out': attendance_checkout.timestamp,
+                                  }
+                        hr_attendance = self.env['hr.attendance'].create(vals)
+
+            attendancelist = attendance_test.search([('employee_id','=',employee.id),('timestamp','>=',date_start),('timestamp','<=',date_end),('is_attedance_created','=',False)])
+            for line in attendancelist:
+                line.update({
+                   'is_attedance_created' : True
+                 })
+                    
+
+
+  

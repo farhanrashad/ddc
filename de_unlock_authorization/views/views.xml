@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+     <record model="ir.ui.view" id="show_button_purchase_view_order_form">
+
+            <field name="model">purchase.order</field>
+
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='button_unlock']" position="attributes">
+
+                    <attribute name="groups">de_unlock_authorization.group_unlock_authorization</attribute>
+
+                </xpath>
+
+            </field>
+
+   </record>
+
+<!--       <record model="ir.ui.view" id="show_button_sale_view_order_form">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_auto_done_setting"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_unlock']" position="attributes">
+
+                    <attribute name="groups">de_unlock_authorization.group_unlock_authorization</attribute>
+
+                </xpath> 
+            </field>
+       </record> -->
+ 
+
+  
+
+ 
+  </data>
+</odoo>

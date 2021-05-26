@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="gate_pass_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                            
+                <div class="pos-center-align" style="text-align: center;">
+                    <h2><t t-esc="docs.name"/></h2>
+                </div>
+                
+                <br/>
+<div>
+<div style="width: 50%; float:left; ">
+<tr><th><b>Schadule Date:</b></th> <td> <t t-esc="docs.scheduled_date"/> </td> </tr> <br/>
+<tr><th><b>Reference:</b></th> <td> <t t-esc="docs.origin"/> </td> </tr>
+</div>
+<div style="width: 20%; float:right; ">
+<tr><th><b>Driver:</b></th> <td> <t t-esc="docs.driver_name"/> </td> </tr> <br/>
+<tr><th><b>Vehicle:</b></th> <td> <t t-esc="docs.vehicle_no"/> </td> </tr>
+</div>
+</div>
+                <br/><br/>
+                
+<!--                     <div class="centered">
+                        <center>
+                            <b>
+                                <p style="border-style: solid;">Sale Receipt</p>
+                            </b>
+                        </center>
+                    </div> -->
+                
+               
+                
+<!--                  <div class = "row container">
+                     
+                   <div class="offset-col-1 col-md-3" >
+                       <strong>Date : </strong><t t-esc="docs.scheduled_date"/>
+                   </div>
+                     
+                    <div class="col-md-5">
+                       <strong>Reference : </strong> <t t-esc="docs.origin"/>
+                   </div>
+                     
+                </div> -->
+                
+               <table class="table table-condensed">
+                   <thead>
+                       <tr>
+                           <th>Date</th>
+                           <th>Reference</th>
+                           <th>Source</th>
+                           <th>Product</th>
+                           <th>Lot/Serial Number</th>
+                           <th>Destination Package</th>
+                           <th>Done</th>
+                           <th>GP Qty</th>
+                           <th>Rsidual Qty</th> 
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <t t-foreach="docs" t-as='doc'>
+                           <t t-foreach="doc.stock_move_lines" t-as='o'>
+                           <tr>
+                               <td><t t-esc="o.date"/></td>
+                               <td><t t-esc="o.reference"/></td>
+                               <td><t t-esc="o.origin"/></td>
+                               <td><t t-esc="o.product_id.name"/></td>
+                               <td><t t-esc="o.lot_id.name"/></td>
+                               <td><t t-esc="o.result_package_id.name"/></td>
+                               <td><t t-esc="o.qty_done"/></td>
+                               <td><t t-esc="o.gatepass_qty"/></td>
+                               <td><t t-esc="o.residual_qty"/></td>
+                           </tr>
+                           </t>
+                       </t>
+                   </tbody>
+               </table>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+

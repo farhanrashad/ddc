@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="product_report_template">
+            <t t-call="web.external_layout">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as='o' >
+                   <table class="table table-condensed">
+                        <tr><th>Product Image</th> <td> <span t-field="o.image_medium" t-options='{"widget": "image"}'/> </td> </tr>
+                        <tr><th>Product Name</th> <td> <t t-esc="o.name"/> </td> </tr>
+                        <tr><th>Product Tags</th> <td> 
+                            <t t-foreach="o.tag_ids" t-as="tags">
+                            <t t-esc="tags.name"/> 
+                            </t>    
+                            </td> </tr>
+                        <tr><th>Can be Sold</th> <td> <t t-esc="o.sale_ok"/> </td> </tr>
+                        <tr><th>Can be Purchased</th> <td> <t t-esc="o.purchase_ok"/> </td> </tr>
+                        <tr><th>Product Type</th> <td> <t t-esc="o.type"/> </td> </tr>
+                        <tr><th>Product Category</th> <td> <t t-esc="o.categ_id.name"/> </td> </tr>
+                        <tr><th>PCT Code</th> <td> <t t-esc="o.pct_code"/> </td> </tr>
+                        <tr><th>Product Code</th> <td> <t t-esc="o.hs_code"/> </td> </tr>
+                        <tr><th>Style Code</th> <td> <t t-esc="o.style_code"/> </td> </tr>
+                        <tr><th>Sale Price</th> <td> <t t-esc="o.list_price"/> </td> </tr>
+                        <tr><th>Unit of Measure</th> <td> <t t-esc="o.uom_id.name"/> </td> </tr>
+                        <tr><th>POS Category</th> <td> <t t-esc="o.pos_categ_id.name"/> </td> </tr>
+                        <tr><th>Available in POS</th> <td> <t t-esc="o.available_in_pos"/> </td> </tr>
+                        <tr><th>Customer Tax</th> <td> <t t-esc="o.taxes_id.name"/> </td> </tr>
+                        <tr><th>Attribute</th> 
+                            <td>  
+                                <t t-foreach="request.env['product.product'].search([('product_tmpl_id','=',o.id)])" t-as='ol' >
+                                    
+                                    <t t-esc="ol.attribute_value_ids.attribute_id.name"/>
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <strong><t t-esc="ol.attribute_value_ids.name"/></strong>
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <i><u><t t-esc="ol.barcode"/></u></i>
+                                    <br />
+                                
+                                </t> 
+                            </td> 
+                       </tr>
+
+                    </table>
+                    <p style="page-break-before:always;"></p>
+                </t>
+            </t>
+            </t>   
+        </template>
+</odoo>

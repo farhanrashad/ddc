@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="po_dyeing_template">
+        <t t-call="web.external_layout">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as='o'>
+                    <div class="page">
+				<div class="oe_structure"/>
+				<div class="row mt32 mb32" id="informations">
+					<div class="col-auto col-3 mw-100 mb-2">
+						<h6><strong>PO No: </strong>
+						<span class="m-0" t-field="o.name"/></h6>
+					</div>
+
+					<div class="col-auto col-15 mw-100 mb-2">
+						<h6><strong>Vendor: </strong>
+						<span class="m-0" t-field="o.partner_id.name"/></h6>
+					</div>
+				</div>
+				<div class="row mt32 mb32" id="informations">
+					<div class="col-auto col-3 mw-100 mb-2">
+						<h6><strong>Sale Order: </strong>
+						<span class="m-0" t-field="o.sale_id.name"/></h6>
+					</div>
+					<div class="col-auto col-15 mw-100 mb-2">
+						<h6><strong>Job Order: </strong>
+						<span class="m-0" t-field="o.job_order_id.name"/></h6>
+					</div>
+				</div>
+				
+				</div>
+                    <h2> Color Assortment(Pieces/Kgs)</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                                <tr>
+                                <th>Size</th>
+                                    <t t-foreach='model_list' t-as="model">
+                                        <th> <span t-esc="model"/></th>   
+                                    </t>
+                                </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_w" t-value="0"/>
+                                <tr>
+                                    <td>
+                                        <span ><strong>Griege Weight</strong></span>
+                                    </td> 
+                                    <t t-foreach='model_list' t-as="model">
+                                        <td >
+                                            <span t-esc="product_unit(model)"/>
+                                        </td>          
+                                    </t>
+                                    <td>
+                                        <span><strong>Total</strong></span>
+                                    </td> 
+                                </tr>
+                             <t t-set="total" t-value="0"/>
+                            <t t-foreach='color_list' t-as="color">
+                                <t t-set="total_weight" t-value="0"/>
+                                <t t-set="total_qty" t-value="0"/>
+                                <tr>
+                                    <td>
+                                        <span t-esc="color"/>
+                                    </td>
+                                    <t t-foreach='model_list' t-as="model">
+                                            <t t-set="total_weight" t-value="total_weight + product_weight(color, model)" />
+                                            <t t-set="total_qty" t-value="total_qty + product_qty(color, model)" />
+                                            <td >
+                                                <span t-esc="product_qty(color, model)"/> Pcs / <span t-esc="product_weight(color, model)"/> Kgs
+                                            </td>          
+                                    </t>
+                                    <td>
+                                        <strong><span t-esc="total_qty"/> Pcs</strong> / <strong><span t-esc="total_weight"/> Kgs</strong>   
+                                    </td>
+                                    <t t-set="total" t-value="total + total_weight" />
+                                </tr>
+                            </t>
+                            <tr class="border-black o_total">
+                                <td>
+                                    <span><strong>Total</strong></span>
+                                </td>
+                                    <t t-foreach='model_list' t-as="model">
+                                        <t t-set="total_model" t-value="0"/>
+                                        <t t-set="total_model_w" t-value="0"/>
+                                        <t t-foreach='color_list' t-as="color">
+                                            <t t-set="total_model" t-value="total_model + product_qty(color, model)" />
+                                            <t t-set="total_model_w" t-value="total_model_w + product_weight(color, model)" />
+                                            
+                                        </t>
+                                        <td>
+                                            <strong> <span t-esc="total_model"/> Pcs</strong> / <strong><span t-esc="total_model_w"/> Kgs</strong>
+                                        </td>
+                                        <t t-set="total" t-value="total + total_model" />
+                                        <t t-set="total_w" t-value="total_w + total_model_w" />
+                                    </t>
+                                <td>
+                                  <strong><span t-esc="total"/> Pcs</strong> / <strong><span t-esc="total_w"/> Kgs</strong>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>  
+                </t>
+            </t>
+        </t>
+    </template>
+   
+</odoo>

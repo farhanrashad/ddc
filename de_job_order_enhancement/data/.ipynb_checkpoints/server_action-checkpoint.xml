@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+   <!-- Sequences for sale.order -->
+       <record id="material_planning_production_order_server_action" model="ir.actions.server">
+            <field name="name">Create Production Order</field>
+            <field name="model_id" ref="de_job_order_enhancement.model_job_order_bom_component"/>
+            <field name="binding_model_id" ref="de_job_order_enhancement.model_job_order_bom_component"/>            
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_generate_production_order() </field>
+        </record>
+      
+        <record id="material_planning_server_action" model="ir.actions.server">
+            <field name="name">Create PO</field>
+            <field name="model_id" ref="de_job_order_enhancement.model_job_order_bom_component"/>
+            <field name="binding_model_id" ref="de_job_order_enhancement.model_job_order_bom_component"/>            
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_generate_po() </field>
+        </record>
+      
+  </data>
+</odoo>

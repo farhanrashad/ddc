@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <odoo>
+	<data noupdate="1">
+		<record
+			id="ir_category_group_garment_costing_security"
+			model="ir.module.category">
+		    <field name="name">Garment Costing</field>
+		</record>
+
+		<record id="group_garment_costing_user" model="res.groups">
+		    <field name="name">User</field>
+		    <field name="category_id" ref="ir_category_group_garment_costing_security"/>
+		</record>
+
+		<record id="group_garment_costing_admin" model="res.groups">
+		    <field name="name">Manager</field>
+		    <field name="category_id" ref="ir_category_group_garment_costing_security"/>
+    		<field name="implied_ids" eval="[
+						(4, ref('de_material_sample.group_garment_costing_user')),
+				]"/>
+    		<field name="users" eval="[(4, ref('base.user_root'))]"/>
+		</record>
+	</data>
+</odoo> -->

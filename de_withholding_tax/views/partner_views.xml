@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_partner_property_form_inherit">
+        <field name="name">view.partner.property.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='accounting']" position="after">
+                <page string="WHT Information" name="wht_information">
+                    <field name="partner_wht_type_ids" widget="one2many_list">
+                        <tree string="WHT Type IDs" editable="bottom">
+                            <field name="wht_type_id" />
+                            <field name="is_liable" />
+                            <field name="exemption_number" />
+                            <field name="exempt_from" />
+                            <field name="exempt_to" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+</odoo>

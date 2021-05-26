@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <record id="mrp_production_form_view_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.view.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_id']" position="before">
+                <field name="is_weight_uom" invisible="1" />
+                <label for="production_weight" attrs="{'invisible':[('is_weight_uom', '!=', True)]}" />
+                <div class="o_row no-gutters d-flex" attrs="{'invisible':[('is_weight_uom', '!=', True)]}">
+                    <div class="col">
+                        <field name="production_weight" class="mr-1" />
+                    </div>
+                </div>
+            </xpath>
+			<xpath expr="//field[@name='qty_done']" position="after">
+				<field name="weight"/>
+				<field name="total_weight"/>
+			</xpath>
+        </field>
+    </record>
+        
+    <record id="view_stock_move_raw_tree_inherit" model="ir.ui.view">
+        <field name="name">view.stock.move.raw.tree.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="mrp.view_stock_move_raw_tree"/>
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='quantity_done']" position="after">
+				<field name="total_weight"/>
+			</xpath>
+        </field>
+    </record>
+        
+    <record id="view_stock_move_lots_inherit" model="ir.ui.view">
+        <field name="name">view.stock.move.lots.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+        <field name="arch" type="xml">
+			<xpath expr="//group/group" position="inside">
+				<field name="total_weight"/>
+			</xpath>
+            <xpath expr="//field[@name='move_line_ids']/tree" position="inside">
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+        
+    <record id="view_move_form_inherit" model="ir.ui.view">
+        <field name="name">view.move.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+        
+        
+        
+   
+        
+    </data>
+</odoo>

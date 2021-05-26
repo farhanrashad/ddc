@@ -1,0 +1,12 @@
+<odoo>
+  <data>
+   <report
+            id="production_direct_cost_report"
+            string="Production Order Cost (PDF)"
+            model="mrp.production"
+            report_type="qweb-pdf"
+            file="de_mrp_production_bill.report_production_cost_template"
+            name="de_mrp_production_bill.report_production_cost_template" />
+       
+  </data>
+</odoo>

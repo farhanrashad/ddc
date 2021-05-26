@@ -1,0 +1,17 @@
+<odoo>
+	<record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">view.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="action_view_job_orders" icon="fa-wrench" type="object" attrs="{'invisible': [('job_order_count', '=', 0)]}">
+                    <field name="job_order_count" string="Job Orders" widget="statinfo"/>
+                </button>
+            </div>
+            <field name="client_order_ref" position="after">
+                <field name="job_order_ids" invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>

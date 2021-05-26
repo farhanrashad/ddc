@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="partner_balance_pdf"
+            string="Partner Balance"
+            model="partner.balance"
+            report_type="qweb-pdf"
+            file="de_partner_balance.de_partner_balance_pdf_report"
+            name="de_partner_balance.de_partner_balance_pdf_report" />
+</odoo>

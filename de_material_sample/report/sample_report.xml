@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="action_report_material_sample"
+            string="Design Sample Report"
+            model="design.sample"
+            report_type="qweb-pdf"
+            file="de_material_sample.report_material_sample_document"
+            name="de_material_sample.report_material_sample_document"
+            print_report_name="'Sample - %s' % (object.name)"
+        />
+    </data> 
+</odoo>

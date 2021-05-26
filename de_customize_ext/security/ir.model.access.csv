@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_job_order_tolerance,mrp.job.order.tolerance,model_mrp_job_order_tolerance,,1,1,1,1
+access_mrp_job_order,mrp.job.order,model_mrp_job_order,,1,1,1,1
+access_mrp_job_order_material_planning,mrp.job.order.material.planning,model_mrp_job_order_material_planning,,1,1,1,1

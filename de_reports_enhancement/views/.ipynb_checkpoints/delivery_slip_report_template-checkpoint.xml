@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_stock_report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
+        <xpath expr="/t/t/t/div/table[1]/thead/tr/th[2]" position="after">
+        <th colspan="2" class="text-center">
+            <span>Done Qty</span>
+        </th>
+        <th>
+            <span>Total Weight</span>
+        </th>
+    </xpath>
+    <xpath expr="/t/t/t/div/table[1]/tbody/tr/td[2]" position="after">
+        <td>
+            <span t-field="move.quantity_done"/>
+            <span t-field="move.product_uom"/>
+        </td>
+        <td>
+            <t t-if="not move.product_id.uom_id == move.product_id.uom_po_id">
+                <t t-if="move.product_id.uom_po_id.uom_type == 'bigger'">
+                    <span t-esc="round(move.quantity_done / move.product_id.uom_po_id.factor_inv,3)"/>
+                    <span t-esc="move.product_id.uom_po_id.name"/>
+                </t>
+                <t t-if="move.product_id.uom_po_id.uom_type == 'smaller'">
+                    <span t-esc="round(move.quantity_done * move.product_id.uom_po_id.factor_inv,3)"/>
+                    <span t-esc="move.product_id.uom_po_id.name"/>
+                </t>
+            </t>
+        </td>
+        <td>
+            <span t-field="move.total_weight"/> Kg
+        </td>
+    </xpath>
+    <xpath expr="/t/t/t/div/table[2]/thead/tr/th[3]" position="after">
+        <!--<th><span>Unit Weight</span></th>-->
+        <th colspan="2" class="text-center">
+            <span>Done Qty</span>
+        </th>
+        <th>
+            <span>Total Weight</span>
+        </th>
+    </xpath>
+    <xpath expr="/t/t/t/div/table[2]/tbody/tr/td[4]" position="after">
+        <td>
+            <span t-field="move_line.qty_done"/>
+            <span t-field="move_line.product_uom_id"/>
+        </td>
+        <td>
+            <t t-if="not move_line.product_id.uom_id == move_line.product_id.uom_po_id">
+                <t t-if="move_line.product_id.uom_po_id.uom_type == 'bigger'">
+                    <span t-esc="round(move_line.qty_done / move_line.product_id.uom_po_id.factor_inv,3)"/>
+                    <span t-esc="move_line.product_id.uom_po_id.name"/>
+                </t>
+                <t t-if="move_line.product_id.uom_po_id.uom_type == 'smaller'">
+                    <span t-esc="round(move_line.qty_done * move_line.product_id.uom_po_id.factor_inv,3)"/>
+                    <span t-esc="move_line.product_id.uom_po_id.name"/>
+                </t>
+            </t>
+        </td>
+        <!--<td><span t-field="move.weight"/> Kg</td>-->
+        <td>
+            <span t-field="move_line.total_weight"/> Kg
+        </td>
+    </xpath>
+    <xpath expr="/t/t/t/div/table[2]" position="after">
+        <div class="clearfix" name="so_total_summary">
+            <div id="total" class="row" name="total">
+                <div>
+                    <table class="table table-sm">
+                        <tr class="border-black o_subtotal" style="">
+                            <td>
+                                <strong>Total Quantity</strong>
+                            </td>
+                            <td>
+                                <span class="m-0" t-field="o.sum_qty"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black o_subtotal" style="">
+                            <td>
+                                <strong>Total Weight</strong>
+                            </td>
+                            <td>
+                                <span class="m-0" t-field="o.sum_weight"/> Kg
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </xpath>
+    </template>
+</odoo>

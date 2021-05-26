@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+      <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">view.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="after">
+                <field name="total_weight"/>
+            </xpath>
+
+            <xpath expr="//field[@name='move_line_ids_without_package']" position="inside">
+                <tree decoration-muted="state == 'cancel'" decoration-danger="(state not in ('cancel','done'))" string="Move Lines" create="0" default_order="date">
+                    <field name="date"/>
+                    <field name="reference" string="Reference" invisible="context.get('no_reference', False)"/>
+                    <field name="product_id"/>
+                    <field name="lot_id" groups="stock.group_production_lot"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="qty_done" string="Quantity Done"/>
+                    <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                    <field name="weight"/>
+                    <field name="total_weight"/>
+                    <field name="state"/>
+                    <field name="company_id" groups="base.group_multi_company" force_save="1"/>
+                </tree>
+            </xpath>
+            <xpath expr="/form/sheet/notebook" position="after">
+                <group>
+                    <group>
+                        <field name="sum_qty" nolabel="0"/>
+                        <field name="sum_weight" nolabel="0" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+	  
+      <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+        <field name="name">view.stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="sum_qty" optional="hide" />
+                <field name="sum_weight" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+      
+    </data>
+</odoo>

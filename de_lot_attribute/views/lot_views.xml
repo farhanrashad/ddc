@@ -1,0 +1,27 @@
+<odoo>
+
+    <record id="view_production_lot_form_inherit" model="ir.ui.view">
+        <field name="name">view.production.lot.form.inherit</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="replace">
+				<notebook attrs="{'invisible': [('display_complete', '=', False)]}">
+					<page string="Description" name="description">
+                        <field name="note"/>
+                    </page>
+                <page name="lot_attribute" string="Attribute">
+                    <field name="lot_attribute_ids" widget="one2many_list">
+                        <tree string="Order lines" editable="bottom">
+                            <field name="attribute_id" />
+                            <field name="attribute_value_id" />
+                        </tree>
+                    </field>
+                    
+                </page>
+				</notebook>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

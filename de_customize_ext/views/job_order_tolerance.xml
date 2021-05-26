@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+<!--    job order tolerance form view-->
+    <record id="de_customize_ext.job_order_tolerance_view_form" model="ir.ui.view">
+        <field name="name">job order tolerance view form</field>
+        <field name="model">mrp.job.order.tolerance</field>
+        <field name="arch" type="xml">
+            <form string="Job Order Tolerance">
+                <sheet>
+                    <group string="Job Order Tolerance">
+                        <group>
+                            <field name="name"/>
+                            <field name="percentage_qty"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    job order tolerance tree view-->
+    <record id="de_customize_ext.job_order_tolerance_view_tree" model="ir.ui.view">
+        <field name="name">job order tolerance view tree</field>
+        <field name="model">mrp.job.order.tolerance</field>
+        <field name="arch" type="xml">
+            <tree string="Job Order Tolerance">
+                <field name="name"/>
+                <field name="percentage_qty"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    job order tolerance action-->
+    <record id="de_customize_ext.job_order_tolerance_action" model="ir.actions.act_window">
+        <field name="name">Job Order Tolerance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mrp.job.order.tolerance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    job order tolerance menu-->
+    <menuitem id="de_customize_ext.job_order_tolerance_menu" name="Production Tolerance"
+              parent="mrp.menu_mrp_manufacturing" action="de_customize_ext.job_order_tolerance_action" sequence="1"/>
+
+</odoo>

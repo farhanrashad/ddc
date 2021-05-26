@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_master_data_maintenance,access.de.master.data.maintenance,model_product_data_maintain,,1,1,1,1

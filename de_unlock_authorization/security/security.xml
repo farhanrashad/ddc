@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     <record id="unlock_authorization" model="ir.module.category">
+        <field name="name">Unlock Authorization</field>
+        <field name="description">user can unlock sale order and purchase order</field>
+         <field name="sequence">46</field>
+    </record>
+
+    <record id="group_unlock_authorization" model="res.groups">
+        <field name="name">Unlock Sale Order and Purchase Order</field>
+        <field name="category_id" ref="unlock_authorization"/>
+    </record>
+
+<!--     <record id="group_not_show_invoice_validate" model="res.groups">
+        <field name="name">show </field>
+        <field name="category_id" ref="invoice_validate_button"/>
+    </record>  -->
+
+
+   </data>
+</odoo>

@@ -1,0 +1,94 @@
+<odoo>
+  <data>     
+   
+     <record id="job_order_bom_component_view_tree_search" model="ir.ui.view">
+        <field name="name">Job Order Component sheet tree view</field>
+        <field name="model">job.order.bom.component</field>
+        <field name="arch" type="xml">
+           <search string="Search Material Planning">
+                    <field name="job_order_id" filter_domain="['|', '|', ('product_id', 'ilike', self), ('type', 'ilike', self), ('picking_type_id', 'ilike', self)]" string="Reference"/>
+                    <field name="type" string='Type'/>
+                    <field name="product_id" string='Product'/>
+                    <field name="picking_type_id" string='Picking'/>   
+                    <separator/>
+                   <filter string="Subcontracting" name="subcontract" domain="[('type','=','subcontract')]"/>
+                   <filter string="Manufacture this Product" name="normal" domain="[('type','=','normal')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="type" string="BOM Type" domain="[]" context="{'group_by' : 'type'}" />
+                        <filter string="Vendor" name="vendor_id" domain="[]" context="{'group_by' : 'vendor_id'}" />
+                       
+                    </group>
+                </search>
+        </field>
+    </record>       
+      
+  <record id="job_order_bom_component_view_tree" model="ir.ui.view">
+        <field name="name">Job Order Component sheet tree view</field>
+        <field name="model">job.order.bom.component</field>
+        <field name="arch" type="xml">
+            <tree string="Material Sheet lines"  create="false" editable="bottom" decoration-danger="po_created==True" decoration-success="production_created==True"  >
+                  <field name="product_id"  readonly="1"/>
+                  <field name="job_order_id"  readonly="1"/>
+                 <field name="category_id"  readonly="1" optional="hide"/>
+                  <field name="source_product_id"  readonly="1"/>
+                  <field name="picking_type_id"  attrs="{'invisible': [('type','!=','normal')],'readonly': ['|',('po_created','=',True),('production_created','=',True)]}"  optional="hide"/>
+                  <field name="location_src_id"  attrs="{'invisible': [('type','!=','normal')],'readonly': ['|',('po_created','=',True),('production_created','=',True)]}"  optional="hide"/>
+                  <field name="location_dest_id"  attrs="{'invisible': [('type','!=','normal')],'readonly': ['|',('po_created','=',True),('production_created','=',True)]}"  optional="hide"/>
+                  <field name="type"   readonly="1"/>
+                  <field name="quantity"   attrs="{'readonly': ['|',('po_created','=',True),('production_created','=',True)]}" optional="hide"/>
+                  <field name="weight"   attrs="{'readonly': ['|',('po_created','=',True),('production_created','=',True)]}"/>
+                  <field name="production_quantity"   attrs="{'readonly': ['|',('po_created','=',True),('production_created','=',True)]}"/>
+                  <field name="vendor_id"   attrs="{'readonly': ['|',('type','=','normal'),('po_created','=',True)]}"/>
+                  <field name="po_created" invisible="1"/>
+                  <field name="is_duplicate"  invisible="1"/>
+                  <field name="production_created" invisible="1"/>
+                  <field name="company_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>  
+      
+      
+  <record id="job_order_form_view_inherit" model="ir.ui.view">
+			<field name="name">job.order.form.view</field>
+			<field name="model">job.order</field>
+			<field name="inherit_id" ref="de_job_order.job_order_sheet_form_view"/>
+			<field name="arch" type="xml">
+			   <xpath expr="//field[@name='job_order_sale_lines']//tree//field[@name='product_uom_qty']" position="after">
+                   <field name="unit_weight"/>
+                   <field name="bom_version" />
+                   <field name="greige_bom_ids" widget="many2many_tags" invisible="1" />
+                   <field name="bom_ids"  invisible="1"/>
+                </xpath>    
+                
+			   <xpath expr="//form//sheet//div[@name='button_box']" position="inside">
+                    <button type="object" name="action_material_planning" string='Material Planning' class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible':[ ('state', 'in', ['draft','confirmed'])]}"> 
+                    </button>
+                </xpath>    
+                
+				<xpath expr="//notebook//page[3]" position="after">
+					<page string="Material Planning" invisible="1">
+                            <field name="job_order_material_ids" >
+                                <tree string="Job Order BOM lines" editable="bottom" create="false" delete="false">
+                                    <field name="product_id"/>
+                                    <field name="job_order_id"  readonly="1"/>
+                                    <field name="category_id"  readonly="1"/>
+                                    <field name="source_product_id"  readonly="1"/>
+                                    <field name="type"/>
+                                    <field name="quantity"/>
+                                    <field name="weight" />
+                                    <field name="production_quantity"/>
+                                    <field name="vendor_id"/>
+                                    <field name="po_created" invisible="1"/>
+                                    <field name="production_created" invisible="1"/>
+                                    <field name="picking_type_id"/>
+                                    <field name="location_src_id"/>
+                                    <field name="location_dest_id"/>
+                                    <field name="company_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+				</xpath>
+			</field>
+		</record>
+  </data>
+</odoo>

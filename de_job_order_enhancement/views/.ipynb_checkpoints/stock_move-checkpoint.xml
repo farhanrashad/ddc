@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+      
+      
+    <record id="stock_move_form_view_inherit" model="ir.ui.view">
+			<field name="name">stock.move.form.view</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="mrp.view_stock_move_raw_tree"/>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                   <field name="stock_total_weight" />
+                </xpath> 
+			  
+		
+			</field>
+		</record>
+  </data>
+</odoo>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="de_partner_balance_pdf_report">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <h2 class="text-center">Partner Balances</h2>
+                    <div class="row mt32">
+                        <table class="table table-sm table-striped table-bordered">
+                            <tr style="height:30%">
+                                <th  align="center"><span style="display:inline-block;width:100px;min-width:100px;"><strong>From Date: </strong></span><span t-esc="data['start_date']" t-options="{'widget': 'date'}" /></th>
+                                <th  align="center"><span style="display:inline-block;width:100px;min-width:100px;"><strong>To Date: </strong></span><span t-esc="data['end_date']" t-options="{'widget': 'date'}" /></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <t t-set="tot_obal" t-value="0"/>
+                <t t-set="tot_debit" t-value="0"/>
+                <t t-set="tot_credit" t-value="0"/>
+                <t t-set="tot_cbal" t-value="0"/>
+                <table class="table table-striped table-bordered" name="account_lines_table">
+                    <thead class="thead-dark">
+                        <tr class="table-active">
+                            <th>Partner</th>
+                            <th>Initial Balance</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Closing Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     <t t-if="data['is_vendor_balance'] == True"> 
+                     <t t-foreach="dat" t-as="d">
+                       <t t-if="float(d['cbal']) != 0"> 
+                           <tr style="border-bottom:1px solid #000;">
+                               <t t-set="tot_obal" t-value="tot_obal+d['obal']"/>
+                               <t t-set="tot_debit" t-value="tot_debit+d['debit']"/>
+                               <t t-set="tot_credit" t-value="tot_credit+d['credit']"/>
+                               <t t-set="tot_cbal" t-value="tot_cbal+d['cbal']"/>
+                               <td><span t-esc="d['partner_name']"/></td>
+                               <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['obal']))" /></td>
+                                <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['debit']))" /></td>
+                                <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['credit']))" /></td>                                    <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['cbal']))" /></td> 
+                            </tr>                           
+                        </t> 
+                        </t>  
+                        </t>
+                     <t t-if="data['is_vendor_balance'] == False"> 
+                     <t t-foreach="dat" t-as="d">
+                           <tr style="border-bottom:1px solid #000;">
+                               <t t-set="tot_obal" t-value="tot_obal+d['obal']"/>
+                               <t t-set="tot_debit" t-value="tot_debit+d['debit']"/>
+                               <t t-set="tot_credit" t-value="tot_credit+d['credit']"/>
+                               <t t-set="tot_cbal" t-value="tot_cbal+d['cbal']"/>
+                               <td><span t-esc="d['partner_name']"/></td>
+                               <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['obal']))" /></td>
+                                <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['debit']))" /></td>
+                                <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['credit']))" /></td>                                    <td class="text-right"><t t-esc="'{0:,.2f}'.format(float(d['cbal']))" /></td> 
+                            </tr>                           
+                        </t> 
+                        </t>
+                        
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td class="text-right"><strong><t t-esc="round(tot_obal,2)" /></strong></td>
+                            <td class="text-right"><strong><t t-esc="round(tot_debit,2)" /></strong></td>
+                            <td class="text-right"><strong><t t-esc="round(tot_credit,2)" /></strong></td>
+                            <td class="text-right"><strong><t t-esc="round(tot_cbal,2)" /></strong></td>                           
+                        </tr>
+
+                    </tbody>
+                  </table>
+            </t>
+        </t>
+    </template>
+</odoo>

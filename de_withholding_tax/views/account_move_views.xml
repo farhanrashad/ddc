@@ -1,0 +1,13 @@
+<odoo>
+    <record model="ir.ui.view" id="view_move_line_tree_inherit">
+        <field name="name">view.account.view.move.line.tree.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_ids']" position="after">
+                <field name="is_wht_line" optional="hide"/>
+                <field name="is_wht_paid" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

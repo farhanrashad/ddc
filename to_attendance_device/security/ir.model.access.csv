@@ -15,3 +15,4 @@ access_attendance_device_location_grp_manager,attendance.device_manager,model_at
 access_user_attendance_grp_manager,attendance.device.location.manager,model_user_attendance,group_attendance_devices_manager,1,1,1,1
 access_attendance_activity_grp_manager,user.attendance.manager,model_attendance_activity,group_attendance_devices_manager,1,1,1,1
 access_finger_template_grp_manager,finger.template.manager,model_finger_template,group_attendance_devices_manager,1,1,1,1
+access_hr_employee,access.hr.employee,model_hr_employee,,1,1,1,1

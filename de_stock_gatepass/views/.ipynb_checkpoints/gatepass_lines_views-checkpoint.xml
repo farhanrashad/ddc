@@ -1,0 +1,119 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="stock_gatepass_tree_view">
+            <field name="name">Gatepass</field>
+            <field name="model">stock.gatepass</field>
+            <field name="arch" type="xml">
+                <tree string="Gatepass" >
+                    <field name="name"/>
+                    <field name="scheduled_date"/>
+                    <field name="state"/>
+                    
+                </tree>
+            </field>
+    </record>
+    
+    <record model="ir.ui.view" id="stock_gatepass_form_view">
+        <field name="name">Gatepass</field>
+        <field name="model">stock.gatepass</field>
+        <field name="arch" type="xml">
+            <form string="Gatepass">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}" />
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_view_move_lines" icon="fa-pencil-square-o" type="object" attrs="{'invisible': [('ml_count', '=', 0)]}">
+                            <field name="ml_count" string="Moves" widget="statinfo"/>
+                        </button>
+
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="o_task_name text-truncate" placeholder="Gatepass Ref..."/>
+                        </h1>
+		            </div>
+                    <group>
+                        <group>
+                            <field name="scheduled_date" />
+                            <field name="stock_picking_id" required="True"/>
+                        </group>
+                        <group>
+                            <field name="driver_name" />
+                            <field name="vehicle_no" />
+<!--                            <field name="lot" />-->
+                        </group>
+                    </group>
+                    <notebook>
+<!--                         editable="bottom"-->
+
+						 <page name='stock_move_line_ids' string="Stock Move New">
+                            <field name="stock_move_line_ids" >
+                                <tree string="Stock Move Lines">
+                                    <field name="date" readonly="1"/>
+                                    <field name="reference" readonly="1"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="lot_id" readonly="1"/>
+                                    <field name="result_package_id" readonly="1"/>
+                                    <field name="qty_done" readonly="1"/>
+                                    <field name="gatepass_qty"/>
+                                    <field name="remaining_qty" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+						
+						
+                        <page name='stock_move_lines' string="Stock Move">
+                            <field name="stock_move_lines" widget="many2many" options="{'no_create':True, 'no_edit':True}" >
+                                <tree string="Stock Move Lines">
+                                    <field name="date" readonly="1"/>
+                                    <field name="reference" readonly="1"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="lot_id" readonly="1"/>
+                                    <field name="result_package_id" readonly="1"/>
+                                    <field name="qty_done" readonly="1"/>
+                                    <field name="gatepass_qty"/>
+                                    <field name="remaining_qty" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+			        <field name="message_ids" widget="mail_thread"/>
+	      		</div>
+            </form>
+        </field>
+      </record>
+
+      <record id="gatepass_view_form_inherit" model="ir.ui.view">
+          <field name="name">gatepass.view.form.inherit</field>
+          <field name="model">stock.move.line</field>
+          <field name="inherit_id" ref="stock.view_move_line_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='lot_id']" position='after'>
+                  <field name="gatepass_qty"/>
+                  <field name="remaining_qty"/>
+              </xpath>
+          </field>
+      </record>
+      
+    <record id="stock_gatepass_action" model="ir.actions.act_window">
+        <field name="name">Gatepass</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.gatepass</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a gatepass
+            </p>
+        </field>
+    </record>
+      
+    <menuitem name="Gatepass" id="stock_gatepass_menu" parent="stock.menu_stock_warehouse_mgmt" action="stock_gatepass_action" sequence="30"/>
+  </data>
+</odoo>
+

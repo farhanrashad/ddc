@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <report id="cheque_print_report"
+            string="JE Cheque Print"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="de_je_cheque_print.report_print_je_cheque"
+            file="de_je_cheque_print.report_print_je_cheque" />
+    
+</odoo>

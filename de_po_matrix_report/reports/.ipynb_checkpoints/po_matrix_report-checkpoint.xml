@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="po_matrix_paperformat" model="report.paperformat">
+		<field name="name">European A4</field>
+		<field name="default" eval="True" />
+		<field name="format">A4</field>
+		<field name="page_height">0</field>
+		<field name="page_width">0</field>
+		<field name="orientation">Landscape</field>
+		<field name="margin_top">40</field>
+		<field name="margin_bottom">30</field>
+		<field name="margin_left">7</field>
+		<field name="margin_right">7</field>
+		<field name="header_line" eval="False" />
+		<field name="header_spacing">35</field>
+		<field name="dpi">90</field>
+	</record>
+    
+    <report id="po_matrix_report_card"
+            string="PO Matrix Report"
+            model="purchase.order"
+            report_type="qweb-pdf"
+            name="de_po_matrix_report.action_po_matrix_report"
+            file="de_po_matrix_report.action_po_matrix_report"
+            paperformat="po_matrix_paperformat"/>
+    
+    <record id="action_po_matrix_report" model="ir.actions.report">
+		<field name="name">Matrix Report</field>
+		<field name="model">purchase.order</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">de_po_matrix_report.po_matrix_report_templet</field>
+        <field name="paperformat_id" ref="po_matrix_paperformat" />
+	</record>
+    
+    
+    <record id="view_purchase_order_inherit" model="ir.ui.view">
+		<field name="name">view.purchase.order.form.inh</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form" />
+		<field name="arch" type="xml">
+            
+            <xpath expr="//header/button[@name='button_cancel']" position="after">
+                    <button string="Print Matrix Report" name="print_po_matrix_report" type="object"/>
+            </xpath>
+			
+
+		</field>
+	</record>
+    
+    
+    
+    
+    
+    
+</odoo>

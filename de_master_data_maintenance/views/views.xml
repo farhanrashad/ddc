@@ -1,0 +1,34 @@
+<odoo>
+    <record id="product_template_only_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.only.form.view.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Create Products" type="object" name="action_create_master_data" class="oe_highlight" attrs="{'invisible':['|', ('parent_product_tmpl_id', '!=', False),('is_dm', '!=', False)]}" />
+            </xpath>
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="parent_product_tmpl_id" group="base.group_system"/>
+                <field name="is_dm" readonly="1" invisible="1" />
+            </xpath>
+            <xpath expr="//form[@name='Product Template']/sheet[1]/notebook[1]" position="inside">
+                <page name="Data Maintenance" string="Data Maintenance" attrs="{'invisible':[('parent_product_tmpl_id', '!=', False)]}" >
+                    <field name="data_maintenance_lines" widget="one2many_list">
+                        <tree string="Data Maintenance" editable="bottom">
+                            <field name="routing_id" />
+                            <field name="categ_id" />
+                            <field name="tracking" />
+                            <field name="is_reorder_rule_maintenance" />
+                            <field name="is_bom_maintenance" />
+                            <field name="bom_type" attrs="{'invisible':[('is_bom_maintenance', '!=', True)],'required':[('is_bom_maintenance', '=', True)]}" />
+                            <field name="is_multi_bom" attrs="{'invisible':[('is_bom_maintenance', '!=', True)],'required':[('is_bom_maintenance', '=', True)]}" />
+                            <field name="partner_tag" attrs="{'invisible':[('bom_type', '!=', 'subcontract')],'required':[('bom_type', '=', 'subcontract')]}" />
+                            <field name="production_tolerance" attrs="{'invisible':[('is_bom_maintenance', '!=', True)],'required':[('is_bom_maintenance', '=', True)]}" />
+                        </tree>
+                    </field>
+                </page>
+                
+            </xpath>
+        </field>
+    </record>
+</odoo>

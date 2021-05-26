@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_saleorder_document_performa_invoice" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//p[@t-field='doc.note']" position="before">
+                <p t-if="is_pro_forma_with_commission and doc.commission">
+                    <strong>Commission:</strong>
+                    <span t-field="doc.commission"/>
+                </p>
+                <br />
+            </xpath>
+            <xpath expr="//t/div/h2/t[1]" position="replace">
+                <t t-if="not (env.context.get('proforma', False) or is_pro_forma or is_pro_forma_with_commission)">
+                    <span t-if="doc.state not in ['draft','sent']">Order #: </span>
+                    <span t-if="doc.state in ['draft','sent']">Quotation #: </span>
+                </t>
+            </xpath>
+            <xpath expr="//t/div/h2/t[2]" position="replace">
+                <t t-if="env.context.get('proforma', False) or is_pro_forma or is_pro_forma_with_commission">
+                    <span>ProForma Invoice #: </span>
+                </t>
+            </xpath>
+            <xpath expr="//div[@t-if='doc.user_id.name']" position="replace">
+                <div t-if="not (env.context.get('proforma', False) or is_pro_forma or is_pro_forma_with_commission) and doc.user_id.name" class="col-xs-3">
+                    <strong>Salesperson:</strong>
+                    <p t-field="doc.user_id"/>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='informations']/div[2]" position="replace">
+                <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-xs-3">
+                    <strong>Date:</strong>
+                    <p t-field="doc.date_order" t-options='{"widget": "date"}'/>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='informations']/div[3]" position="replace">
+                <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
+                    <strong>Date:</strong>
+                    <p t-field="doc.confirmation_date" t-options='{"widget": "date"}'/>
+                </div>
+            </xpath>
+			<xpath expr="//span[@t-field='doc.payment_term_id.note']" position="replace">
+                <br />
+            </xpath>
+            <xpath expr="//div[@t-field='doc.partner_id']" position="before">
+                <strong>Buyer/Customer:</strong>
+            </xpath>
+<!--             <xpath expr="//span[@t-field='l.price_unit']" position="replace">
+                <span t-esc="'%.4f'%(l.price_unit)"/>
+            </xpath> -->
+        </template>
+
+        <template id="report_saleorder_pro_forma_with_commission">
+            <t t-call="web.html_container">
+                <t t-set="is_pro_forma_with_commission" t-value="True"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="de_changes_performa_invoice.report_saleorder_document_performa_invoice" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

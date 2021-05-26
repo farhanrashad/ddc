@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_order_analysis,access.order.analysis,model_order_analysis,base.group_user,1,1,1,1
+access_order_stock_report,access.order.stock.report,model_order_stock_report,base.group_user,1,1,1,1
+access_order_subcontract_report,access.order.subcontract.report,model_order_subcontract_report,base.group_user,1,1,1,1
+access_order_production_report,access.order.production.report,model_order_production_report,base.group_user,1,1,1,1
+access_sale_stock_report,access.sale.stock.report,model_sale_stock_report,base.group_user,1,1,1,1

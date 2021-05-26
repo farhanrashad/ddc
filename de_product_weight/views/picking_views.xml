@@ -1,0 +1,137 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+      <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">view.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="after">
+                <field name="total_weight"/>
+            </xpath>
+
+            <xpath expr="//field[@name='move_line_ids_without_package']" position="inside">
+                <tree decoration-muted="state == 'cancel'" decoration-danger="(state not in ('cancel','done'))" string="Move Lines" create="0" default_order="date">
+                    <field name="date"/>
+                    <field name="reference" string="Reference" invisible="context.get('no_reference', False)"/>
+                    <field name="product_id"/>
+                    <field name="lot_id" groups="stock.group_production_lot"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="qty_done" string="Quantity Done"/>
+                    <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                    <field name="weight"/>
+                    <field name="total_weight"/>
+                    <field name="state"/>
+                    <field name="company_id" groups="base.group_multi_company" force_save="1"/>
+                </tree>
+            </xpath>
+            <xpath expr="/form/sheet/notebook" position="after">
+                <group>
+                    <group>
+                        <field name="sum_qty" nolabel="0"/>
+                        <field name="sum_weight" nolabel="0" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+      <record id="view_stock_move_operations_inherit" model="ir.ui.view">
+        <field name="name">stock.view.stock.move.operations.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_line_ids']" position="replace">
+                    <field name="move_line_ids" attrs="{'readonly': ['|', ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'tree_view_ref': 'stock.view_stock_move_line_operation_tree', 'default_product_uom_id': product_uom, 'default_picking_id': picking_id, 'default_move_id': id, 'default_product_id': product_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}">
+                        <tree editable="bottom" decoration-muted="state == 'done' and is_locked == True" decoration-success="product_uom_qty==qty_done" decoration-danger="qty_done &gt; product_uom_qty and state != 'done'">
+                            <field name="picking_id" invisible="1"/>
+                            <field name="product_id" invisible="1"/>
+                            <field name="location_id" invisible="not context.get('show_source_location')" domain="[('id', 'child_of', parent.location_id)]" groups="stock.group_stock_multi_locations"/>
+                            <field name="location_dest_id" invisible="not context.get('show_destination_location')" domain="[('id', 'child_of', parent.location_dest_id)]" groups="stock.group_stock_multi_locations"/>
+                            <field name="lot_id" invisible="not context.get('show_lots_m2o')" domain="[('product_id', '=', parent.product_id)]" groups="stock.group_production_lot" context="{'default_product_id': parent.product_id, 'active_picking_id': picking_id}"/>
+                            <field name="lot_name" invisible="not context.get('show_lots_text')" groups="stock.group_production_lot"/>
+                            <field name="package_id" invisible="not context.get('show_package')" groups="stock.group_tracking_lot"/>
+                            <field name="result_package_id" groups="stock.group_tracking_lot"/>
+                            <field name="owner_id" groups="stock.group_tracking_owner"/>
+                            <field name="is_initial_demand_editable" invisible="1"/>
+                            <field name="product_uom_qty" invisible="not context.get('show_reserved_quantity')" readonly="1"/>
+                            <field name="state" invisible="1"/>
+                            <field name="is_locked" invisible="1"/>
+                            <field name="qty_done" attrs="{'readonly': ['|', ('is_initial_demand_editable', '=', True), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"/>
+                            <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('product_uom_qty', '!=', 0.0)]}" string="Unit of Measure" groups="product.group_uom"/>
+                            <field name="weight"/>
+                            <field name="total_weight"/>
+                            <field name="company_id" groups="base.group_multi_company" force_save="1"/>
+                </tree>
+				</field>
+            </xpath>
+        </field>
+      </record>
+	  
+	
+	  
+      <record id="view_move_line_form_inherit" model="ir.ui.view">
+        <field name="name">view.move.line.form.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group" position="inside">
+                <field name="weight"/>
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+      
+      <record id="view_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">view.move.line.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_id']" position="after">
+                <field name="weight"/>
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+      
+      <record id="view_finisehd_move_line_inherit" model="ir.ui.view">
+        <field name="name">view.finisehd.move.line.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="mrp.view_finisehd_move_line"/>
+        <field name="arch" type="xml">
+            <!--<xpath expr="//field[@name='qty_done']" position="after">-->
+			<xpath expr="//group/group" position="inside">
+                <field name="weight"/>
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+      
+      <record id="view_stock_move_lots_inherit" model="ir.ui.view">
+        <field name="name">view.stock.move.lots.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_line_ids']/tree" position="inside">
+                <field name="weight"/>
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+      
+      <record id="mrp_subcontracting_move_form_view_inherit" model="ir.ui.view">
+        <field name="name">mrp.subcontracting.move.form.view.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="mrp_subcontracting.mrp_subcontracting_move_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='qty_done']" position="after">
+                <field name="total_weight"/>
+            </xpath>
+        </field>
+    </record>
+      
+    </data>
+</odoo>

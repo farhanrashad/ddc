@@ -1,0 +1,26 @@
+<odoo>
+    <record id="purchase_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="is_purchase_weight" invisible="1" />
+            </field>
+            <xpath expr="//field[@name='price_unit']" position="after">
+                <field name="weight"/>
+                <field name="total_weight"/>
+                <field name="price_weight" attrs="{'column_invisible':[('parent.is_purchase_weight', '!=', True)],'required':[('parent.is_purchase_weight', '=', True)]}" optional="show" />
+                <field name="price_weight_subtotal" invisible="1"/>
+            </xpath>
+            <xpath expr="/form/sheet/notebook" position="after">
+                <group>
+                    <group>
+                        <field name="sum_qty" nolabel="0"/>
+                        <field name="sum_weight" nolabel="0" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

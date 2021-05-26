@@ -1,0 +1,138 @@
+<odoo>
+    
+    <!-- Design Sample Form View -->
+    <record id="design_sample_form_view" model="ir.ui.view">
+        <field name="name">design.sample.form.view</field>
+        <field name="model">design.sample</field>
+        <field name="arch" type="xml">
+            <form string="Design Sample">
+                <header>
+                    <button name="action_pending" states="draft" string="Pending" type="object"/>
+                    <button name="action_cancel" states="draft,pending" string="Cancel" type="object"/>
+                    <button name="action_approved" states="pending" string="Approve" type="object"/>
+                    <button name="action_rejected" states="pending" string="Reject" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" readonly="1" force_save="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sample_name"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="partner_id"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="concern_person"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="currency_id"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="currency_rate"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="profit_percentage"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="bank_charges"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="commission"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="wastage"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                        </group>
+                        <group>
+                            <field name="is_sample_rcvd"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="is_pack_rcvd"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="is_sample_sent"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="sampl_rqst_date"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="sample_dispatch_date"  attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="sample_sent_date" attrs="{'invisible': [('is_sample_sent', '=', False)],'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="code_awb" attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="cmt_cost" attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="overhead" attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                            <field name="product_categ_id" widget="selection" attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                        </group>
+                        
+                    </group>
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="design_sample_lines" widget="one2many_list" attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}">
+                                <tree string="Design Sample lines" editable="bottom">
+                                    <field name="product_name"/>
+                                    <field name="arranged_by"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                    <field name="aprx_cost"/>
+                                    <field name="value"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+<!--                             <field name="total_value"/> -->
+                            <field name="total_cost"/>
+<!--                             <field name="profit"/>
+                            <field name="currency_price"/>
+                            <field name="commission_price"/>
+                            <field name="bank_charges_price"/>
+                            <field name="add_wastage"/> -->
+                            <div class="o_row">
+                                <label for="total_price" style="font-weight: bold;"/>
+                                <field name="total_price"/>
+                                    <div>
+                                        <field name="currency_id" readonly="1"/>
+                                    </div>
+                                
+                            </div>
+                        </group>
+                        <group>
+                            <field name="quote_price" attrs="{'readonly': [('state', 'in', ('approved','rejected'))]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Design Sample Tree VIew -->
+    <record id="design_sample_tree_view" model="ir.ui.view">
+        <field name="name">design.sample.tree.view</field>
+        <field name="model">design.sample</field>
+        <field name="arch" type="xml">
+            <tree string="Design Sample">
+                <field name="name"/>
+                <field name="sample_sent_date"/>
+                <field name="concern_person"/>
+                <field name="partner_id"/>
+                <field name="sample_name"/>
+                <field name="sample_dispatch_date"/>
+                <field name="code_awb"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="sequence_self_service" model="ir.sequence">
+        <field name="name">Design Simple</field>
+        <field name="code">design.sample</field>
+        <field name="active">TRUE</field>
+        <field name="prefix">FV/SAMPLE/</field>
+        <field name="padding">5</field>
+<!--         <field name="number_next">1</field> -->
+        <field name="number_increment">1</field>
+    </record>
+    <!-- Design Sample Action View -->
+    <record id="action_design_sample_view" model="ir.actions.act_window">
+            <field name="name">Design Sample</field>
+            <field name="res_model">design.sample</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to create a new Design Sample.
+                </p>
+            </field>
+        </record>
+    <!-- Menu -->
+    <menuitem
+    		id="parent_menu_designsample"
+            groups=""
+            web_icon="de_material_sample,static/description/gc.jpeg"
+    		name="Garment Costing"
+        />
+    <menuitem id="menu_designsample_transaction" name="Design Sample" parent="de_material_sample.parent_menu_designsample" sequence="10"/>
+    <menuitem id="designsample_menu" name="Sample Entry" parent="menu_designsample_transaction" action="action_design_sample_view" sequence="1"/>
+</odoo>
