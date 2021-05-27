@@ -43,6 +43,20 @@
             <xpath expr="//header/button[@name='button_cancel']" position="after">
                     <button string="Print Dyeing Report" name="print_po_dyeing_report" type="object"/>
             </xpath>
+             <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
+                    <page string="Dyeing Report Details" name="purchase_dying_report">
+                            <group>
+                                <group name="planning_dying">
+                                   <field name='yarn_count'/> 
+                                   <field name='ref_order'/> 
+                                   <field name='processing_accesory'/> 
+                                </group>
+                                <group name="dying_remarks">
+                                </group>
+                                   <field name='remarks'   placeholder='Remarks'/> 
+                            </group>
+                        </page>
+              </xpath>
 			
 
 		</field>

@@ -6,6 +6,12 @@ import re
 class PurchaseOrderInherit(models.Model):
     _inherit= 'purchase.order'
     
+    yarn_count = fields.Char(string='Yarn Count')
+    processing_accesory = fields.Char(string='Processing Accessories')
+    ref_order = fields.Char(string='Ref Order')
+    remarks = fields.Char(string='Remarks')
+    
+    
     def print_po_dyeing_report(self):
         data = {}
         data['form'] = self.read(['id','state'])[0]

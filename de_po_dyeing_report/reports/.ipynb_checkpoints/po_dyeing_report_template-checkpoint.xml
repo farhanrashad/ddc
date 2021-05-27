@@ -28,6 +28,22 @@
 						<span class="m-0" t-field="o.job_order_id.name"/></h6>
 					</div>
 				</div>
+                <div class="row mt32 mb32" id="yarn_count">
+					<div class="col-auto col-3 mw-100 mb-2">
+						<h6><strong>Yarn Count: </strong>
+						<span class="m-0" t-field="o.yarn_count"/></h6>
+					</div>
+					<div class="col-auto col-15 mw-100 mb-2">
+						<h6><strong>Ref Order: </strong>
+						<span class="m-0" t-field="o.ref_order"/></h6>
+					</div>
+                    <div class="col-auto col-15 mw-100 mb-2">
+						<h6><strong>Processing Accessories: </strong>
+						<span class="m-0" t-field="o.processing_accesory"/></h6>
+					</div>
+				</div>   
+					
+					
 				
 				</div>
                     <h2> Color Assortment(Pieces/Kgs)</h2>
@@ -101,6 +117,15 @@
                             
                         </tbody>
                     </table>  
+                    
+                    <br/>
+                    <br/>
+                    
+                    <div >
+						<h6><strong>Remarks: </strong>
+						<span  t-field="o.remarks"/></h6>
+					</div>
+                    
                 </t>
             </t>
         </t>
